@@ -3,59 +3,55 @@ const Chambre = function (images) {
     this._masque = images["s_chambre.masque"];
 };
 Chambre.prototype.nom = "chambre";
-Chambre.prototype.affiche = function(jeuCtx, masqueCtx) {
-    jeuCtx.drawImage(this._fond, 0, 0);
-    masqueCtx.drawImage(this._masque, 0, 0);
-};
-Chambre.prototype.getUseAction = function(color, model) {
-    return "use";
-};
-Chambre.prototype.seeAction = function(color, model) {
-    switch(color) {
-        case "ff0000": {
-            jeu.afficheTexte("La fenêtre", function () {
-                jeu.afficheTexte("Je ne vois rien d'intéressant dehors. Je ne vois rien d'intéressant dehors. Je ne vois rien d'intéressant dehors. Je ne vois rien d'intéressant dehors. Je ne vois rien d'intéressant dehors.");
-            });
-            break;
+Chambre.prototype.affiche = function (jeu) {
+    jeu.afficheFond(this._fond, this._masque);
+    jeu.definitObjet(
+        "ff0000",
+        null,
+        function (jeu) {
+            if (jeu._model.chambre.fenetreRegardee) {
+                jeu.texte("Je ne vois rien d'intéressant dehors.");
+            } else {
+                jeu.texte("La fenêtre");
+                jeu._model.chambre.fenetreRegardee = true;
+            }
+        },
+        function (jeu) {
+            jeu.texte("Je préfère ne pas l'ouvrir, qui sait ce qu'il y a dehors ?");
         }
-        case "00ff00": {
-            jeu.afficheTexte("Mon ordinateur.\nJe passe la moitié de mon temps à travailler dessus... et l'autre moitié à me divertir dessus.");
-            break;
-        }
-        case "0000ff": {
-            jeu.afficheTexte("Mais qu'est-ce que c'est que ce truc ?");
-        }
-    }
-};
-Chambre.prototype.useAction = function(color, model) {
-    switch(color) {
-        case "00ff00": {
-            jeu.afficheChoix(
+    );
+    jeu.definitObjet(
+        "00ff00",
+        null,
+        function (jeu) {
+            jeu.texte("Mon ordinateur.\nJe passe la moitié de mon temps à travailler dessus... et l'autre moitié à me divertir dessus.");
+        },
+        function (jeu) {
+            jeu.choix(
                 "Mail", function () {
-                    jeu.afficheChoix(
-                        "Lire le mail", function () {
-                            jeu.termineChoix();
-                        },
+                    jeu.choix(
+                        "Lire le mail", null,
                         "Écrire un mail", function () {
                             jeu._model.chambre.mail = true;
-                            jeu.termineChoix();
                         },
-                        "Non, rien...", function () {
-                            jeu.termineChoix();
-                        }
+                        "Non, rien...", null
                     );
                 },
                 "Navigateur web", function () {
                     jeu._model.navigateur = true;
-                    jeu.termineChoix();
                 },
                 "Aller au salon", function () {
-                    jeu.afficheScene("salon");
+                    jeu.scene("salon");
                 },
-                "Non, rien...", function () {
-                    jeu.termineChoix();
-                });
-            break;
+                "Non, rien...", null
+            );
         }
-    }
+    );
+    jeu.definitObjet(
+        "0000ff",
+        null,
+        function (jeu) {
+            jeu.texte("Mais qu'est-ce que c'est que ce truc ?");
+        }
+    );
 };

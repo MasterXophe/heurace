@@ -1,13 +1,14 @@
 <html lang="fr">
 <head>
+    <meta charset="utf-8"/>
     <title>Aventure</title>
     <style>
         body { background-color: black;text-align: center; }
         h1 { color:white; }
     </style>
-    <script src="Jeu.js"></script>
-    <script src="Chambre.js"></script>
-    <script src="Salon.js"></script>
+    <script src="Jeu.js" charset="utf-8"></script>
+    <script src="Chambre.js" charset="utf-8"></script>
+    <script src="Salon.js" charset="utf-8"></script>
 </head>
 <body onload="onload();">
     <h1>Aventure</h1>
@@ -18,6 +19,8 @@
 
     function onload() {
         let images = {
+            "seea": null,
+            "usea": null,
             "s_chambre": null,
             "s_chambre.masque": null,
             "s_salon": null,
@@ -32,10 +35,10 @@
             jeuCanvas.width = 640;
             jeuCanvas.height = 560;
 
-            jeu = new Jeu(jeuCanvas);
+            jeu = new Jeu(jeuCanvas, images);
             jeu.addScene(new Chambre(images));
             jeu.addScene(new Salon(images));
-            jeu.afficheScene("chambre");
+            jeu.scene("chambre");
         })
     }
 
