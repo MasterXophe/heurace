@@ -7,7 +7,6 @@ Chambre.prototype.affiche = function (jeu) {
     jeu.afficheFond(this._fond, this._masque);
     jeu.definitObjet(
         "ff0000",
-        null,
         function (jeu) {
             if (jeu._model.chambre.fenetreRegardee) {
                 jeu.texte("Je ne vois rien d'intéressant dehors.");
@@ -22,7 +21,6 @@ Chambre.prototype.affiche = function (jeu) {
     );
     jeu.definitObjet(
         "00ff00",
-        null,
         function (jeu) {
             jeu.texte("Mon ordinateur.\nJe passe la moitié de mon temps à travailler dessus... et l'autre moitié à me divertir dessus.");
         },
@@ -49,7 +47,6 @@ Chambre.prototype.affiche = function (jeu) {
     );
     jeu.definitObjet(
         "0000ff",
-        null,
         function (jeu) {
             jeu.texte("Mais qu'est-ce que c'est que ce truc ?");
         }

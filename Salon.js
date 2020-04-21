@@ -7,7 +7,6 @@ Salon.prototype.affiche = function (jeu) {
     jeu.afficheFond(this._fond, this._masque);
     jeu.definitObjet(
         "ff0000",
-        null,
         function (jeu) {
             jeu.texte("Un trou noir qui ramène à ma chambre.");
         },
