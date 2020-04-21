@@ -1,12 +1,16 @@
 const Chambre = function (images) {
-    this._fond = images["s_chambre"];
-    this._masque = images["s_chambre.masque"];
+    this._fond = images["chambre"];
+    this._fenetre = images["chambre_fenetre"];
+    this._ordinateur = images["chambre_ordinateur"];
+    this._table = images["chambre_table"];
 };
 Chambre.prototype.nom = "chambre";
 Chambre.prototype.affiche = function (jeu) {
-    jeu.afficheFond(this._fond, this._masque);
-    jeu.definitObjet(
-        "ff0000",
+    jeu.afficheFond(this._fond);
+    jeu.ajouteObjet(
+        this._fenetre,
+        260,
+        90,
         function (jeu) {
             if (jeu._model.chambre.fenetreRegardee) {
                 jeu.texte("Je ne vois rien d'intéressant dehors.");
@@ -19,8 +23,10 @@ Chambre.prototype.affiche = function (jeu) {
             jeu.texte("Je préfère ne pas l'ouvrir, qui sait ce qu'il y a dehors ?");
         }
     );
-    jeu.definitObjet(
-        "00ff00",
+    jeu.ajouteObjet(
+        this._ordinateur,
+        20,
+        200,
         function (jeu) {
             jeu.texte("Mon ordinateur.\nJe passe la moitié de mon temps à travailler dessus... et l'autre moitié à me divertir dessus.");
         },
@@ -45,10 +51,12 @@ Chambre.prototype.affiche = function (jeu) {
             );
         }
     );
-    jeu.definitObjet(
-        "0000ff",
+    jeu.ajouteObjet(
+        this._table,
+        300,
+        300,
         function (jeu) {
-            jeu.texte("Mais qu'est-ce que c'est que ce truc ?");
+            jeu.texte("Une table");
         }
     );
 };

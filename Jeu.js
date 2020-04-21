@@ -1,8 +1,8 @@
 const Jeu = function(jeuCanvas, images) {
     let that = this;
     this._jeuCanvas = jeuCanvas;
-    this._iconeSee = images["seea"];
-    this._iconeUse = images["usea"];
+    this._seeSprite = images["curseur_seea"];
+    this._useSprite = images["curseur_usea"];
     this._scenes = {};
     this._scene = null;
     this._actions = {};
@@ -163,16 +163,16 @@ Jeu.prototype._afficheInventaire = function() {
     this._jeuCtx.fillStyle = "black";
     this._jeuCtx.strokeRect(8, 488, 72, 64);
     if(this._mode === "see") {
-        this.ajouteObjet(this._iconeUse, 10, 490, function() { return "usea"; }, function() { that._mode = "use"; that._affiche(); }, function() {});
+        this.ajouteObjet(this._useSprite, 10, 490, function() { that._mode = "use"; that._affiche(); }, function() {}, function() { return "usea"; }, true);
     } else {
-        this.ajouteObjet(this._iconeSee, 10, 490, function() { return "seea"; }, function() {}, function() { that._mode = "see"; that._affiche(); });
+        this.ajouteObjet(this._seeSprite, 10, 490, function() {}, function() { that._mode = "see"; that._affiche(); }, function() { return "seea"; }, true);
     }
 }
 Jeu.prototype._affiche = function() {
     this._actions = {};
     this._scene.affiche(this);
     this._masqueCtx.fillStyle = "black";
-    this._masqueCtx.fillRect(0, 480, 640, 80);
+    this._masqueCtx.fillRect(0, 560, 640, 80);
     if(this._texte != null) {
         this._afficheTexte();
     } else if(this._choix != null) {
@@ -186,9 +186,8 @@ Jeu.prototype._affiche = function() {
 Jeu.prototype.addScene = function(scene) {
     this._scenes[scene.nom] = scene;
 }
-Jeu.prototype.afficheFond = function(fond, masque) {
+Jeu.prototype.afficheFond = function(fond) {
     this._jeuCtx.drawImage(fond, 0, 0);
-    this._masqueCtx.drawImage(masque, 0, 0);
 }
 Jeu.prototype.definitObjet = function(couleur, seeCb, useCb, curseurCb) {
     this._actions[couleur] = {
@@ -197,7 +196,10 @@ Jeu.prototype.definitObjet = function(couleur, seeCb, useCb, curseurCb) {
         "useCb": useCb
     }
 }
-Jeu.prototype.ajouteObjet = function(sprite, x, y, curseurCb, seeCb, useCb) {
+Jeu.prototype.ajouteObjet = function(sprite, x, y, seeCb, useCb, curseurCb, inclutTransparent) {
+    if(inclutTransparent == null) {
+        inclutTransparent = false;
+    }
     // choisit une couleur et enregistre l'action
     let r = Math.floor(Math.random()*256);
     let v = Math.floor(Math.random()*256);
@@ -209,7 +211,7 @@ Jeu.prototype.ajouteObjet = function(sprite, x, y, curseurCb, seeCb, useCb) {
         "useCb": useCb
     }
     this._jeuCtx.drawImage(sprite, x, y);
-    // recopie tout ce qui est visible du sprite dans le masque avec la couleur choisie
+    // recopie le sprite dans le masque avec la couleur choisie
     let spriteCanvas = document.createElement("canvas");
     spriteCanvas.width = sprite.width;
     spriteCanvas.height = sprite.height;
@@ -220,7 +222,7 @@ Jeu.prototype.ajouteObjet = function(sprite, x, y, curseurCb, seeCb, useCb) {
     let masqueDataData = masqueData.data;
     for(let sx = 0 ; sx < sprite.width ; sx++) {
         for(let sy = 0 ; sy < sprite.height ; sy++) {
-            if (spriteData[(sy * sprite.width * 4) + (sx * 4) + 3] !== 0) {
+            if (inclutTransparent || spriteData[(sy * sprite.width * 4) + (sx * 4) + 3] !== 0) {
                 masqueDataData[((y + sy) * 2560) + ((x + sx) * 4)] = r;
                 masqueDataData[((y + sy) * 2560) + ((x + sx) * 4) + 1] = v;
                 masqueDataData[((y + sy) * 2560) + ((x + sx) * 4) + 2] = b;
