@@ -20,7 +20,7 @@ const Jeu = function(jeuCanvas, images) {
 
     // récupère les contextes
     this._jeuCtx = this._jeuCanvas.getContext('2d');
-    this._jeuCtx.font = '18px serif';
+    this._jeuCtx.font = '17px serif';
     this._jeuCtx.textBaseline = "top";
     this._masqueCtx = this._masqueCanvas.getContext('2d');
 
@@ -104,15 +104,17 @@ Jeu.prototype._choixCbHelper = function(cbNom) {
 }
 Jeu.prototype._afficheTexte = function() {
     this._jeuCtx.fillStyle = "white";
-    this._jeuCtx.fillRect(0, 481, 640, 79);
+    this._jeuCtx.fillRect(0, 480, 640, 79);
     this._jeuCtx.fillStyle = "black";
-    this.fillText(this._texte.texte, 10, 480, 640);
+    this._jeuCtx.strokeRect(8, 488, 64, 64);
+    this._jeuCtx.fillStyle = "black";
+    this.fillText(this._texte.texte, 80, 480, 556);
     this._jeuCtx.fillStyle = "gray";
     this._jeuCtx.fillText("(cliquer pour continuer)", 460, 540);
 }
 Jeu.prototype._afficheChoix = function() {
     this._jeuCtx.fillStyle = "white";
-    this._jeuCtx.fillRect(0, 481, 640, 79);
+    this._jeuCtx.fillRect(0, 480, 640, 79);
     this._jeuCtx.fillStyle = "black";
     this._jeuCtx.strokeStyle = "black";
     this._jeuCtx.fillText("> " + this._choix.texte1, 10, 480);
@@ -145,10 +147,10 @@ Jeu.prototype._afficheChoix = function() {
 Jeu.prototype._afficheInventaire = function() {
     let that = this;
     this._jeuCtx.fillStyle = "white";
-    this._jeuCtx.fillRect(0, 481, 640, 79);
+    this._jeuCtx.fillRect(0, 480, 640, 79);
     this._texte = null;
     this._jeuCtx.fillStyle = "black";
-    this._jeuCtx.strokeRect(8, 488, 72, 64);
+    this._jeuCtx.strokeRect(8, 488, 64, 64);
     if(this._mode === "see") {
         this.ajouteObjet(this._useSprite, 10, 490, function() { that._mode = "use"; that._affiche(); }, function() {}, function() { return "usea"; }, true);
     } else {

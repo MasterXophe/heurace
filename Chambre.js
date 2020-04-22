@@ -56,6 +56,13 @@ Chambre.prototype.affiche = function (jeu) {
         158,
         function (jeu) {
             jeu.texte("Ma collection de cailloux.");
+        },
+        function (jeu) {
+            if(jeu._model.etape === "recherche") {
+                jeu.texte("Pour l'instant, je cherche juste des idées.");
+                return;
+            }
+            jeu.texte("Je les aime beaucoup, mais de là à me les trimballer sans raison...");
         }
     );
     jeu.ajouteObjet(
@@ -231,8 +238,8 @@ Chambre.prototype._utiliserOrdinateur = function (jeu) {
                         && jeu.inventaireContient("ideeMoustikiller")
                         && jeu.inventaireContient("ideeCarte")
                     ) {
-                        jeu.texte("J'ai assez d'idées.", function (jeu) {
-                            that._conception(jeu);
+                        jeu.texte("J'ai assez d'idées. Je dois choisir le chassis, le blindage, l'arme et le contrôleur qui ensemble formeront mon supra robot de combat.", function () {
+                            that._conceptionChassis(jeu);
                         });
                     } else {
                         jeu.texte("Il me faut plus d'idées avant de commencer à concevoir un plan.");
@@ -248,12 +255,6 @@ Chambre.prototype._utiliserOrdinateur = function (jeu) {
             }
         },
         "texte4": "Quitter"
-    });
-}
-Chambre.prototype._conception = function (jeu) {
-    let that = this;
-    jeu.texte("Je dois choisir le chassis, le blindage, l'arme et le contrôleur qui ensemble formeront mon supra robot de combat.", function () {
-        that._conceptionChassis(jeu);
     });
 }
 Chambre.prototype._conceptionChassis = function (jeu) {
@@ -331,8 +332,8 @@ Chambre.prototype._conceptionFinale = function (jeu, plan) {
         case "vpsc":
         case "vpcm":
         case "vpcc":
-            jeu.texte("J'ai peur que la passoire ne protège pas assez.", function () {
-                that._conception(jeu);
+            jeu.texte("J'ai peur que la passoire ne protège pas assez.\nRecommençons !", function () {
+                that._conceptionChassis(jeu);
             });
             break;
         case "abpm":
@@ -343,27 +344,27 @@ Chambre.prototype._conceptionFinale = function (jeu, plan) {
         case "vbpc":
         case "vtpm":
         case "vtpc":
-            jeu.texte("La perceuse, c'est un peu léger comme arme.", function () {
-                that._conception(jeu);
+            jeu.texte("La perceuse, c'est un peu léger comme arme.\nRecommençons !", function () {
+                that._conceptionChassis(jeu);
             });
             break;
         case "absm":
         case "absc":
-            jeu.texte("Pas mal. Mais si on m'attaque au chalumeau ?", function () {
-                that._conception(jeu);
+            jeu.texte("Pas mal. Mais si on m'attaque au chalumeau ?\nRecommençons !", function () {
+                that._conceptionChassis(jeu);
             });
             break;
         case "abcm":
         case "vbcm":
         case "abcc":
         case "vbcc":
-            jeu.texte("Une protection en bois avec un chalumeau ? Pas l'idée du siècle...", function () {
-                that._conception(jeu);
+            jeu.texte("Une protection en bois avec un chalumeau ? Pas l'idée du siècle...\nRecommençons !", function () {
+                that._conceptionChassis(jeu);
             });
             break;
         case "atsm":
-            jeu.texte("Ça me plaît... mais j'aimerais avoir le contrôle, et je ne sais pas trop comment réagit le Moustikiller.", function () {
-                that._conception(jeu);
+            jeu.texte("Ça me plaît... mais j'aimerais avoir le contrôle, et je ne sais pas trop comment réagit le Moustikiller.\nRecommençons !", function () {
+                that._conceptionChassis(jeu);
             });
             break;
         case "atsc": {
@@ -385,22 +386,22 @@ Chambre.prototype._conceptionFinale = function (jeu, plan) {
         }
         case "atcm":
         case "atcc":
-            jeu.texte("C'est bien, mais je doute sur le chalumeau. C'est impressionnant, mais est-ce vraiment si destructeur ?", function () {
-                that._conception(jeu);
+            jeu.texte("C'est bien, mais je doute sur le chalumeau. C'est impressionnant, mais est-ce vraiment si destructeur ?\nRecommençons !", function () {
+                that._conceptionChassis(jeu);
             });
             break;
         case "vbsm":
         case "vbsc":
-            jeu.texte("Ça fait un robot rapide et réactif, mais peut-être un peu léger pour tenir le choc face à des adversaires plus costauds.", function () {
-                that._conception(jeu);
+            jeu.texte("Ça fait un robot rapide et réactif, mais peut-être un peu léger pour tenir le choc face à des adversaires plus costauds.\nRecommençons !", function () {
+                that._conceptionChassis(jeu);
             });
             break;
         case "vtsm":
         case "vtsc":
         case "vtcm":
         case "vtcc":
-            jeu.texte("Ma petite voiture télécommandée ne supportera pas le poids de la tôle. Il me faut un chassis plus robuste ou un blindage pluis léger.", function () {
-                that._conception(jeu);
+            jeu.texte("Ma petite voiture télécommandée ne supportera pas le poids de la tôle. Il me faut un chassis plus robuste ou un blindage pluis léger.\nRecommençons !", function () {
+                that._conceptionChassis(jeu);
             });
             break;
     }
