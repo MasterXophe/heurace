@@ -16,65 +16,17 @@
 </body>
 <script>
     let jeu = null;
-
     function onload() {
-        let images = {
-            "curseur_seea": null,
-            "curseur_usea": null,
-            "chambre": null,
-            "chambre_crayons": null,
-            "chambre_terrarium": null,
-            "chambre_livres": null,
-            "chambre_porte": null,
-            "chambre_cailloux": null,
-            "chambre_tapis": null,
-            "chambre_poster": null,
-            "chambre_fenetre": null,
-            "chambre_lit": null,
-            "chambre_tiroirlit": null,
-            "chambre_ordinateur": null,
-            "chambre_bazaravec": null,
-            "chambre_bazarsans": null,
-            "salon": null,
-            "salon_porteatelier": null,
-            "salon_portechambre": null,
-            "salon_portecuisine": null
-        };
-
-        // charge les images
-        loadImages(images, function() {
-            let jeuCanvas = document.getElementById('jeuCanvas');
-
-            // redimensionne le canvas
-            jeuCanvas.width = 640;
-            jeuCanvas.height = 560;
-
-            jeu = new Jeu(jeuCanvas, images);
-            jeu.addScene(new Chambre(images));
-            jeu.addScene(new Salon(images));
-            jeu.scene("chambre");
-        })
-    }
-
-    function loadImages(images, cb) {
-        let count = 0;
-        let imageLoaded = function() {
-            count--;
-            if(count === 0) {
-                cb();
+        let jeuCanvas = document.getElementById('jeuCanvas');
+        jeuCanvas.width = 640;
+        jeuCanvas.height = 560;
+        jeu = new Jeu(
+            jeuCanvas,
+            [new Chambre(), new Salon()],
+            function() {
+                jeu.scene("chambre");
             }
-        };
-        for(let image in images) {
-            if(!images.hasOwnProperty(image)) {
-                continue;
-            }
-            count++;
-            let i = new Image();
-            i.addEventListener("load", imageLoaded, false);
-            i.src = image + ".png";
-            i.setAttribute("crossOrigin", "");
-            images[image] = i;
-        }
+        );
     }
 </script>
 </html>

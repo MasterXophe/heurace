@@ -1,25 +1,30 @@
-const Chambre = function (images) {
-    this._fond = images["chambre"];
-    this._crayons = images["chambre_crayons"];
-    this._terrarium = images["chambre_terrarium"];
-    this._livres = images["chambre_livres"];
-    this._porte = images["chambre_porte"];
-    this._cailloux = images["chambre_cailloux"];
-    this._tapis = images["chambre_tapis"];
-    this._poster = images["chambre_poster"];
-    this._fenetre = images["chambre_fenetre"];
-    this._lit = images["chambre_lit"];
-    this._tiroirlit = images["chambre_tiroirlit"];
-    this._ordinateur = images["chambre_ordinateur"];
-    this._bazarAvec = images["chambre_bazaravec"];
-    this._bazarSans = images["chambre_bazarsans"];
+const Chambre = function () {
+    this.sprites = {
+        "chambre": null,
+        "chambre_crayons": null,
+        "chambre_terrarium": null,
+        "chambre_livres": null,
+        "chambre_porte": null,
+        "chambre_cailloux": null,
+        "chambre_tapis": null,
+        "chambre_poster": null,
+        "chambre_fenetre": null,
+        "chambre_lit": null,
+        "chambre_tiroirlit": null,
+        "chambre_ordinateur": null,
+        "chambre_bazaravec": null,
+        "chambre_bazarsans": null
+    }
 };
 Chambre.prototype.nom = "chambre";
+Chambre.prototype.getSprites = function() {
+    return this.sprites;
+}
 Chambre.prototype.affiche = function (jeu) {
     let that = this;
-    jeu.afficheFond(this._fond);
+    jeu.afficheFond(this.sprites.chambre);
     jeu.ajouteObjet(
-        this._crayons,
+        this.sprites.chambre_crayons,
         259,
         274,
         function (jeu) {
@@ -27,7 +32,7 @@ Chambre.prototype.affiche = function (jeu) {
         }
     );
     jeu.ajouteObjet(
-        this._terrarium,
+        this.sprites.chambre_terrarium,
         115,
         268,
         function (jeu) {
@@ -35,7 +40,7 @@ Chambre.prototype.affiche = function (jeu) {
         }
     );
     jeu.ajouteObjet(
-        this._livres,
+        this.sprites.chambre_livres,
         81,
         313,
         function (jeu) {
@@ -43,22 +48,25 @@ Chambre.prototype.affiche = function (jeu) {
         }
     );
     jeu.ajouteObjet(
-        this._porte,
+        this.sprites.chambre_porte,
         0,
         88,
         function (jeu) {
             jeu.texte("La porte de ma chambre. Derrière, c'est le salon.");
+        },
+        function(jeu) {
+            jeu.scene("salon");
         }
     );
     jeu.ajouteObjet(
-        this._cailloux,
+        this.sprites.chambre_cailloux,
         89,
         158,
         function (jeu) {
             jeu.texte("Ma collection de cailloux.");
         },
         function (jeu) {
-            if(jeu._model.etape === "recherche") {
+            if (jeu._model.etape === "recherche") {
                 jeu.texte("Pour l'instant, je cherche juste des idées.");
                 return;
             }
@@ -66,7 +74,7 @@ Chambre.prototype.affiche = function (jeu) {
         }
     );
     jeu.ajouteObjet(
-        this._tapis,
+        this.sprites.chambre_tapis,
         158,
         363,
         function (jeu) {
@@ -74,7 +82,7 @@ Chambre.prototype.affiche = function (jeu) {
         }
     );
     jeu.ajouteObjet(
-        this._poster,
+        this.sprites.chambre_poster,
         431,
         94,
         function (jeu) {
@@ -82,7 +90,7 @@ Chambre.prototype.affiche = function (jeu) {
         }
     );
     jeu.ajouteObjet(
-        this._fenetre,
+        this.sprites.chambre_fenetre,
         566,
         103,
         function (jeu) {
@@ -98,7 +106,7 @@ Chambre.prototype.affiche = function (jeu) {
         }
     );
     jeu.ajouteObjet(
-        this._lit,
+        this.sprites.chambre_lit,
         490,
         293,
         function (jeu) {
@@ -110,7 +118,7 @@ Chambre.prototype.affiche = function (jeu) {
     );
     if (jeu._model.chambre.litOuvert) {
         jeu.ajouteObjet(
-            this._tiroirlit,
+            this.sprites.chambre_tiroirlit,
             474,
             309,
             function (jeu) {
@@ -132,7 +140,7 @@ Chambre.prototype.affiche = function (jeu) {
         );
     }
     jeu.ajouteObjet(
-        this._ordinateur,
+        this.sprites.chambre_ordinateur,
         308,
         229,
         function (jeu) {
@@ -144,7 +152,7 @@ Chambre.prototype.affiche = function (jeu) {
     );
     if (jeu._model.chambre.cartePrise) {
         jeu.ajouteObjet(
-            this._bazarSans,
+            this.sprites.chambre_bazarsans,
             146,
             153,
             function (jeu) {
@@ -153,7 +161,7 @@ Chambre.prototype.affiche = function (jeu) {
         );
     } else {
         jeu.ajouteObjet(
-            this._bazarAvec,
+            this.sprites.chambre_bazaravec,
             146,
             153,
             function (jeu) {

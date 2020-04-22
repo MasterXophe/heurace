@@ -1,8 +1,10 @@
-const Jeu = function(jeuCanvas, images) {
+const Jeu = function(jeuCanvas, scenes, initCb) {
     let that = this;
     this._jeuCanvas = jeuCanvas;
-    this._seeSprite = images["curseur_seea"];
-    this._useSprite = images["curseur_usea"];
+    this.sprites = {
+        "curseur_seea": null,
+        "curseur_usea": null
+    };
     this._scenes = {};
     this._scene = null;
     this._actions = {};
@@ -12,21 +14,32 @@ const Jeu = function(jeuCanvas, images) {
     this._model = {
         "inventaire": []
     }
+    let spritesToLoad = [this.sprites];
+    let scene;
+    for(let i = 0, l = scenes.length ; i < l ; i++) {
+        scene = scenes[i];
+        this._scenes[scene.nom] = scene;
+        this._model[scene.nom] = {};
+        spritesToLoad.push(scene.getSprites());
+    }
+    this.loadSprites(spritesToLoad, function() {
+        // créé le masque
+        that._masqueCanvas = document.createElement("canvas");
+        that._masqueCanvas.width = that._jeuCanvas.width;
+        that._masqueCanvas.height = that._jeuCanvas.height;
 
-    // créé le masque
-    this._masqueCanvas = document.createElement("canvas");
-    this._masqueCanvas.width = this._jeuCanvas.width;
-    this._masqueCanvas.height = this._jeuCanvas.height;
+        // récupère les contextes
+        that._jeuCtx = that._jeuCanvas.getContext('2d');
+        that._jeuCtx.font = '17px serif';
+        that._jeuCtx.textBaseline = "top";
+        that._masqueCtx = that._masqueCanvas.getContext('2d');
 
-    // récupère les contextes
-    this._jeuCtx = this._jeuCanvas.getContext('2d');
-    this._jeuCtx.font = '17px serif';
-    this._jeuCtx.textBaseline = "top";
-    this._masqueCtx = this._masqueCanvas.getContext('2d');
+        // écoute les événements
+        that._jeuCanvas.addEventListener("mousemove", that._mouseMoveCb.bind(that), false);
+        that._jeuCanvas.addEventListener("click", that._mouseClickCb.bind(that), false);
 
-    // écoute les événements
-    that._jeuCanvas.addEventListener("mousemove", this._mouseMoveCb.bind(this), false);
-    that._jeuCanvas.addEventListener("click", this._mouseClickCb.bind(this), false);
+        initCb(that);
+    });
 }
 Jeu.prototype._mouseMoveCb = function(e) {
     let mouseX, mouseY;
@@ -152,9 +165,9 @@ Jeu.prototype._afficheInventaire = function() {
     this._jeuCtx.fillStyle = "black";
     this._jeuCtx.strokeRect(8, 488, 64, 64);
     if(this._mode === "see") {
-        this.ajouteObjet(this._useSprite, 10, 490, function() { that._mode = "use"; that._affiche(); }, function() {}, function() { return "usea"; }, true);
+        this.ajouteObjet(this.sprites.curseur_usea, 10, 490, function() { that._mode = "use"; that._affiche(); }, function() {}, function() { return "usea"; }, true);
     } else {
-        this.ajouteObjet(this._seeSprite, 10, 490, function() {}, function() { that._mode = "see"; that._affiche(); }, function() { return "seea"; }, true);
+        this.ajouteObjet(this.sprites.curseur_seea, 10, 490, function() {}, function() { that._mode = "see"; that._affiche(); }, function() { return "seea"; }, true);
     }
 }
 Jeu.prototype._affiche = function() {
@@ -172,10 +185,6 @@ Jeu.prototype._affiche = function() {
     this._masque = this._masqueCtx.getImageData(0, 0, 640, 560).data;
     // décommenter pour voir le masque
     //this._jeuCtx.putImageData(this._masqueCtx.getImageData(0, 0, 640, 560), 0, 0);
-}
-Jeu.prototype.addScene = function(scene) {
-    this._scenes[scene.nom] = scene;
-    this._model[scene.nom] = {};
 }
 Jeu.prototype.inventaireContient = function(item) {
     return (this._model.inventaire.indexOf(item) !== -1);
@@ -281,6 +290,33 @@ Jeu.prototype.fillText = function(texte, x, y, width) {
         this._jeuCtx.fillText(words.join(' '), x, y + (20 * currentLine));
     }
 }
+Jeu.prototype.loadSprites = function(spritesList, cb) {
+    let that = this;
+    let sprites = spritesList.shift();
+    let count = 0;
+    let imageLoaded = function() {
+        count--;
+        if(count === 0) {
+            if(spritesList.length > 0) {
+                that.loadSprites(spritesList, cb);
+                return;
+            }
+            cb();
+        }
+    };
+    for(let image in sprites) {
+        if(!sprites.hasOwnProperty(image)) {
+            continue;
+        }
+        count++;
+        let i = new Image();
+        i.addEventListener("load", imageLoaded, false);
+        i.src = image + ".png";
+        i.setAttribute("crossOrigin", "");
+        sprites[image] = i;
+    }
+}
+
 Jeu.prototype.noop = function() {
 }
 Jeu.prototype.CURSEURS = {

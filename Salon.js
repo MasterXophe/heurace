@@ -1,14 +1,19 @@
-const Salon = function (images) {
-    this._fond = images["salon"];
-    this._porteatelier = images["salon_porteatelier"];
-    this._portechambre = images["salon_portechambre"];
-    this._portecuisine = images["salon_portecuisine"];
+const Salon = function () {
+    this.sprites = {
+        "salon": null,
+        "salon_porteatelier": null,
+        "salon_portechambre": null,
+        "salon_portecuisine": null
+    };
 }
 Salon.prototype.nom = "salon";
+Salon.prototype.getSprites = function() {
+    return this.sprites;
+}
 Salon.prototype.affiche = function (jeu) {
-    jeu.afficheFond(this._fond);
+    jeu.afficheFond(this.sprites.salon);
     jeu.ajouteObjet(
-        this._porteatelier,
+        this.sprites.salon_porteatelier,
         575,
         75,
         function (jeu) {
@@ -19,7 +24,7 @@ Salon.prototype.affiche = function (jeu) {
         }
     );
     jeu.ajouteObjet(
-        this._portechambre,
+        this.sprites.salon_portechambre,
         300,
         100,
         function (jeu) {
@@ -30,7 +35,7 @@ Salon.prototype.affiche = function (jeu) {
         }
     );
     jeu.ajouteObjet(
-        this._portecuisine,
+        this.sprites.salon_portecuisine,
         15,
         50,
         function (jeu) {
