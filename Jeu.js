@@ -10,11 +10,7 @@ const Jeu = function(jeuCanvas, images) {
     this._texte = null;
     this._choix = null;
     this._model = {
-        "navigateur": false,
-        "chambre": {
-            "mail": false,
-            "fenetreRegardee": false
-        }
+        "inventaire": []
     }
 
     // créé le masque
@@ -58,7 +54,7 @@ Jeu.prototype._mouseClickCb = function(e) {
         let cb = this._texte.cb;
         this._texte = null;
         if(cb != null) {
-            cb();
+            cb(this);
         }
         this._affiche();
         return;
@@ -88,28 +84,19 @@ Jeu.prototype.texte = function(texte, cb) {
         "cb":cb
     }
 }
-Jeu.prototype.choix = function(texte1, cb1, texte2, cb2, texte3, cb3, texte4, cb4) {
-    this._choix = {
-        "texte1":texte1,
-        "cb1":cb1 || this.noop,
-        "texte2":texte2,
-        "cb2":cb2 || this.noop,
-        "texte3":texte3,
-        "cb3":cb3 || this.noop,
-        "texte4":texte4,
-        "cb4":cb4 || this.noop
-    }
+Jeu.prototype.choix = function(choix) {
+    this._choix = choix;
 }
 Jeu.prototype.scene = function(sceneNom) {
     this._texte = null;
     this._choix = null;
     this._scene = this._scenes[sceneNom];
+    this._model.scene = sceneNom;
     this._affiche();
 }
 Jeu.prototype._choixCbHelper = function(cbNom) {
     let that = this;
     return function() {
-        console.log(cbNom);
         let cb = that["_choix"][cbNom];
         that._choix = null;
         cb(that);
@@ -181,10 +168,25 @@ Jeu.prototype._affiche = function() {
         this._afficheInventaire();
     }
     this._masque = this._masqueCtx.getImageData(0, 0, 640, 560).data;
-//    this._jeuCtx.putImageData(this._masqueCtx.getImageData(0, 0, 640, 560), 0, 0);
+    // décommenter pour voir le masque
+    //this._jeuCtx.putImageData(this._masqueCtx.getImageData(0, 0, 640, 560), 0, 0);
 }
 Jeu.prototype.addScene = function(scene) {
     this._scenes[scene.nom] = scene;
+    this._model[scene.nom] = {};
+}
+Jeu.prototype.inventaireContient = function(item) {
+    return (this._model.inventaire.indexOf(item) !== -1);
+}
+Jeu.prototype.inventaireAjoute = function(item) {
+    return this._model.inventaire.push(item);
+}
+Jeu.prototype.inventaireRetire = function(item) {
+    let index = this._model.inventaire.indexOf(item);
+    if(index === -1) {
+        return;
+    }
+    return this._model.inventaire.splice(index, 1);
 }
 Jeu.prototype.afficheFond = function(fond) {
     this._jeuCtx.drawImage(fond, 0, 0);
