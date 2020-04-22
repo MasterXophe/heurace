@@ -123,11 +123,11 @@ Chambre.prototype.affiche = function (jeu) {
             309,
             function (jeu) {
                 if (jeu._model.chambre.tiroirCherche) {
-                    if (jeu.inventaireContient("ideeVoiture")) {
+                    if (jeu.inventaireContient("inv_voiture")) {
                         jeu.texte("J'ai bien cherché, il n'y a plus rien d'intéressant.");
                     } else {
                         jeu.texte("Ok, je vais fouiller un peu. Oh, ma voiture télécommandée ! C'est une idée.");
-                        jeu.inventaireAjoute("ideeVoiture");
+                        jeu.inventaireAjoute("inv_voiture");
                     }
                 } else {
                     jeu.texte("Il y a beaucoup de choses dans ce tiroir. Au premier coup d'oeil, je ne vois rien d'intéressant.");
@@ -167,7 +167,7 @@ Chambre.prototype.affiche = function (jeu) {
             function (jeu) {
                 if (jeu._model.etape === "recherche") {
                     jeu.texte("Une caisse avec du bazar. Ah, une carte électronique que je peux programmer ! C'est une idée.");
-                    jeu.inventaireAjoute("ideeCarte");
+                    jeu.inventaireAjoute("inv_carte");
                 } else {
                     jeu.texte("Une caisse avec du bazar. Mais du bazar rangé.");
                 }
@@ -191,14 +191,14 @@ Chambre.prototype.affiche = function (jeu) {
         jeu._model.debut = true;
         jeu._model.etape = "recherche";
         // TODO test
-        jeu.inventaireAjoute("ideeAspirobot");
-        jeu.inventaireAjoute("ideePassoire");
-        jeu.inventaireAjoute("ideePlanches");
-        jeu.inventaireAjoute("ideeTole");
-        jeu.inventaireAjoute("ideePerceuse");
-        jeu.inventaireAjoute("ideeScie");
-        jeu.inventaireAjoute("ideeChalumeau");
-        jeu.inventaireAjoute("ideeMoustikiller");
+        jeu.inventaireAjoute("inv_aspirobot");
+        jeu.inventaireAjoute("inv_passoire");
+        jeu.inventaireAjoute("inv_planches");
+        jeu.inventaireAjoute("inv_tole");
+        jeu.inventaireAjoute("inv_perceuse");
+        jeu.inventaireAjoute("inv_scie");
+        jeu.inventaireAjoute("inv_chalumeau");
+        jeu.inventaireAjoute("inv_moustikiller");
     }
 };
 Chambre.prototype._utiliserOrdinateur = function (jeu) {
@@ -235,16 +235,16 @@ Chambre.prototype._utiliserOrdinateur = function (jeu) {
         "cb3": function () {
             switch (jeu._model.etape) {
                 case "recherche": {
-                    if (jeu.inventaireContient("ideeAspirobot")
-                        && jeu.inventaireContient("ideeVoiture")
-                        && jeu.inventaireContient("ideePassoire")
-                        && jeu.inventaireContient("ideePlanches")
-                        && jeu.inventaireContient("ideeTole")
-                        && jeu.inventaireContient("ideePerceuse")
-                        && jeu.inventaireContient("ideeScie")
-                        && jeu.inventaireContient("ideeChalumeau")
-                        && jeu.inventaireContient("ideeMoustikiller")
-                        && jeu.inventaireContient("ideeCarte")
+                    if (jeu.inventaireContient("inv_aspirobot")
+                        && jeu.inventaireContient("inv_voiture")
+                        && jeu.inventaireContient("inv_passoire")
+                        && jeu.inventaireContient("inv_planches")
+                        && jeu.inventaireContient("inv_tole")
+                        && jeu.inventaireContient("inv_perceuse")
+                        && jeu.inventaireContient("inv_scie")
+                        && jeu.inventaireContient("inv_chalumeau")
+                        && jeu.inventaireContient("inv_moustikiller")
+                        && jeu.inventaireContient("inv_carte")
                     ) {
                         jeu.texte("J'ai assez d'idées. Je dois choisir le chassis, le blindage, l'arme et le contrôleur qui ensemble formeront mon supra robot de combat.", function () {
                             that._conceptionChassis(jeu);
@@ -380,16 +380,16 @@ Chambre.prototype._conceptionFinale = function (jeu, plan) {
                 jeu.texte("Il me faut maintenant rassembler tous les éléments nécessaires, découper la tôle suivant mes plans et assembler le robot !");
             });
             jeu._model.etape = "collecte";
-            jeu.inventaireRetire("ideeAspirobot");
-            jeu.inventaireRetire("ideeVoiture");
-            jeu.inventaireRetire("ideePassoire");
-            jeu.inventaireRetire("ideePlanches");
-            jeu.inventaireRetire("ideeTole");
-            jeu.inventaireRetire("ideePerceuse");
-            jeu.inventaireRetire("ideeScie");
-            jeu.inventaireRetire("ideeChalumeau");
-            jeu.inventaireRetire("ideeMoustikiller");
-            jeu.inventaireRetire("ideeCarte");
+            jeu.inventaireRetire("inv_aspirobot");
+            jeu.inventaireRetire("inv_voiture");
+            jeu.inventaireRetire("inv_passoire");
+            jeu.inventaireRetire("inv_planches");
+            jeu.inventaireRetire("inv_tole");
+            jeu.inventaireRetire("inv_perceuse");
+            jeu.inventaireRetire("inv_scie");
+            jeu.inventaireRetire("inv_chalumeau");
+            jeu.inventaireRetire("inv_moustikiller");
+            jeu.inventaireRetire("inv_carte");
             return;
         }
         case "atcm":

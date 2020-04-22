@@ -1,10 +1,17 @@
-const Jeu = function(jeuCanvas, scenes, initCb) {
+const Jeu = function(jeuCanvas, scenes, objects, initCb) {
     let that = this;
     this._jeuCanvas = jeuCanvas;
     this.sprites = {
         "curseur_seea": null,
         "curseur_usea": null
     };
+    this.objects = {};
+    let object;
+    for(let i = 0, l = objects.length ; i < l ; i++) {
+        object = objects[i];
+        this.objects[object.nom] = object;
+        this.sprites[object.nom] = null;
+    }
     this._scenes = {};
     this._scene = null;
     this._actions = {};
@@ -12,7 +19,8 @@ const Jeu = function(jeuCanvas, scenes, initCb) {
     this._texte = null;
     this._choix = null;
     this._model = {
-        "inventaire": []
+        "inventaire": [],
+        "inventairePage": 0
     }
     let spritesToLoad = [this.sprites];
     let scene;
@@ -119,7 +127,7 @@ Jeu.prototype._afficheTexte = function() {
     this._jeuCtx.fillStyle = "white";
     this._jeuCtx.fillRect(0, 480, 640, 79);
     this._jeuCtx.fillStyle = "black";
-    this._jeuCtx.strokeRect(8, 488, 64, 64);
+    this._jeuCtx.strokeRect(4, 488, 64, 64);
     this._jeuCtx.fillStyle = "black";
     this.fillText(this._texte.texte, 80, 480, 556);
     this._jeuCtx.fillStyle = "gray";
@@ -163,11 +171,19 @@ Jeu.prototype._afficheInventaire = function() {
     this._jeuCtx.fillRect(0, 480, 640, 79);
     this._texte = null;
     this._jeuCtx.fillStyle = "black";
-    this._jeuCtx.strokeRect(8, 488, 64, 64);
+    this._jeuCtx.strokeRect(4, 488, 64, 64);
     if(this._mode === "see") {
-        this.ajouteObjet(this.sprites.curseur_usea, 10, 490, function() { that._mode = "use"; that._affiche(); }, function() {}, function() { return "usea"; }, true);
+        this.ajouteObjet(this.sprites.curseur_usea, 6, 490, function() { that._mode = "use"; }, function() {}, function() { return "usea"; }, true);
     } else {
-        this.ajouteObjet(this.sprites.curseur_seea, 10, 490, function() {}, function() { that._mode = "see"; that._affiche(); }, function() { return "seea"; }, true);
+        this.ajouteObjet(this.sprites.curseur_seea, 6, 490, function() {}, function() { that._mode = "see"; }, function() { return "seea"; }, true);
+    }
+    let item;
+    for(let i = 0 ; i < 11 ; i++) {
+        this._jeuCtx.strokeRect(80 + (i * 50), 488, 50, 50);
+        if(i < this._model.inventaire.length) {
+            item = this._model.inventaire[i];
+            this.ajouteObjet(this.sprites[item.nom], 82 + (i * 50), 490, item.seeCb, item.useCb, null, true);
+        }
     }
 }
 Jeu.prototype._affiche = function() {
@@ -187,13 +203,13 @@ Jeu.prototype._affiche = function() {
     //this._jeuCtx.putImageData(this._masqueCtx.getImageData(0, 0, 640, 560), 0, 0);
 }
 Jeu.prototype.inventaireContient = function(item) {
-    return (this._model.inventaire.indexOf(item) !== -1);
+    return (this._model.inventaire.findIndex(function(i) { return (i.nom === item); }) !== -1);
 }
 Jeu.prototype.inventaireAjoute = function(item) {
-    return this._model.inventaire.push(item);
+    return this._model.inventaire.push(this.objects[item]);
 }
 Jeu.prototype.inventaireRetire = function(item) {
-    let index = this._model.inventaire.indexOf(item);
+    let index = this._model.inventaire.findIndex(function(i) { return (i.nom === item); });
     if(index === -1) {
         return;
     }
@@ -311,7 +327,7 @@ Jeu.prototype.loadSprites = function(spritesList, cb) {
         count++;
         let i = new Image();
         i.addEventListener("load", imageLoaded, false);
-        i.src = image + ".png";
+        i.src = "sprites/" + image + ".png";
         i.setAttribute("crossOrigin", "");
         sprites[image] = i;
     }
@@ -320,8 +336,8 @@ Jeu.prototype.loadSprites = function(spritesList, cb) {
 Jeu.prototype.noop = function() {
 }
 Jeu.prototype.CURSEURS = {
-    "see":"url(curseur_see.png) 32 32, pointer",
-    "seea":"url(curseur_seea.png) 32 32, pointer",
-    "use":"url(curseur_use.png) 24 14, pointer",
-    "usea":"url(curseur_usea.png) 24 14, pointer"
+    "see":"url(sprites/curseur_see.png) 32 32, pointer",
+    "seea":"url(sprites/curseur_seea.png) 32 32, pointer",
+    "use":"url(sprites/curseur_use.png) 24 14, pointer",
+    "usea":"url(sprites/curseur_usea.png) 24 14, pointer"
 }

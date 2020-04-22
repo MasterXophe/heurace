@@ -9,6 +9,7 @@
     <script src="Jeu.js" charset="utf-8"></script>
     <script src="Chambre.js" charset="utf-8"></script>
     <script src="Salon.js" charset="utf-8"></script>
+    <script src="Objects.js" charset="utf-8"></script>
 </head>
 <body onload="onload();">
     <h1>Une aventure d'Heurace : le robot de combat</h1>
@@ -23,6 +24,7 @@
         jeu = new Jeu(
             jeuCanvas,
             [new Chambre(), new Salon()],
+            OBJECTS,
             function() {
                 jeu.scene("chambre");
             }
