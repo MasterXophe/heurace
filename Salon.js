@@ -14,8 +14,8 @@ Salon.prototype.affiche = function (jeu) {
     jeu.afficheFond(this.sprites.salon);
     jeu.ajouteObjet(
         this.sprites.salon_porteatelier,
-        575,
-        75,
+        524,
+        102,
         function (jeu) {
             jeu.texte("L'atelier de mon père.");
         },
@@ -25,8 +25,8 @@ Salon.prototype.affiche = function (jeu) {
     );
     jeu.ajouteObjet(
         this.sprites.salon_portechambre,
-        300,
-        100,
+        326,
+        115,
         function (jeu) {
             jeu.texte("Ma chambre.");
         },
@@ -36,8 +36,8 @@ Salon.prototype.affiche = function (jeu) {
     );
     jeu.ajouteObjet(
         this.sprites.salon_portecuisine,
-        15,
-        50,
+        0,
+        81,
         function (jeu) {
             jeu.texte("La cuisine.");
         },
