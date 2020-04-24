@@ -10,7 +10,8 @@ const Salon = function () {
         "salon_cds": null,
         "salon_maman": null,
         "salon_yeuxmaman": null,
-        "inv_aspirobot": null
+        "inv_aspirobot": null,
+        "maman": null
     };
 }
 Salon.prototype.nom = "salon";
@@ -18,17 +19,18 @@ Salon.prototype.getSprites = function () {
     return this.sprites;
 }
 Salon.prototype.affiche = function (jeu) {
+    let that = this;
     jeu.afficheFond(this.sprites.salon);
     jeu.ajouteObjet(
         this.sprites.salon_porteatelier,
         524,
         102,
         function (jeu) {
-            jeu.texte("L'atelier de mon père.");
+            jeu.texte({"texte":"L'atelier de mon père."});
         },
         function (jeu) {
             if (jeu._model.etape === "recherche") {
-                jeu.texte("Il y a plein de choses, c'est autant d'idées.");
+                jeu.texte({"texte":"Il y a plein de choses, c'est autant d'idées."});
                 jeu.inventaireAjoute("inv_planches");
                 jeu.inventaireAjoute("inv_tole");
                 jeu.inventaireAjoute("inv_perceuse");
@@ -36,7 +38,7 @@ Salon.prototype.affiche = function (jeu) {
                 jeu.inventaireAjoute("inv_chalumeau");
                 jeu.inventaireAjoute("inv_moustikiller");
             } else {
-                jeu.texte("Je ne peux pas y aller.");
+                jeu.texte({"texte":"Je ne peux pas y aller."});
             }
         }
     );
@@ -45,7 +47,7 @@ Salon.prototype.affiche = function (jeu) {
         326,
         115,
         function (jeu) {
-            jeu.texte("Ma chambre.");
+            jeu.texte({"texte":"Ma chambre."});
         },
         function (jeu) {
             jeu.scene("chambre");
@@ -56,14 +58,14 @@ Salon.prototype.affiche = function (jeu) {
         0,
         81,
         function (jeu) {
-            jeu.texte("La cuisine.");
+            jeu.texte({"texte":"La cuisine."});
         },
         function (jeu) {
             if (jeu._model.etape === "recherche") {
-                jeu.texte("Il y a une passoire, c'est une idée.");
+                jeu.texte({"texte":"Il y a une passoire, c'est une idée."});
                 jeu.inventaireAjoute("inv_passoire");
             } else {
-                jeu.texte("Je n'ai rien à y faire.");
+                jeu.texte({"texte":"Je n'ai rien à y faire."});
             }
         }
     );
@@ -72,7 +74,7 @@ Salon.prototype.affiche = function (jeu) {
         69,
         314,
         function (jeu) {
-            jeu.texte("C'est la base de l'aspirateur-robot, il y revient de temps en temps se recharger.");
+            jeu.texte({"texte":"C'est la base de l'aspirateur-robot, il y revient de temps en temps se recharger."});
         }
     );
     jeu.ajouteObjet(
@@ -80,7 +82,7 @@ Salon.prototype.affiche = function (jeu) {
         144,
         236,
         function (jeu) {
-            jeu.texte("C'est la chaîne Hi-Fi, on écoute la radio ou bien des CDs.");
+            jeu.texte({"texte":"C'est la chaîne Hi-Fi, on écoute la radio ou bien des CDs."});
         }
     );
     jeu.ajouteObjet(
@@ -88,10 +90,10 @@ Salon.prototype.affiche = function (jeu) {
         72,
         86,
         function (jeu) {
-            jeu.texte("Une toile d'araignée. L'aspirateur-robot ne va pas jusque là. J'ai proposé aux parents de l'améliorer pour qu'il puisse grimper mur, mais ils n'ont pas eu l'air emballés...");
+            jeu.texte({"texte":"Une toile d'araignée. L'aspirateur-robot ne va pas jusque là. J'ai proposé aux parents de l'améliorer pour qu'il puisse grimper mur, mais ils n'ont pas eu l'air emballés..."});
         },
         function (jeu) {
-            jeu.texte("Je ne peux pas l'atteindre.");
+            jeu.texte({"texte":"Je ne peux pas l'atteindre."});
         }
     );
     jeu.ajouteObjet(
@@ -100,11 +102,11 @@ Salon.prototype.affiche = function (jeu) {
         279,
         function (jeu) {
             if (jeu._model.salon.robotSousMeuble) {
-                jeu.texte("Hey, l'aspirateur-robot est dessous. Je vais le décoincer.", function () {
+                jeu.texte({"texte":"Hey, l'aspirateur-robot est dessous. Je vais le décoincer.", "cb":function () {
                     jeu._model.salon.robotDecoince = true;
-                });
+                }});
             } else {
-                jeu.texte("La collection de CDs de mes parents, il y en a tellement ! Tout ça tient dans une clé USB, mais c'est moins joli.");
+                jeu.texte({"texte":"La collection de CDs de mes parents, il y en a tellement ! Tout ça tient dans une clé USB, mais c'est moins joli."});
             }
         }
     );
@@ -113,13 +115,13 @@ Salon.prototype.affiche = function (jeu) {
         459,
         324,
         function (jeu) {
-            jeu.texte("Ma maman. Elle se repose, elle a beaucoup travaillé aujourd'hui.");
+            jeu.texte({"texte":"Ma maman. Elle se repose, elle a beaucoup travaillé aujourd'hui."});
         },
         function (jeu) {
             jeu.choix({
                 "texte1": "Maman, tu sais où est l'aspirateur-robot ?",
                 "cb1": function (jeu) {
-                    jeu.texte("Je ne sais pas, peut-être sous le meuble de la chaîne, il se coince parfois dessous.");
+                    jeu.texte({"qui":that.sprites.maman, "texte":"Je ne sais pas, peut-être sous le meuble de la chaîne, il se coince parfois dessous."});
                     jeu._model.salon.robotSousMeuble = true;
                 },
                 "texte2": "Non, rien."
@@ -138,15 +140,15 @@ Salon.prototype.affiche = function (jeu) {
             345,
             function (jeu) {
                 if (jeu._model.etape === "recherche") {
-                    jeu.texte("L'apirateur-robot a des capteurs de proximité, un moteur, une bonne batterie... C'est une idée.");
+                    jeu.texte({"texte":"L'apirateur-robot a des capteurs de proximité, un moteur, une bonne batterie... C'est une idée."});
                     jeu.inventaireAjoute("inv_aspirobot");
                 }
             },
             function (jeu) {
                 if (jeu._model.etape === "recherche") {
-                    jeu.texte("Pour l'instant, je cherche des idées, je ne prends rien.");
+                    jeu.texte({"texte":"Pour l'instant, je cherche des idées, je ne prends rien."});
                 } else {
-                    jeu.texte("Laisse cet aspirateur tranquille ! Il est très bien comme il est !");
+                    jeu.texte({"texte":"Laisse cet aspirateur tranquille ! Il est très bien comme il est !"});
                 }
             }
         );

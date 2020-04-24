@@ -1,10 +1,11 @@
-const Jeu = function(jeuCanvas, scenes, objects, initCb) {
+const Jeu = function(jeuCanvas, scenes, objects, quiDefaut, initCb) {
     let that = this;
     this._jeuCanvas = jeuCanvas;
     this.sprites = {
         "curseur_seea": null,
         "curseur_usea": null
     };
+    this.sprites[quiDefaut] = null;
     this.objects = {};
     let object;
     for(let i = 0, l = objects.length ; i < l ; i++) {
@@ -12,6 +13,7 @@ const Jeu = function(jeuCanvas, scenes, objects, initCb) {
         this.objects[object.nom] = object;
         this.sprites[object.nom] = null;
     }
+    this.quiDefaut = quiDefaut;
     this._scenes = {};
     this._scene = null;
     this._actions = {};
@@ -94,16 +96,19 @@ Jeu.prototype._mouseClickCb = function(e) {
         if(action.useCb != null) {
             action.useCb(this);
         } else {
-            this.texte("Ça ne fait rien.");
+            this.texte({"texte":"Ça ne fait rien."});
         }
     }
     this._affiche();
 }
-Jeu.prototype.texte = function(texte, cb) {
-    this._texte = {
-        "texte":texte,
-        "cb":cb
+Jeu.prototype.texte = function(texte) {
+    if(!texte.texte) {
+        console.error("Le texte n'a pas la propriété 'texte'");
     }
+    if(!texte.qui) {
+        texte.qui = this.sprites[this.quiDefaut];
+    }
+    this._texte = texte;
 }
 Jeu.prototype.choix = function(choix) {
     this._choix = choix;
@@ -129,6 +134,7 @@ Jeu.prototype._afficheTexte = function() {
     this._jeuCtx.fillStyle = "black";
     this._jeuCtx.strokeRect(4, 488, 64, 64);
     this._jeuCtx.fillStyle = "black";
+    this._jeuCtx.drawImage(this._texte.qui, 0, 0, this._texte.qui.width, this._texte.qui.height, 6, 490, 60, 60);
     this.fillText(this._texte.texte, 80, 480, 556);
     this._jeuCtx.fillStyle = "gray";
     this._jeuCtx.fillText("(cliquer pour continuer)", 460, 540);

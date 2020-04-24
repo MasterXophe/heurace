@@ -28,7 +28,7 @@ Chambre.prototype.affiche = function (jeu) {
         259,
         274,
         function (jeu) {
-            jeu.texte("Mes crayons. Il y a des noirs, des bleus, un rouge, un vert et un vide.");
+            jeu.texte({"texte":"Mes crayons. Il y a des noirs, des bleus, un rouge, un vert et un vide."});
         }
     );
     jeu.ajouteObjet(
@@ -36,7 +36,7 @@ Chambre.prototype.affiche = function (jeu) {
         115,
         268,
         function (jeu) {
-            jeu.texte("Mon terrarium, qui abrite une colonie de fourmis.");
+            jeu.texte({"texte":"Mon terrarium, qui abrite une colonie de fourmis."});
         }
     );
     jeu.ajouteObjet(
@@ -44,7 +44,7 @@ Chambre.prototype.affiche = function (jeu) {
         81,
         313,
         function (jeu) {
-            jeu.texte("Mes livres. Ce ne sont que des livres de sciences.");
+            jeu.texte({"texte":"Mes livres. Ce ne sont que des livres de sciences."});
         }
     );
     jeu.ajouteObjet(
@@ -52,7 +52,7 @@ Chambre.prototype.affiche = function (jeu) {
         0,
         88,
         function (jeu) {
-            jeu.texte("La porte de ma chambre. Derrière, c'est le salon.");
+            jeu.texte({"texte":"La porte de ma chambre. Derrière, c'est le salon."});
         },
         function(jeu) {
             jeu.scene("salon");
@@ -63,14 +63,14 @@ Chambre.prototype.affiche = function (jeu) {
         89,
         158,
         function (jeu) {
-            jeu.texte("Ma collection de cailloux.");
+            jeu.texte({"texte":"Ma collection de cailloux."});
         },
         function (jeu) {
             if (jeu._model.etape === "recherche") {
-                jeu.texte("Pour l'instant, je cherche juste des idées.");
+                jeu.texte({"texte":"Pour l'instant, je cherche juste des idées."});
                 return;
             }
-            jeu.texte("Je les aime beaucoup, mais de là à me les trimballer sans raison...");
+            jeu.texte({"texte":"Je les aime beaucoup, mais de là à me les trimballer sans raison..."});
         }
     );
     jeu.ajouteObjet(
@@ -78,7 +78,7 @@ Chambre.prototype.affiche = function (jeu) {
         158,
         363,
         function (jeu) {
-            jeu.texte("Tiens, un tapis !?! Je ne l'avais jamais remarqué...");
+            jeu.texte({"texte":"Tiens, un tapis !?! Je ne l'avais jamais remarqué..."});
         }
     );
     jeu.ajouteObjet(
@@ -86,7 +86,7 @@ Chambre.prototype.affiche = function (jeu) {
         431,
         94,
         function (jeu) {
-            jeu.texte("C'est un poster d'explosion atomique. Les explosions atomiques, c'est ce que je préfère. J'économise pour acheter du plutonium et en faire exploser une dans le jardin. Mais chut ! c'est une surprise pour mes parents.");
+            jeu.texte({"texte":"C'est un poster d'explosion atomique. Les explosions atomiques, c'est ce que je préfère. J'économise pour acheter du plutonium et en faire exploser une dans le jardin. Mais chut ! c'est une surprise pour mes parents."});
         }
     );
     jeu.ajouteObjet(
@@ -95,14 +95,14 @@ Chambre.prototype.affiche = function (jeu) {
         103,
         function (jeu) {
             if (jeu._model.chambre.fenetreRegardee) {
-                jeu.texte("Je ne vois rien d'intéressant dehors.");
+                jeu.texte({"texte":"Je ne vois rien d'intéressant dehors."});
             } else {
-                jeu.texte("La fenêtre");
+                jeu.texte({"texte":"La fenêtre"});
                 jeu._model.chambre.fenetreRegardee = true;
             }
         },
         function (jeu) {
-            jeu.texte("Je préfère ne pas l'ouvrir, qui sait ce qu'il y a dehors ?");
+            jeu.texte({"texte":"Je préfère ne pas l'ouvrir, qui sait ce qu'il y a dehors ?"});
         }
     );
     jeu.ajouteObjet(
@@ -110,7 +110,7 @@ Chambre.prototype.affiche = function (jeu) {
         490,
         293,
         function (jeu) {
-            jeu.texte("Mon lit. Il y a un grand tiroir dessous où je peux ranger mes inventions.");
+            jeu.texte({"texte":"Mon lit. Il y a un grand tiroir dessous où je peux ranger mes inventions."});
         },
         function (jeu) {
             jeu._model.chambre.litOuvert = !jeu._model.chambre.litOuvert;
@@ -124,13 +124,13 @@ Chambre.prototype.affiche = function (jeu) {
             function (jeu) {
                 if (jeu._model.chambre.tiroirCherche) {
                     if (jeu.inventaireContient("inv_voiture")) {
-                        jeu.texte("J'ai bien cherché, il n'y a plus rien d'intéressant.");
+                        jeu.texte({"texte":"J'ai bien cherché, il n'y a plus rien d'intéressant."});
                     } else {
-                        jeu.texte("Ok, je vais fouiller un peu. Oh, ma voiture télécommandée ! C'est une idée.");
+                        jeu.texte({"texte":"Ok, je vais fouiller un peu. Oh, ma voiture télécommandée ! C'est une idée."});
                         jeu.inventaireAjoute("inv_voiture");
                     }
                 } else {
-                    jeu.texte("Il y a beaucoup de choses dans ce tiroir. Au premier coup d'oeil, je ne vois rien d'intéressant.");
+                    jeu.texte({"texte":"Il y a beaucoup de choses dans ce tiroir. Au premier coup d'oeil, je ne vois rien d'intéressant."});
                     jeu._model.chambre.tiroirCherche = true;
                 }
             },
@@ -144,7 +144,7 @@ Chambre.prototype.affiche = function (jeu) {
         308,
         229,
         function (jeu) {
-            jeu.texte("Mon ordinateur.\nJe passe la moitié de mon temps à travailler dessus... et l'autre moitié à me divertir dessus.");
+            jeu.texte({"texte":"Mon ordinateur.\nJe passe la moitié de mon temps à travailler dessus... et l'autre moitié à me divertir dessus."});
         },
         function (jeu) {
             that._utiliserOrdinateur(jeu);
@@ -156,7 +156,7 @@ Chambre.prototype.affiche = function (jeu) {
             146,
             153,
             function (jeu) {
-                jeu.texte("Une caisse avec du bazar. Mais du bazar rangé.");
+                jeu.texte({"texte":"Une caisse avec du bazar. Mais du bazar rangé."});
             }
         );
     } else {
@@ -166,28 +166,28 @@ Chambre.prototype.affiche = function (jeu) {
             153,
             function (jeu) {
                 if (jeu._model.etape === "recherche") {
-                    jeu.texte("Une caisse avec du bazar. Ah, une carte électronique que je peux programmer ! C'est une idée.");
+                    jeu.texte({"texte":"Une caisse avec du bazar. Ah, une carte électronique que je peux programmer ! C'est une idée."});
                     jeu.inventaireAjoute("inv_carte");
                 } else {
-                    jeu.texte("Une caisse avec du bazar. Mais du bazar rangé.");
+                    jeu.texte({"texte":"Une caisse avec du bazar. Mais du bazar rangé."});
                 }
             },
             function (jeu) {
                 if (jeu._model.etape === "recherche") {
-                    jeu.texte("Je ne vais rien prendre pour l'instant, j'attends de savoir ce qu'il me faut.");
+                    jeu.texte({"texte":"Je ne vais rien prendre pour l'instant, j'attends de savoir ce qu'il me faut."});
                 } else {
-                    jeu.texte("Je prends la carte électronique.", function () {
+                    jeu.texte({"texte":"Je prends la carte électronique.", "cb":function () {
                         jeu.inventaireAjoute("inv_carte");
                         jeu._model.chambre.cartePrise = true;
-                    });
+                    }});
                 }
             }
         );
     }
     if (!jeu._model.debut) {
-        jeu.texte("Nouveau mail : Grand concours de robots de combat !", function () {
-            jeu.texte("Génialique ! Voilà un défi pour moi ! Je vais construire un robot de combat hypra-super-mortel et remporter ce concours.\nVoyons, il me faut un chassis, une arme, un blindage et un contrôleur. Je vais fouiller la maison pour voir ce que je pourrais utiliser.");
-        });
+        jeu.texte({"qui":this.sprites.chambre_ordinateur,"texte":"Nouveau mail : Grand concours de robots de combat !", "cb":function () {
+            jeu.texte({"texte":"Génialique ! Voilà un défi pour moi ! Je vais construire un robot de combat hypra-super-mortel et remporter ce concours.\nVoyons, il me faut un chassis, une arme, un blindage et un contrôleur. Je vais fouiller la maison pour voir ce que je pourrais utiliser."});
+        }});
         jeu._model.debut = true;
         jeu._model.etape = "recherche";
     }
@@ -195,21 +195,22 @@ Chambre.prototype.affiche = function (jeu) {
 Chambre.prototype._utiliserOrdinateur = function (jeu) {
     let that = this;
     jeu.choix({
+        "qui":"inv_ordinateur",
         "texte1": "Mail...",
         "cb1": function () {
             jeu.choix({
                 "texte1": "Lire le mail du concours",
                 "cb1": function () {
-                    jeu.texte("Je ne me lasse pas de le relire. C'est comme un cadeau de Noël !");
+                    jeu.texte({"texte":"Je ne me lasse pas de le relire. C'est comme un cadeau de Noël !"});
                 },
                 "texte2": "Répondre au mail du concours",
                 "cb2": function () {
                     if (jeu._model.etape === "termine") {
-                        jeu.texte("Et voilà, je suis inscrit ! Muhahaha, que j'ai hâte !", function () {
+                        jeu.texte({"texte":"Et voilà, je suis inscrit ! Muhahaha, que j'ai hâte !", "cb":function () {
                             jeu.scene("fin");
-                        });
+                        }});
                     } else {
-                        jeu.texte("Mon robot n'est pas encore prêt ! Il faut d'abord que je le termine.");
+                        jeu.texte({"texte":"Mon robot n'est pas encore prêt ! Il faut d'abord que je le termine."});
                     }
                 },
                 "texte3": "Quitter",
@@ -220,7 +221,7 @@ Chambre.prototype._utiliserOrdinateur = function (jeu) {
         },
         "texte2": "Navigateur web...",
         "cb2": function () {
-            jeu.texte("Je n'ai rien à rechercher, et je n'ai pas de temps à perdre avec des vidéos de chat pour le moment : je dois terminer mon robot !");
+            jeu.texte({"texte":"Je n'ai rien à rechercher, et je n'ai pas de temps à perdre avec des vidéos de chat pour le moment : je dois terminer mon robot !"});
         },
         "texte3": "Concevoir un plan...",
         "cb3": function () {
@@ -237,16 +238,16 @@ Chambre.prototype._utiliserOrdinateur = function (jeu) {
                         && jeu.inventaireContient("inv_moustikiller")
                         && jeu.inventaireContient("inv_carte")
                     ) {
-                        jeu.texte("J'ai assez d'idées. Je dois choisir le chassis, le blindage, l'arme et le contrôleur qui ensemble formeront mon supra robot de combat.", function () {
+                        jeu.texte({"texte":"J'ai assez d'idées. Je dois choisir le chassis, le blindage, l'arme et le contrôleur qui ensemble formeront mon supra robot de combat.", "cb":function () {
                             that._conceptionChassis(jeu);
-                        });
+                        }});
                     } else {
-                        jeu.texte("Il me faut plus d'idées avant de commencer à concevoir un plan.");
+                        jeu.texte({"texte":"Il me faut plus d'idées avant de commencer à concevoir un plan."});
                     }
                     break;
                 }
                 case "collecte": {
-                    jeu.texte("J'ai le plan : il me faut maintenant l'aspirateur-robot, la plaque de tôle découpée, la scie circulaire et la carte électronique.");
+                    jeu.texte({"texte":"J'ai le plan : il me faut maintenant l'aspirateur-robot, la plaque de tôle découpée, la scie circulaire et la carte électronique."});
                     break;
                 }
                 default:
@@ -331,9 +332,9 @@ Chambre.prototype._conceptionFinale = function (jeu, plan) {
         case "vpsc":
         case "vpcm":
         case "vpcc":
-            jeu.texte("J'ai peur que la passoire ne protège pas assez.\nRecommençons !", function () {
+            jeu.texte({"texte":"J'ai peur que la passoire ne protège pas assez.\nRecommençons !", "cb":function () {
                 that._conceptionChassis(jeu);
-            });
+            }});
             break;
         case "abpm":
         case "abpc":
@@ -343,33 +344,33 @@ Chambre.prototype._conceptionFinale = function (jeu, plan) {
         case "vbpc":
         case "vtpm":
         case "vtpc":
-            jeu.texte("La perceuse, c'est un peu léger comme arme.\nRecommençons !", function () {
+            jeu.texte({"texte":"La perceuse, c'est un peu léger comme arme.\nRecommençons !", "cb":function () {
                 that._conceptionChassis(jeu);
-            });
+            }});
             break;
         case "absm":
         case "absc":
-            jeu.texte("Pas mal. Mais si on m'attaque au chalumeau ?\nRecommençons !", function () {
+            jeu.texte({"texte":"Pas mal. Mais si on m'attaque au chalumeau ?\nRecommençons !", "cb":function () {
                 that._conceptionChassis(jeu);
-            });
+            }});
             break;
         case "abcm":
         case "vbcm":
         case "abcc":
         case "vbcc":
-            jeu.texte("Une protection en bois avec un chalumeau ? Pas l'idée du siècle...\nRecommençons !", function () {
+            jeu.texte({"texte":"Une protection en bois avec un chalumeau ? Pas l'idée du siècle...\nRecommençons !", "cb":function () {
                 that._conceptionChassis(jeu);
-            });
+            }});
             break;
         case "atsm":
-            jeu.texte("Ça me plaît... mais j'aimerais avoir le contrôle, et je ne sais pas trop comment réagit le Moustikiller.\nRecommençons !", function () {
+            jeu.texte({"texte":"Ça me plaît... mais j'aimerais avoir le contrôle, et je ne sais pas trop comment réagit le Moustikiller.\nRecommençons !", "cb":function () {
                 that._conceptionChassis(jeu);
-            });
+            }});
             break;
         case "atsc": {
-            jeu.texte("Ouais, ça tient la route ! L'aspirateur est robuste, la tôle offrira une bonne protection, la scie circulaire sera meurtrière et je pourrai le programmer comme je le souhaite.", function () {
-                jeu.texte("Il me faut maintenant rassembler tous les éléments nécessaires, découper la tôle suivant mes plans et assembler le robot !");
-            });
+            jeu.texte({"texte":"Ouais, ça tient la route ! L'aspirateur est robuste, la tôle offrira une bonne protection, la scie circulaire sera meurtrière et je pourrai le programmer comme je le souhaite.", "cb":function () {
+                jeu.texte({"texte":"Il me faut maintenant rassembler tous les éléments nécessaires, découper la tôle suivant mes plans et assembler le robot !"});
+            }});
             jeu._model.etape = "collecte";
             jeu.inventaireRetire("inv_aspirobot");
             jeu.inventaireRetire("inv_voiture");
@@ -385,23 +386,23 @@ Chambre.prototype._conceptionFinale = function (jeu, plan) {
         }
         case "atcm":
         case "atcc":
-            jeu.texte("C'est bien, mais je doute sur le chalumeau. C'est impressionnant, mais est-ce vraiment si destructeur ?\nRecommençons !", function () {
+            jeu.texte({"texte":"C'est bien, mais je doute sur le chalumeau. C'est impressionnant, mais est-ce vraiment si destructeur ?\nRecommençons !", "cb":function () {
                 that._conceptionChassis(jeu);
-            });
+            }});
             break;
         case "vbsm":
         case "vbsc":
-            jeu.texte("Ça fait un robot rapide et réactif, mais peut-être un peu léger pour tenir le choc face à des adversaires plus costauds.\nRecommençons !", function () {
+            jeu.texte({"texte":"Ça fait un robot rapide et réactif, mais peut-être un peu léger pour tenir le choc face à des adversaires plus costauds.\nRecommençons !", "cb":function () {
                 that._conceptionChassis(jeu);
-            });
+            }});
             break;
         case "vtsm":
         case "vtsc":
         case "vtcm":
         case "vtcc":
-            jeu.texte("Ma petite voiture télécommandée ne supportera pas le poids de la tôle. Il me faut un chassis plus robuste ou un blindage pluis léger.\nRecommençons !", function () {
+            jeu.texte({"texte":"Ma petite voiture télécommandée ne supportera pas le poids de la tôle. Il me faut un chassis plus robuste ou un blindage pluis léger.\nRecommençons !", "cb":function () {
                 that._conceptionChassis(jeu);
-            });
+            }});
             break;
     }
 }
