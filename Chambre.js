@@ -177,7 +177,7 @@ Chambre.prototype.affiche = function (jeu) {
                     jeu.texte("Je ne vais rien prendre pour l'instant, j'attends de savoir ce qu'il me faut.");
                 } else {
                     jeu.texte("Je prends la carte électronique.", function () {
-                        jeu.inventaireAjoute("carte");
+                        jeu.inventaireAjoute("inv_carte");
                         jeu._model.chambre.cartePrise = true;
                     });
                 }
@@ -190,15 +190,6 @@ Chambre.prototype.affiche = function (jeu) {
         });
         jeu._model.debut = true;
         jeu._model.etape = "recherche";
-        // TODO test
-        jeu.inventaireAjoute("inv_aspirobot");
-        jeu.inventaireAjoute("inv_passoire");
-        jeu.inventaireAjoute("inv_planches");
-        jeu.inventaireAjoute("inv_tole");
-        jeu.inventaireAjoute("inv_perceuse");
-        jeu.inventaireAjoute("inv_scie");
-        jeu.inventaireAjoute("inv_chalumeau");
-        jeu.inventaireAjoute("inv_moustikiller");
     }
 };
 Chambre.prototype._utiliserOrdinateur = function (jeu) {
@@ -315,13 +306,13 @@ Chambre.prototype._conceptionArme = function (jeu, plan) {
 Chambre.prototype._conceptionControleur = function (jeu, plan) {
     let that = this;
     jeu.choix({
-        "texte1": "Contrôleur : contrôleur du mousti-killer",
+        "texte1": "Contrôleur : carte électronique",
         "cb1": function () {
-            that._conceptionFinale(jeu, plan + "m");
-        },
-        "texte2": "Contrôleur : carte électronique",
-        "cb2": function () {
             that._conceptionFinale(jeu, plan + "c");
+        },
+        "texte2": "Contrôleur : contrôleur du mousti-killer",
+        "cb2": function () {
+            that._conceptionFinale(jeu, plan + "m");
         }
     });
 }
