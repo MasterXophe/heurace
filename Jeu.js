@@ -111,6 +111,9 @@ Jeu.prototype.texte = function(texte) {
     this._texte = texte;
 }
 Jeu.prototype.choix = function(choix) {
+    if(!choix.qui) {
+        choix.qui = this.sprites[this.quiDefaut];
+    }
     this._choix = choix;
 }
 Jeu.prototype.scene = function(sceneNom) {
@@ -133,8 +136,8 @@ Jeu.prototype._afficheTexte = function() {
     this._jeuCtx.fillRect(0, 480, 640, 79);
     this._jeuCtx.fillStyle = "black";
     this._jeuCtx.strokeRect(4, 488, 64, 64);
-    this._jeuCtx.fillStyle = "black";
     this._jeuCtx.drawImage(this._texte.qui, 0, 0, this._texte.qui.width, this._texte.qui.height, 6, 490, 60, 60);
+    this._jeuCtx.fillStyle = "black";
     this.fillText(this._texte.texte, 80, 480, 556);
     this._jeuCtx.fillStyle = "gray";
     this._jeuCtx.fillText("(cliquer pour continuer)", 460, 540);
@@ -143,30 +146,32 @@ Jeu.prototype._afficheChoix = function() {
     this._jeuCtx.fillStyle = "white";
     this._jeuCtx.fillRect(0, 480, 640, 79);
     this._jeuCtx.fillStyle = "black";
-    this._jeuCtx.strokeStyle = "black";
-    this._jeuCtx.fillText("> " + this._choix.texte1, 10, 480);
+    this._jeuCtx.strokeRect(4, 488, 64, 64);
+    this._jeuCtx.drawImage(this._choix.qui, 0, 0, this._choix.qui.width, this._choix.qui.height, 6, 490, 60, 60);
+    this._jeuCtx.fillStyle = "black";
+    this._jeuCtx.fillText("> " + this._choix.texte1, 80, 480);
     this._masqueCtx.fillStyle = "#ffff80";
-    this._masqueCtx.fillRect(10, 480, 630, 20);
+    this._masqueCtx.fillRect(80, 480, 630, 20);
     let cb = this._choixCbHelper("cb1");
     this.definitObjet("ffff80", cb, cb, function() { return "usea"; });
     if(this._choix.texte2) {
-        this._jeuCtx.fillText("> " + this._choix.texte2, 10, 500);
+        this._jeuCtx.fillText("> " + this._choix.texte2, 80, 500);
         this._masqueCtx.fillStyle = "#ffff90";
-        this._masqueCtx.fillRect(10, 500, 630, 20);
+        this._masqueCtx.fillRect(80, 500, 630, 20);
         let cb = this._choixCbHelper("cb2");
         this.definitObjet("ffff90", cb, cb, function() { return "usea"; });
     }
     if(this._choix.texte3) {
-        this._jeuCtx.fillText("> " + this._choix.texte3, 10, 520);
+        this._jeuCtx.fillText("> " + this._choix.texte3, 80, 520);
         this._masqueCtx.fillStyle = "#ffffa0";
-        this._masqueCtx.fillRect(10, 520, 630, 20);
+        this._masqueCtx.fillRect(80, 520, 630, 20);
         let cb = this._choixCbHelper("cb3");
         this.definitObjet("ffffa0", cb, cb, function() { return "usea"; });
     }
     if(this._choix.texte4) {
-        this._jeuCtx.fillText("> " + this._choix.texte4, 10, 540);
+        this._jeuCtx.fillText("> " + this._choix.texte4, 80, 540);
         this._masqueCtx.fillStyle = "#ffffb0";
-        this._masqueCtx.fillRect(10, 540, 630, 20);
+        this._masqueCtx.fillRect(80, 540, 630, 20);
         let cb = this._choixCbHelper("cb4");
         this.definitObjet("ffffb0", cb, cb, function() { return "usea"; });
     }

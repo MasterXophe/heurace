@@ -195,10 +195,11 @@ Chambre.prototype.affiche = function (jeu) {
 Chambre.prototype._utiliserOrdinateur = function (jeu) {
     let that = this;
     jeu.choix({
-        "qui":"inv_ordinateur",
+        "qui":this.sprites.chambre_ordinateur,
         "texte1": "Mail...",
         "cb1": function () {
             jeu.choix({
+                "qui":that.sprites.chambre_ordinateur,
                 "texte1": "Lire le mail du concours",
                 "cb1": function () {
                     jeu.texte({"texte":"Je ne me lasse pas de le relire. C'est comme un cadeau de Noël !"});
@@ -260,6 +261,7 @@ Chambre.prototype._utiliserOrdinateur = function (jeu) {
 Chambre.prototype._conceptionChassis = function (jeu) {
     let that = this;
     jeu.choix({
+        "qui":this.sprites.chambre_ordinateur,
         "texte1": "Chassis : aspirateur-robot",
         "cb1": function () {
             that._conceptionBlindage(jeu, "a");
@@ -273,6 +275,7 @@ Chambre.prototype._conceptionChassis = function (jeu) {
 Chambre.prototype._conceptionBlindage = function (jeu, plan) {
     let that = this;
     jeu.choix({
+        "qui":this.sprites.chambre_ordinateur,
         "texte1": "Blindage : passoire",
         "cb1": function () {
             that._conceptionArme(jeu, plan + "p");
@@ -290,6 +293,7 @@ Chambre.prototype._conceptionBlindage = function (jeu, plan) {
 Chambre.prototype._conceptionArme = function (jeu, plan) {
     let that = this;
     jeu.choix({
+        "qui":this.sprites.chambre_ordinateur,
         "texte1": "Arme : perceuse",
         "cb1": function () {
             that._conceptionControleur(jeu, plan + "p");
@@ -307,6 +311,7 @@ Chambre.prototype._conceptionArme = function (jeu, plan) {
 Chambre.prototype._conceptionControleur = function (jeu, plan) {
     let that = this;
     jeu.choix({
+        "qui":this.sprites.chambre_ordinateur,
         "texte1": "Contrôleur : carte électronique",
         "cb1": function () {
             that._conceptionFinale(jeu, plan + "c");
