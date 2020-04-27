@@ -9,6 +9,7 @@
     <script src="Jeu.js" charset="utf-8"></script>
     <script src="Chambre.js" charset="utf-8"></script>
     <script src="Salon.js" charset="utf-8"></script>
+    <script src="Atelier.js" charset="utf-8"></script>
     <script src="Objects.js" charset="utf-8"></script>
 </head>
 <body onload="onload();">
@@ -23,7 +24,7 @@
         jeuCanvas.height = 560;
         jeu = new Jeu(
             jeuCanvas,
-            [new Chambre(), new Salon()],
+            [new Chambre(), new Salon(), new Atelier()],
             OBJECTS,
             "heurace",
             function() {

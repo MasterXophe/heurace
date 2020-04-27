@@ -29,17 +29,7 @@ Salon.prototype.affiche = function (jeu) {
             jeu.texte({"texte":"L'atelier de mon père."});
         },
         function (jeu) {
-            if (jeu._model.etape === "recherche") {
-                jeu.texte({"texte":"Il y a plein de choses, c'est autant d'idées."});
-                jeu.inventaireAjoute("inv_planches");
-                jeu.inventaireAjoute("inv_tole");
-                jeu.inventaireAjoute("inv_perceuse");
-                jeu.inventaireAjoute("inv_scie");
-                jeu.inventaireAjoute("inv_chalumeau");
-                jeu.inventaireAjoute("inv_moustikiller");
-            } else {
-                jeu.texte({"texte":"Je ne peux pas y aller."});
-            }
+            jeu.scene("atelier");
         }
     );
     jeu.ajouteObjet(
@@ -148,7 +138,7 @@ Salon.prototype.affiche = function (jeu) {
                 if (jeu._model.etape === "recherche") {
                     jeu.texte({"texte":"Pour l'instant, je cherche des idées, je ne prends rien."});
                 } else {
-                    jeu.texte({"texte":"Laisse cet aspirateur tranquille ! Il est très bien comme il est !"});
+                    jeu.texte({"qui":that.sprites.maman, "texte":"Laisse cet aspirateur tranquille ! Il est très bien comme il est !"});
                 }
             }
         );

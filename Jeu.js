@@ -128,7 +128,11 @@ Jeu.prototype._choixCbHelper = function(cbNom) {
     return function() {
         let cb = that["_choix"][cbNom];
         that._choix = null;
-        cb(that);
+        if(cb != null) {
+            cb(that);
+        } else {
+            that._affiche();
+        }
     }
 }
 Jeu.prototype._afficheTexte = function() {
