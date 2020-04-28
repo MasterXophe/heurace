@@ -77,6 +77,7 @@ Atelier.prototype.affiche = function(jeu) {
         function(jeu) {
             if(jeu._model.atelier.papaCasiers) {
                 jeu.texte({"qui": jeu.sprites.qui.papa, "texte": "Pas touche à mes casiers !"});
+                return;
             }
             if(jeu._model.atelier.casiersDeranges) {
                 jeu.texte({"texte": "J'y ai assez mis le bazar comme ça."});
