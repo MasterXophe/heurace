@@ -33,7 +33,7 @@ Chambre.prototype.affiche = function(jeu) {
         0,
         88,
         function(jeu) {
-            jeu.texte({"texte": "La porte de ma chambre. Derrière, c'est le salon."});
+            jeu.scene("salon");
         },
         function(jeu) {
             jeu.scene("salon");
