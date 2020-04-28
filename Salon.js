@@ -108,15 +108,18 @@ Salon.prototype.affiche = function(jeu) {
         },
         function(jeu) {
             jeu.choix({
-                "texte1": "Maman, tu sais où est l'aspirateur-robot ?",
-                "cb1": function(jeu) {
-                    jeu.texte({
-                        "qui": that.sprites.maman,
-                        "texte": "Je ne sais pas, peut-être sous le meuble de la chaîne, il se coince parfois dessous."
-                    });
-                    jeu._model.salon.robotSousMeuble = true;
-                },
-                "texte2": "Non, rien."
+                "choix": [{
+                    "texte": "Maman, tu sais où est l'aspirateur-robot ?",
+                    "cb": function(jeu) {
+                        jeu.texte({
+                            "qui": that.sprites.maman,
+                            "texte": "Je ne sais pas, peut-être sous le meuble de la chaîne, il se coince parfois dessous."
+                        });
+                        jeu._model.salon.robotSousMeuble = true;
+                    }
+                }, {
+                    "texte": "Non, rien."
+                }]
             });
         }
     );

@@ -102,16 +102,19 @@ Atelier.prototype.affiche = function(jeu) {
                 return;
             }
             jeu.choix({
-                "texte1": "Et si je dérangeais un truc ?",
-                "cb1": function(jeu) {
-                    jeu.texte({
-                        "texte": "Ok, c'est parti, revoyons légèrement le classement par mon ordre favori : l'ordre aléatoire !",
-                        "cb": function(jeu) {
-                            jeu._model.atelier.casiersDeranges = true;
-                        }
-                    });
-                },
-                "texte2": "Je préfère ne rien toucher... Et puis pourquoi faire ça ?"
+                "choix": [{
+                    "texte": "Et si je dérangeais un truc ?",
+                    "cb": function(jeu) {
+                        jeu.texte({
+                            "texte": "Ok, c'est parti, revoyons légèrement le classement par mon ordre favori : l'ordre aléatoire !",
+                            "cb": function(jeu) {
+                                jeu._model.atelier.casiersDeranges = true;
+                            }
+                        });
+                    }
+                }, {
+                    "texte": "Je préfère ne rien toucher... Et puis pourquoi faire ça ?"
+                }]
             });
         }
     );
@@ -233,41 +236,44 @@ Atelier.prototype.affiche = function(jeu) {
         },
         function(jeu) {
             jeu.choix({
-                "texte1": "À propos de tes casiers de rangement...",
-                "cb1": function(jeu) {
-                    let choix = {
-                        "texte1": "Tu veux que je t'aide à les ranger ?",
-                            "cb1": function(jeu) {
-                            if(!jeu._model.atelier.papaCasiers) {
-                                jeu.texte({
-                                    "qui": that.sprites.papa,
-                                    "texte": "Noooooon ! Ne touche pas à mes casiers ! Ils sont déjà parfaitement rangés."
-                                });
-                            } else {
-                                jeu.texte({
-                                    "qui": that.sprites.papa,
-                                    "texte": "Non merci, je préfère m'en occuper moi-même."
-                                });
-                            }
-                        },
-                    };
-                    if(jeu._model.atelier.casiersDeranges && !jeu._model.atelier.papaCasiers) {
-                        Object.assign(choix, {
-                            "texte2": "Je vois un boulon dans les écrous et une vis dans les rondelles.",
-                            "cb2": function(jeu) {
-                                jeu.texte({
-                                    "qui": that.sprites.papa,
-                                    "texte": "Quoi !?! Laisse-moi voir ça...",
-                                    "cb": function(jeu) {
-                                        jeu._model.atelier.papaCasiers = true;
-                                    }
-                                });
-                            }
-                        });
+                "choix": [{
+                    "texte": "À propos de tes casiers de rangement...",
+                    "cb": function(jeu) {
+                        let choix = [{
+                            "texte": "Tu veux que je t'aide à les ranger ?",
+                            "cb": function(jeu) {
+                                if(!jeu._model.atelier.papaCasiers) {
+                                    jeu.texte({
+                                        "qui": that.sprites.papa,
+                                        "texte": "Noooooon ! Ne touche pas à mes casiers ! Ils sont déjà parfaitement rangés."
+                                    });
+                                } else {
+                                    jeu.texte({
+                                        "qui": that.sprites.papa,
+                                        "texte": "Non merci, je préfère m'en occuper moi-même."
+                                    });
+                                }
+                            },
+                        }];
+                        if(jeu._model.atelier.casiersDeranges && !jeu._model.atelier.papaCasiers) {
+                            choix.push({
+                                "texte": "Je vois un boulon dans les écrous et une vis dans les rondelles.",
+                                "cb": function(jeu) {
+                                    jeu.texte({
+                                        "qui": that.sprites.papa,
+                                        "texte": "Quoi !?! Laisse-moi voir ça...",
+                                        "cb": function(jeu) {
+                                            jeu._model.atelier.papaCasiers = true;
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        jeu.choix({"choix":choix});
                     }
-                    jeu.choix(choix);
-                },
-                "texte2": "Non, rien."
+                }, {
+                    "texte": "Non, rien."
+                }]
             });
         }
     );

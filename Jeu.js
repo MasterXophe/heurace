@@ -101,6 +101,10 @@ Jeu.prototype._mouseClickCb = function(e) {
     }
     this._affiche();
 }
+/**
+ * Affiche un dialogue
+ * @param texte objet avec "qui" (sprite, "quiDefaut" si aucun) et "texte" (string)
+ */
 Jeu.prototype.texte = function(texte) {
     if(!texte.texte) {
         console.error("Le texte n'a pas la propriété 'texte'");
@@ -110,7 +114,14 @@ Jeu.prototype.texte = function(texte) {
     }
     this._texte = texte;
 }
+/**
+ * Affiche jusqu'à 4 choix
+ * @param choix objet avec "qui" (sprite, "quiDefaut" si aucun) et choix (tableau d'objets avec "texte" (string) et "cb" (function))
+ */
 Jeu.prototype.choix = function(choix) {
+    if(!choix.choix) {
+        console.error("Le choix n'a pas la propriété 'choix'");
+    }
     if(!choix.qui) {
         choix.qui = this.sprites[this.quiDefaut];
     }
@@ -123,10 +134,9 @@ Jeu.prototype.scene = function(sceneNom) {
     this._model.scene = sceneNom;
     this._affiche();
 }
-Jeu.prototype._choixCbHelper = function(cbNom) {
+Jeu.prototype._choixCbHelper = function(cb) {
     let that = this;
     return function() {
-        let cb = that["_choix"][cbNom];
         that._choix = null;
         if(cb != null) {
             cb(that);
@@ -153,36 +163,36 @@ Jeu.prototype._afficheChoix = function() {
     this._jeuCtx.strokeRect(4, 488, 64, 64);
     this._jeuCtx.drawImage(this._choix.qui, 0, 0, this._choix.qui.width, this._choix.qui.height, 6, 490, 60, 60);
     this._jeuCtx.fillStyle = "black";
-    this._jeuCtx.fillText("> " + this._choix.texte1, 80, 480);
+    this._jeuCtx.fillText("> " + this._choix.choix[0].texte, 80, 480);
     this._masqueCtx.fillStyle = "#ffff80";
     this._masqueCtx.fillRect(80, 480, 630, 20);
-    let cb = this._choixCbHelper("cb1");
+    let cb = this._choixCbHelper(this._choix.choix[0].cb);
     this.definitObjet("ffff80", cb, cb, function() {
         return "usea";
     });
-    if(this._choix.texte2) {
-        this._jeuCtx.fillText("> " + this._choix.texte2, 80, 500);
+    if(this._choix.choix.length > 1) {
+        this._jeuCtx.fillText("> " + this._choix.choix[1].texte, 80, 500);
         this._masqueCtx.fillStyle = "#ffff90";
         this._masqueCtx.fillRect(80, 500, 630, 20);
-        let cb = this._choixCbHelper("cb2");
+        let cb = this._choixCbHelper(this._choix.choix[1].cb);
         this.definitObjet("ffff90", cb, cb, function() {
             return "usea";
         });
     }
-    if(this._choix.texte3) {
-        this._jeuCtx.fillText("> " + this._choix.texte3, 80, 520);
+    if(this._choix.choix.length > 2) {
+        this._jeuCtx.fillText("> " + this._choix.choix[2].texte, 80, 520);
         this._masqueCtx.fillStyle = "#ffffa0";
         this._masqueCtx.fillRect(80, 520, 630, 20);
-        let cb = this._choixCbHelper("cb3");
+        let cb = this._choixCbHelper(this._choix.choix[2].cb);
         this.definitObjet("ffffa0", cb, cb, function() {
             return "usea";
         });
     }
-    if(this._choix.texte4) {
-        this._jeuCtx.fillText("> " + this._choix.texte4, 80, 540);
+    if(this._choix.choix.length > 3) {
+        this._jeuCtx.fillText("> " + this._choix.choix[3].texte, 80, 540);
         this._masqueCtx.fillStyle = "#ffffb0";
         this._masqueCtx.fillRect(80, 540, 630, 20);
-        let cb = this._choixCbHelper("cb4");
+        let cb = this._choixCbHelper(this._choix.choix[3].cb);
         this.definitObjet("ffffb0", cb, cb, function() {
             return "usea";
         });
