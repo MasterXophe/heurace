@@ -166,8 +166,12 @@ Chambre.prototype.affiche = function (jeu) {
             153,
             function (jeu) {
                 if (jeu._model.etape === "recherche") {
-                    jeu.texte({"texte":"Une caisse avec du bazar. Ah, une carte électronique que je peux programmer ! C'est une idée."});
-                    jeu.inventaireAjoute("inv_carte");
+                    if(jeu.inventaireContient("inv_carte")) {
+                        jeu.texte({"texte": "Une caisse avec du bazar, mais rien d'autre d'intéressant."});
+                    } else {
+                        jeu.texte({"texte": "Une caisse avec du bazar. Ah, une carte électronique que je peux programmer ! C'est une idée."});
+                        jeu.inventaireAjoute("inv_carte");
+                    }
                 } else {
                     jeu.texte({"texte":"Une caisse avec du bazar. Mais du bazar rangé."});
                 }
@@ -176,10 +180,14 @@ Chambre.prototype.affiche = function (jeu) {
                 if (jeu._model.etape === "recherche") {
                     jeu.texte({"texte":"Je ne vais rien prendre pour l'instant, j'attends de savoir ce qu'il me faut."});
                 } else {
-                    jeu.texte({"texte":"Je prends la carte électronique.", "cb":function () {
-                        jeu.inventaireAjoute("inv_carte");
-                        jeu._model.chambre.cartePrise = true;
-                    }});
+                    if(!jeu.inventaireContient("inv_carte")) {
+                        jeu.texte({
+                            "texte": "Je prends la carte électronique.", "cb": function() {
+                                jeu.inventaireAjoute("inv_carte");
+                                jeu._model.chambre.cartePrise = true;
+                            }
+                        });
+                    }
                 }
             }
         );

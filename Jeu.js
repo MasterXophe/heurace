@@ -8,7 +8,7 @@ const Jeu = function(jeuCanvas, scenes, objects, quiDefaut, initCb) {
     this.sprites[quiDefaut] = null;
     this.objects = {};
     let object;
-    for(let i = 0, l = objects.length ; i < l ; i++) {
+    for(let i = 0, l = objects.length; i < l; i++) {
         object = objects[i];
         this.objects[object.nom] = object;
         this.sprites[object.nom] = null;
@@ -26,7 +26,7 @@ const Jeu = function(jeuCanvas, scenes, objects, quiDefaut, initCb) {
     }
     let spritesToLoad = [this.sprites];
     let scene;
-    for(let i = 0, l = scenes.length ; i < l ; i++) {
+    for(let i = 0, l = scenes.length; i < l; i++) {
         scene = scenes[i];
         this._scenes[scene.nom] = scene;
         this._model[scene.nom] = {};
@@ -64,7 +64,7 @@ Jeu.prototype._mouseMoveCb = function(e) {
         return;
     }
     let action = this._actions[color];
-    if (action == null) {
+    if(action == null) {
         return;
     }
     this._jeuCanvas.style.cursor = this.CURSEURS[action.curseurCb != null ? action.curseurCb(this._mode) : this._mode + "a"];
@@ -96,7 +96,7 @@ Jeu.prototype._mouseClickCb = function(e) {
         if(action.useCb != null) {
             action.useCb(this);
         } else {
-            this.texte({"texte":"Ça ne fait rien."});
+            this.texte({"texte": "Ça ne fait rien."});
         }
     }
     this._affiche();
@@ -157,27 +157,35 @@ Jeu.prototype._afficheChoix = function() {
     this._masqueCtx.fillStyle = "#ffff80";
     this._masqueCtx.fillRect(80, 480, 630, 20);
     let cb = this._choixCbHelper("cb1");
-    this.definitObjet("ffff80", cb, cb, function() { return "usea"; });
+    this.definitObjet("ffff80", cb, cb, function() {
+        return "usea";
+    });
     if(this._choix.texte2) {
         this._jeuCtx.fillText("> " + this._choix.texte2, 80, 500);
         this._masqueCtx.fillStyle = "#ffff90";
         this._masqueCtx.fillRect(80, 500, 630, 20);
         let cb = this._choixCbHelper("cb2");
-        this.definitObjet("ffff90", cb, cb, function() { return "usea"; });
+        this.definitObjet("ffff90", cb, cb, function() {
+            return "usea";
+        });
     }
     if(this._choix.texte3) {
         this._jeuCtx.fillText("> " + this._choix.texte3, 80, 520);
         this._masqueCtx.fillStyle = "#ffffa0";
         this._masqueCtx.fillRect(80, 520, 630, 20);
         let cb = this._choixCbHelper("cb3");
-        this.definitObjet("ffffa0", cb, cb, function() { return "usea"; });
+        this.definitObjet("ffffa0", cb, cb, function() {
+            return "usea";
+        });
     }
     if(this._choix.texte4) {
         this._jeuCtx.fillText("> " + this._choix.texte4, 80, 540);
         this._masqueCtx.fillStyle = "#ffffb0";
         this._masqueCtx.fillRect(80, 540, 630, 20);
         let cb = this._choixCbHelper("cb4");
-        this.definitObjet("ffffb0", cb, cb, function() { return "usea"; });
+        this.definitObjet("ffffb0", cb, cb, function() {
+            return "usea";
+        });
     }
 }
 Jeu.prototype._afficheInventaire = function() {
@@ -188,12 +196,22 @@ Jeu.prototype._afficheInventaire = function() {
     this._jeuCtx.fillStyle = "black";
     this._jeuCtx.strokeRect(4, 488, 64, 64);
     if(this._mode === "see") {
-        this.ajouteObjet(this.sprites.curseur_usea, 6, 490, function() { that._mode = "use"; }, function() {}, function() { return "usea"; }, true);
+        this.ajouteObjet(this.sprites.curseur_usea, 6, 490, function() {
+            that._mode = "use";
+        }, function() {
+        }, function() {
+            return "usea";
+        }, true);
     } else {
-        this.ajouteObjet(this.sprites.curseur_seea, 6, 490, function() {}, function() { that._mode = "see"; }, function() { return "seea"; }, true);
+        this.ajouteObjet(this.sprites.curseur_seea, 6, 490, function() {
+        }, function() {
+            that._mode = "see";
+        }, function() {
+            return "seea";
+        }, true);
     }
     let item;
-    for(let i = 0 ; i < 11 ; i++) {
+    for(let i = 0; i < 11; i++) {
         this._jeuCtx.strokeRect(80 + (i * 50), 488, 50, 50);
         if(i < this._model.inventaire.length) {
             item = this._model.inventaire[i];
@@ -218,13 +236,22 @@ Jeu.prototype._affiche = function() {
     //this._jeuCtx.putImageData(this._masqueCtx.getImageData(0, 0, 640, 560), 0, 0);
 }
 Jeu.prototype.inventaireContient = function(item) {
-    return (this._model.inventaire.findIndex(function(i) { return (i.nom === item); }) !== -1);
+    return (this._model.inventaire.findIndex(function(i) {
+        return (i.nom === item);
+    }) !== -1);
 }
 Jeu.prototype.inventaireAjoute = function(item) {
     return this._model.inventaire.push(this.objects[item]);
 }
+Jeu.prototype.inventaireAjouteUnique = function(item) {
+    if(!this.inventaireContient(item)) {
+        return this._model.inventaire.push(this.objects[item]);
+    }
+}
 Jeu.prototype.inventaireRetire = function(item) {
-    let index = this._model.inventaire.findIndex(function(i) { return (i.nom === item); });
+    let index = this._model.inventaire.findIndex(function(i) {
+        return (i.nom === item);
+    });
     if(index === -1) {
         return;
     }
@@ -245,9 +272,9 @@ Jeu.prototype.ajouteObjet = function(sprite, x, y, seeCb, useCb, curseurCb, incl
         inclutTransparent = false;
     }
     // choisit une couleur et enregistre l'action
-    let r = Math.floor(Math.random()*256);
-    let v = Math.floor(Math.random()*256);
-    let b = Math.floor(Math.random()*256);
+    let r = Math.floor(Math.random() * 256);
+    let v = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
     let couleur = this._toHex(r, v, b);
     this._actions[couleur] = {
         "curseurCb": curseurCb,
@@ -264,9 +291,9 @@ Jeu.prototype.ajouteObjet = function(sprite, x, y, seeCb, useCb, curseurCb, incl
     let spriteData = spriteCtx.getImageData(0, 0, sprite.width, sprite.height).data;
     let masqueData = this._masqueCtx.getImageData(0, 0, 640, 560);
     let masqueDataData = masqueData.data;
-    for(let sx = 0 ; sx < sprite.width ; sx++) {
-        for(let sy = 0 ; sy < sprite.height ; sy++) {
-            if (inclutTransparent || spriteData[(sy * sprite.width * 4) + (sx * 4) + 3] !== 0) {
+    for(let sx = 0; sx < sprite.width; sx++) {
+        for(let sy = 0; sy < sprite.height; sy++) {
+            if(inclutTransparent || spriteData[(sy * sprite.width * 4) + (sx * 4) + 3] !== 0) {
                 masqueDataData[((y + sy) * 2560) + ((x + sx) * 4)] = r;
                 masqueDataData[((y + sy) * 2560) + ((x + sx) * 4) + 1] = v;
                 masqueDataData[((y + sy) * 2560) + ((x + sx) * 4) + 2] = b;
@@ -287,7 +314,7 @@ Jeu.prototype._getMasqueColor = function(mouseX, mouseY) {
 }
 Jeu.prototype.fillText = function(texte, x, y, width) {
     width = width || 0;
-    if (width <= 0) {
+    if(width <= 0) {
         this._jeuCtx.fillText(texte, x, y);
         return;
     }
@@ -295,9 +322,9 @@ Jeu.prototype.fillText = function(texte, x, y, width) {
     words = words.split(" ");
     let currentLine = 0;
     let idx = 1;
-    while (words.length > 0 && idx <= words.length) {
+    while(words.length > 0 && idx <= words.length) {
         if(words[idx] === "\n") {
-            this._jeuCtx.fillText(words.slice(0, idx).join(' '), x, y + (20 * currentLine) );
+            this._jeuCtx.fillText(words.slice(0, idx).join(' '), x, y + (20 * currentLine));
             currentLine++;
             words = words.splice(idx + 1);
             idx = 1;
@@ -309,9 +336,9 @@ Jeu.prototype.fillText = function(texte, x, y, width) {
             if(idx === 1) {
                 idx = 2;
             }
-            this._jeuCtx.fillText(words.slice(0, idx - 1).join(' '), x, y + (20 * currentLine) );
+            this._jeuCtx.fillText(words.slice(0, idx - 1).join(' '), x, y + (20 * currentLine));
             currentLine++;
-            words = words.splice(idx-1);
+            words = words.splice(idx - 1);
             idx = 1;
         } else {
             idx++;
@@ -351,8 +378,8 @@ Jeu.prototype.loadSprites = function(spritesList, cb) {
 Jeu.prototype.noop = function() {
 }
 Jeu.prototype.CURSEURS = {
-    "see":"url(sprites/curseur_see.png) 32 32, pointer",
-    "seea":"url(sprites/curseur_seea.png) 32 32, pointer",
-    "use":"url(sprites/curseur_use.png) 24 14, pointer",
-    "usea":"url(sprites/curseur_usea.png) 24 14, pointer"
+    "see": "url(sprites/curseur_see.png) 32 32, pointer",
+    "seea": "url(sprites/curseur_seea.png) 32 32, pointer",
+    "use": "url(sprites/curseur_use.png) 24 14, pointer",
+    "usea": "url(sprites/curseur_usea.png) 24 14, pointer"
 }

@@ -3,8 +3,14 @@
     <meta charset="utf-8"/>
     <title>Une aventure d'Heurace : le robot de combat</title>
     <style>
-        body { background-color: black;text-align: center; }
-        h1 { color:white; }
+        body {
+            background-color: black;
+            text-align: center;
+        }
+
+        h1 {
+            color: white;
+        }
     </style>
     <script src="Jeu.js" charset="utf-8"></script>
     <script src="Chambre.js" charset="utf-8"></script>
@@ -13,11 +19,12 @@
     <script src="Objects.js" charset="utf-8"></script>
 </head>
 <body onload="onload();">
-    <h1>Une aventure d'Heurace : le robot de combat</h1>
-    <canvas id="jeuCanvas"></canvas>
+<h1>Une aventure d'Heurace : le robot de combat</h1>
+<canvas id="jeuCanvas"></canvas>
 </body>
 <script>
     let jeu = null;
+
     function onload() {
         let jeuCanvas = document.getElementById('jeuCanvas');
         jeuCanvas.width = 640;
