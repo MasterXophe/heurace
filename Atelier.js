@@ -1,39 +1,20 @@
 const Atelier = function() {
-    this.sprites = {
-        "atelier": null,
-        "atelier_affiche": null,
-        "atelier_casiers": null,
-        "atelier_chalumeau": null,
-        "atelier_masque": null,
-        "atelier_moustikiller": null,
-        "atelier_papa": null,
-        "atelier_perceuse": null,
-        "atelier_planches": null,
-        "atelier_porte": null,
-        "atelier_scie": null,
-        "atelier_tole": null,
-        "atelier_carton": null,
-        "papa": null
-    };
 }
 Atelier.prototype.nom = "atelier";
-Atelier.prototype.getSprites = function() {
-    return this.sprites;
-}
 Atelier.prototype.affiche = function(jeu) {
     let that = this;
-    jeu.afficheFond(this.sprites.atelier);
+    jeu.afficheFond(jeu.sprites.atelier.fond);
     jeu.ajouteObjet(
-        this.sprites.atelier_perceuse,
+        jeu.sprites.atelier.perceuse,
         547,
         369,
         function(jeu) {
             if(jeu._model.etape === "recherche") {
-                if(jeu.inventaireContient("inv_perceuse")) {
+                if(jeu.inventaireContient("idee_perceuse")) {
                     jeu.texte({"texte": "Une perceuse, avec la bonne mèche, ça peut faire du dégât."});
                 } else {
                     jeu.texte({"texte": "Une perceuse, avec la bonne mèche, ça peut faire du dégât. C'est une idée."});
-                    jeu.inventaireAjoute("inv_perceuse");
+                    jeu.inventaireRemplace("idee", "idee_perceuse");
                 }
             }
         },
@@ -46,7 +27,7 @@ Atelier.prototype.affiche = function(jeu) {
         }
     );
     jeu.ajouteObjet(
-        this.sprites.atelier_affiche,
+        jeu.sprites.atelier.affiche,
         393,
         108,
         function(jeu) {
@@ -54,7 +35,7 @@ Atelier.prototype.affiche = function(jeu) {
         }
     );
     jeu.ajouteObjet(
-        this.sprites.atelier_carton,
+        jeu.sprites.atelier.carton,
         394,
         269,
         function(jeu) {
@@ -62,32 +43,32 @@ Atelier.prototype.affiche = function(jeu) {
         }
     );
     jeu.ajouteObjet(
-        this.sprites.atelier_tole,
+        jeu.inventaireContient("tole") || jeu.inventaireContient("toledecoupee") ? jeu.sprites.atelier.toles2 : jeu.sprites.atelier.toles3,
         462,
         293,
         function(jeu) {
-            if(jeu.inventaireContient("inv_tole")) {
+            if(jeu.inventaireContient("idee_tole")) {
                 jeu.texte({"texte": "Des tôles en acier. Elles sont assez lourdes, et dures à découper.",});
             } else {
                 jeu.texte({"texte": "Des tôles en acier. C'est une idée.",});
-                jeu.inventaireAjoute("inv_tole");
+                jeu.inventaireRemplace("idee", "idee_tole");
             }
         },
         function(jeu) {
             if(jeu._model.etape === "recherche") {
                 jeu.texte({"texte": "Je cherche juste des idées, je ne prends rien pour l'instant."});
             } else {
-                if(jeu.inventaireContient("inv_tole") || jeu.inventaireContient("inv_toledecoupee")) {
+                if(jeu.inventaireContient("tole") || jeu.inventaireContient("toledecoupee")) {
                     jeu.texte({"texte": "J'ai déjà ce qu'il faut."});
                 } else {
                     jeu.texte({"texte": "J'en prends une."});
-                    jeu.inventaireAjoute("inv_tole");
+                    jeu.inventaireAjoute("tole");
                 }
             }
         }
     );
     jeu.ajouteObjet(
-        this.sprites.atelier_casiers,
+        jeu.sprites.atelier.casiers,
         178,
         156,
         function(jeu) {
@@ -95,7 +76,7 @@ Atelier.prototype.affiche = function(jeu) {
         },
         function(jeu) {
             if(jeu._model.atelier.papaCasiers) {
-                jeu.texte({"qui": that.sprites.papa, "texte": "Pas touche à mes casiers !"});
+                jeu.texte({"qui": jeu.sprites.qui.papa, "texte": "Pas touche à mes casiers !"});
             }
             if(jeu._model.atelier.casiersDeranges) {
                 jeu.texte({"texte": "J'y ai assez mis le bazar comme ça."});
@@ -120,7 +101,7 @@ Atelier.prototype.affiche = function(jeu) {
     );
     if(jeu._model.atelier.masqueBouge) {
         jeu.ajouteObjet(
-            this.sprites.atelier_masque,
+            jeu.sprites.atelier.masque,
             322,
             211,
             function(jeu) {
@@ -129,13 +110,13 @@ Atelier.prototype.affiche = function(jeu) {
         );
     }
     jeu.ajouteObjet(
-        this.sprites.atelier_chalumeau,
+        jeu.sprites.atelier.chalumeau,
         302,
         228,
         function(jeu) {
-            if(jeu._model.etape === "recherche" && !jeu.inventaireContient("inv_chalumeau")) {
+            if(jeu._model.etape === "recherche" && !jeu.inventaireContient("idee_chalumeau")) {
                 jeu.texte({"texte": "Oh le beau chalumeau, comme il a l'air dangereux ! C'est une idée."});
-                jeu.inventaireAjoute("inv_chalumeau");
+                jeu.inventaireRemplace("idee", "idee_chalumeau");
             } else {
                 jeu.texte({"texte": "Un beau chalumeau, bien dangereux !"});
             }
@@ -150,7 +131,7 @@ Atelier.prototype.affiche = function(jeu) {
     );
     if(!jeu._model.atelier.masqueBouge) {
         jeu.ajouteObjet(
-            this.sprites.atelier_masque,
+            jeu.sprites.atelier.masque,
             304,
             219,
             function(jeu) {
@@ -162,7 +143,7 @@ Atelier.prototype.affiche = function(jeu) {
         );
     }
     jeu.ajouteObjet(
-        this.sprites.atelier_moustikiller,
+        jeu.sprites.atelier.moustikiller,
         516,
         253,
         function(jeu) {
@@ -172,9 +153,9 @@ Atelier.prototype.affiche = function(jeu) {
                     jeu.texte({
                         "texte": "Le problème, c'est que le détecteur ne distingue pas un moustique d'un chat, et que le laser est suffisamment puissant pour tuer un chat... C'est pour ça qu'on a plus de chat.",
                         "cb": function(jeu) {
-                            if(!jeu.inventaireContient("inv_moustikiller")) {
+                            if(!jeu.inventaireContient("idee_moustikiller")) {
                                 jeu.texte({"texte": "Le contrôleur du Moustikiller est programmé pour détecter et tuer. C'est une idée."});
-                                jeu.inventaireAjoute("inv_moustikiller");
+                                jeu.inventaireRemplace("idee", "idee_moustikiller");
                             }
                         }
                     });
@@ -186,16 +167,16 @@ Atelier.prototype.affiche = function(jeu) {
         }
     );
     jeu.ajouteObjet(
-        this.sprites.atelier_planches,
+        jeu.sprites.atelier.planches,
         231,
         313,
         function(jeu) {
             if(jeu._model.etape === "recherche") {
-                if(jeu.inventaireContient("inv_planches")) {
+                if(jeu.inventaireContient("idee_planches")) {
                     jeu.texte({"texte": "Du bois, j'en prends parfois pour bricoler des cabanes. J'en prends aussi pour bricoler des trébuchets pour détruire les cabanes."});
                 } else {
                     jeu.texte({"texte": "Avec du bois, je pourrais faire une protection pour mon robot. C'est une idée."});
-                    jeu.inventaireAjoute("inv_planches");
+                    jeu.inventaireRemplace("idee", "idee_planches");
                 }
             }
         },
@@ -208,13 +189,13 @@ Atelier.prototype.affiche = function(jeu) {
         }
     );
     jeu.ajouteObjet(
-        this.sprites.atelier_scie,
+        jeu.sprites.atelier.scie,
         185,
         308,
         function(jeu) {
-            if(jeu._model.etape === "recherche" && !jeu.inventaireContient("inv_scie")) {
+            if(jeu._model.etape === "recherche" && !jeu.inventaireContient("idee_scie")) {
                 jeu.texte({"texte": "Une scie circulaire. Ça découpe n'importe quoi, souvent même ce qu'on ne veut pas. C'est une idée."});
-                jeu.inventaireAjoute("inv_scie");
+                jeu.inventaireRemplace("idee", "idee_scie");
             } else {
                 jeu.texte({"texte": "Une scie circulaire. Ça découpe n'importe quoi, souvent même ce qu'on ne veut pas."});
             }
@@ -223,12 +204,12 @@ Atelier.prototype.affiche = function(jeu) {
             if(jeu._model.etape === "recherche") {
                 jeu.texte({"texte": "Je cherche juste des idées, je ne prends rien pour l'instant."});
             } else {
-                jeu.texte({"qui": that.sprites.papa, "texte": "Ne touche pas à ça, c'est dangereux !"});
+                jeu.texte({"qui": jeu.sprites.qui.papa, "texte": "Ne touche pas à ça, c'est dangereux !"});
             }
         }
     );
     jeu.ajouteObjet(
-        this.sprites.atelier_papa,
+        jeu.sprites.atelier.papa,
         jeu._model.atelier.papaCasiers ? 199 : 532,
         jeu._model.atelier.papaCasiers ? 171 : 258,
         function(jeu) {
@@ -244,12 +225,12 @@ Atelier.prototype.affiche = function(jeu) {
                             "cb": function(jeu) {
                                 if(!jeu._model.atelier.papaCasiers) {
                                     jeu.texte({
-                                        "qui": that.sprites.papa,
+                                        "qui": jeu.sprites.qui.papa,
                                         "texte": "Noooooon ! Ne touche pas à mes casiers ! Ils sont déjà parfaitement rangés."
                                     });
                                 } else {
                                     jeu.texte({
-                                        "qui": that.sprites.papa,
+                                        "qui": jeu.sprites.qui.papa,
                                         "texte": "Non merci, je préfère m'en occuper moi-même."
                                     });
                                 }
@@ -260,7 +241,7 @@ Atelier.prototype.affiche = function(jeu) {
                                 "texte": "Je vois un boulon dans les écrous et une vis dans les rondelles.",
                                 "cb": function(jeu) {
                                     jeu.texte({
-                                        "qui": that.sprites.papa,
+                                        "qui": jeu.sprites.qui.papa,
                                         "texte": "Quoi !?! Laisse-moi voir ça...",
                                         "cb": function(jeu) {
                                             jeu._model.atelier.papaCasiers = true;
@@ -278,7 +259,7 @@ Atelier.prototype.affiche = function(jeu) {
         }
     );
     jeu.ajouteObjet(
-        this.sprites.atelier_porte,
+        jeu.sprites.atelier.porte,
         16,
         78,
         function(jeu) {

@@ -1,30 +1,11 @@
 const Chambre = function() {
-    this.sprites = {
-        "chambre": null,
-        "chambre_crayons": null,
-        "chambre_terrarium": null,
-        "chambre_livres": null,
-        "chambre_porte": null,
-        "chambre_cailloux": null,
-        "chambre_tapis": null,
-        "chambre_poster": null,
-        "chambre_fenetre": null,
-        "chambre_lit": null,
-        "chambre_tiroirlit": null,
-        "chambre_ordinateur": null,
-        "chambre_bazaravec": null,
-        "chambre_bazarsans": null
-    }
 };
 Chambre.prototype.nom = "chambre";
-Chambre.prototype.getSprites = function() {
-    return this.sprites;
-}
 Chambre.prototype.affiche = function(jeu) {
     let that = this;
-    jeu.afficheFond(this.sprites.chambre);
+    jeu.afficheFond(jeu.sprites.chambre.fond);
     jeu.ajouteObjet(
-        this.sprites.chambre_crayons,
+        jeu.sprites.chambre.crayons,
         259,
         274,
         function(jeu) {
@@ -32,7 +13,7 @@ Chambre.prototype.affiche = function(jeu) {
         }
     );
     jeu.ajouteObjet(
-        this.sprites.chambre_terrarium,
+        jeu.sprites.chambre.terrarium,
         115,
         268,
         function(jeu) {
@@ -40,7 +21,7 @@ Chambre.prototype.affiche = function(jeu) {
         }
     );
     jeu.ajouteObjet(
-        this.sprites.chambre_livres,
+        jeu.sprites.chambre.livres,
         81,
         313,
         function(jeu) {
@@ -48,7 +29,7 @@ Chambre.prototype.affiche = function(jeu) {
         }
     );
     jeu.ajouteObjet(
-        this.sprites.chambre_porte,
+        jeu.sprites.chambre.porte,
         0,
         88,
         function(jeu) {
@@ -59,7 +40,7 @@ Chambre.prototype.affiche = function(jeu) {
         }
     );
     jeu.ajouteObjet(
-        this.sprites.chambre_cailloux,
+        jeu.sprites.chambre.cailloux,
         89,
         158,
         function(jeu) {
@@ -74,7 +55,7 @@ Chambre.prototype.affiche = function(jeu) {
         }
     );
     jeu.ajouteObjet(
-        this.sprites.chambre_tapis,
+        jeu.sprites.chambre.tapis,
         158,
         363,
         function(jeu) {
@@ -82,7 +63,7 @@ Chambre.prototype.affiche = function(jeu) {
         }
     );
     jeu.ajouteObjet(
-        this.sprites.chambre_poster,
+        jeu.sprites.chambre.poster,
         431,
         94,
         function(jeu) {
@@ -90,7 +71,7 @@ Chambre.prototype.affiche = function(jeu) {
         }
     );
     jeu.ajouteObjet(
-        this.sprites.chambre_fenetre,
+        jeu.sprites.chambre.fenetre,
         566,
         103,
         function(jeu) {
@@ -106,7 +87,7 @@ Chambre.prototype.affiche = function(jeu) {
         }
     );
     jeu.ajouteObjet(
-        this.sprites.chambre_lit,
+        jeu.sprites.chambre.lit,
         490,
         293,
         function(jeu) {
@@ -118,16 +99,16 @@ Chambre.prototype.affiche = function(jeu) {
     );
     if(jeu._model.chambre.litOuvert) {
         jeu.ajouteObjet(
-            this.sprites.chambre_tiroirlit,
+            jeu.sprites.chambre.tiroirlit,
             474,
             309,
             function(jeu) {
                 if(jeu._model.chambre.tiroirCherche) {
-                    if(jeu.inventaireContient("inv_voiture")) {
+                    if(jeu.inventaireContient("idee_voiture")) {
                         jeu.texte({"texte": "J'ai bien cherché, il n'y a plus rien d'intéressant."});
                     } else {
                         jeu.texte({"texte": "Ok, je vais fouiller un peu. Oh, ma voiture télécommandée ! C'est une idée."});
-                        jeu.inventaireAjoute("inv_voiture");
+                        jeu.inventaireRemplace("idee", "idee_voiture");
                     }
                 } else {
                     jeu.texte({"texte": "Il y a beaucoup de choses dans ce tiroir. Au premier coup d'oeil, je ne vois rien d'intéressant."});
@@ -140,7 +121,7 @@ Chambre.prototype.affiche = function(jeu) {
         );
     }
     jeu.ajouteObjet(
-        this.sprites.chambre_ordinateur,
+        jeu.sprites.chambre.ordinateur,
         308,
         229,
         function(jeu) {
@@ -152,7 +133,7 @@ Chambre.prototype.affiche = function(jeu) {
     );
     if(jeu._model.chambre.cartePrise) {
         jeu.ajouteObjet(
-            this.sprites.chambre_bazarsans,
+            jeu.sprites.chambre.bazarsans,
             146,
             153,
             function(jeu) {
@@ -161,16 +142,16 @@ Chambre.prototype.affiche = function(jeu) {
         );
     } else {
         jeu.ajouteObjet(
-            this.sprites.chambre_bazaravec,
+            jeu.sprites.chambre.bazaravec,
             146,
             153,
             function(jeu) {
                 if(jeu._model.etape === "recherche") {
-                    if(jeu.inventaireContient("inv_carte")) {
+                    if(jeu.inventaireContient("idee_carte")) {
                         jeu.texte({"texte": "Une caisse avec du bazar, mais rien d'autre d'intéressant."});
                     } else {
                         jeu.texte({"texte": "Une caisse avec du bazar. Ah, une carte électronique que je peux programmer ! C'est une idée."});
-                        jeu.inventaireAjoute("inv_carte");
+                        jeu.inventaireRemplace("idee", "idee_carte");
                     }
                 } else {
                     jeu.texte({"texte": "Une caisse avec du bazar. Mais du bazar rangé."});
@@ -180,10 +161,10 @@ Chambre.prototype.affiche = function(jeu) {
                 if(jeu._model.etape === "recherche") {
                     jeu.texte({"texte": "Je ne vais rien prendre pour l'instant, j'attends de savoir ce qu'il me faut."});
                 } else {
-                    if(!jeu.inventaireContient("inv_carte")) {
+                    if(!jeu.inventaireContient("carte")) {
                         jeu.texte({
                             "texte": "Je prends la carte électronique.", "cb": function() {
-                                jeu.inventaireAjoute("inv_carte");
+                                jeu.inventaireAjoute("carte");
                                 jeu._model.chambre.cartePrise = true;
                             }
                         });
@@ -194,10 +175,13 @@ Chambre.prototype.affiche = function(jeu) {
     }
     if(!jeu._model.debut) {
         jeu.texte({
-            "qui": this.sprites.chambre_ordinateur,
+            "qui": jeu.sprites.qui.ordinateur,
             "texte": "Nouveau mail : Grand concours de robots de combat !",
-            "cb": function() {
+            "cb": function(jeu) {
                 jeu.texte({"texte": "Génialique ! Voilà un défi pour moi ! Je vais construire un robot de combat hypra-super-mortel et remporter ce concours.\nVoyons, il me faut un chassis, une arme, un blindage et un contrôleur. Je vais fouiller la maison pour voir ce que je pourrais utiliser."});
+                for(let i = 0 ; i < 10 ; i++) {
+                    jeu.inventaireAjoute("idee");
+                }
             }
         });
         jeu._model.debut = true;
@@ -207,12 +191,12 @@ Chambre.prototype.affiche = function(jeu) {
 Chambre.prototype._utiliserOrdinateur = function(jeu) {
     let that = this;
     jeu.choix({
-        "qui": this.sprites.chambre_ordinateur,
+        "qui": jeu.sprites.chambre.ordinateur,
         "choix": [{
             "texte": "Mail...",
             "cb": function() {
                 jeu.choix({
-                    "qui": that.sprites.chambre_ordinateur,
+                    "qui": jeu.sprites.chambre.ordinateur,
                     "choix": [{
                         "texte": "Lire le mail du concours",
                         "cb": function() {
@@ -249,16 +233,16 @@ Chambre.prototype._utiliserOrdinateur = function(jeu) {
             "cb": function() {
                 switch(jeu._model.etape) {
                     case "recherche": {
-                        if(jeu.inventaireContient("inv_aspirobot")
-                            && jeu.inventaireContient("inv_voiture")
-                            && jeu.inventaireContient("inv_passoire")
-                            && jeu.inventaireContient("inv_planches")
-                            && jeu.inventaireContient("inv_tole")
-                            && jeu.inventaireContient("inv_perceuse")
-                            && jeu.inventaireContient("inv_scie")
-                            && jeu.inventaireContient("inv_chalumeau")
-                            && jeu.inventaireContient("inv_moustikiller")
-                            && jeu.inventaireContient("inv_carte")
+                        if(jeu.inventaireContient("idee_aspirobot")
+                        && jeu.inventaireContient("idee_voiture")
+                        && jeu.inventaireContient("idee_passoire")
+                        && jeu.inventaireContient("idee_planches")
+                        && jeu.inventaireContient("idee_tole")
+                        && jeu.inventaireContient("idee_perceuse")
+                        && jeu.inventaireContient("idee_scie")
+                        && jeu.inventaireContient("idee_chalumeau")
+                        && jeu.inventaireContient("idee_moustikiller")
+                        && jeu.inventaireContient("idee_carte")
                         ) {
                             jeu.texte({
                                 "texte": "J'ai assez d'idées. Je dois choisir le chassis, le blindage, l'arme et le contrôleur qui ensemble formeront mon supra robot de combat.",
@@ -287,7 +271,7 @@ Chambre.prototype._utiliserOrdinateur = function(jeu) {
 Chambre.prototype._conceptionChassis = function(jeu) {
     let that = this;
     jeu.choix({
-        "qui": this.sprites.chambre_ordinateur,
+        "qui": jeu.sprites.chambre.ordinateur,
         "choix": [{
             "texte": "Chassis : aspirateur-robot",
             "cb": function() {
@@ -304,7 +288,7 @@ Chambre.prototype._conceptionChassis = function(jeu) {
 Chambre.prototype._conceptionBlindage = function(jeu, plan) {
     let that = this;
     jeu.choix({
-        "qui": this.sprites.chambre_ordinateur,
+        "qui": jeu.sprites.chambre.ordinateur,
         "choix": [{
             "texte": "Blindage : passoire",
             "cb": function() {
@@ -326,7 +310,7 @@ Chambre.prototype._conceptionBlindage = function(jeu, plan) {
 Chambre.prototype._conceptionArme = function(jeu, plan) {
     let that = this;
     jeu.choix({
-        "qui": this.sprites.chambre_ordinateur,
+        "qui": jeu.sprites.chambre.ordinateur,
         "choix": [{
             "texte": "Arme : perceuse",
             "cb": function() {
@@ -348,7 +332,7 @@ Chambre.prototype._conceptionArme = function(jeu, plan) {
 Chambre.prototype._conceptionControleur = function(jeu, plan) {
     let that = this;
     jeu.choix({
-        "qui": this.sprites.chambre_ordinateur,
+        "qui": jeu.sprites.chambre.ordinateur,
         "choix": [{
             "texte": "Contrôleur : carte électronique",
             "cb": function() {
@@ -432,16 +416,16 @@ Chambre.prototype._conceptionFinale = function(jeu, plan) {
                 }
             });
             jeu._model.etape = "collecte";
-            jeu.inventaireRetire("inv_aspirobot");
-            jeu.inventaireRetire("inv_voiture");
-            jeu.inventaireRetire("inv_passoire");
-            jeu.inventaireRetire("inv_planches");
-            jeu.inventaireRetire("inv_tole");
-            jeu.inventaireRetire("inv_perceuse");
-            jeu.inventaireRetire("inv_scie");
-            jeu.inventaireRetire("inv_chalumeau");
-            jeu.inventaireRetire("inv_moustikiller");
-            jeu.inventaireRetire("inv_carte");
+            jeu.inventaireRetire("idee_aspirobot");
+            jeu.inventaireRetire("idee_voiture");
+            jeu.inventaireRetire("idee_passoire");
+            jeu.inventaireRetire("idee_planches");
+            jeu.inventaireRetire("idee_tole");
+            jeu.inventaireRetire("idee_perceuse");
+            jeu.inventaireRetire("idee_scie");
+            jeu.inventaireRetire("idee_chalumeau");
+            jeu.inventaireRetire("idee_moustikiller");
+            jeu.inventaireRetire("idee_carte");
             return;
         }
         case "atcm":

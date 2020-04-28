@@ -1,19 +1,16 @@
-const Jeu = function(jeuCanvas, scenes, objects, quiDefaut, initCb) {
+const Jeu = function(jeuCanvas, sprites, scenes, objects, initCb) {
     let that = this;
     this._jeuCanvas = jeuCanvas;
-    this.sprites = {
+    this.sprites = Object.assign(sprites, {
         "curseur_seea": null,
         "curseur_usea": null
-    };
-    this.sprites[quiDefaut] = null;
+    });
     this.objects = {};
     let object;
     for(let i = 0, l = objects.length; i < l; i++) {
         object = objects[i];
         this.objects[object.nom] = object;
-        this.sprites[object.nom] = null;
     }
-    this.quiDefaut = quiDefaut;
     this._scenes = {};
     this._scene = null;
     this._actions = {};
@@ -24,15 +21,13 @@ const Jeu = function(jeuCanvas, scenes, objects, quiDefaut, initCb) {
         "inventaire": [],
         "inventairePage": 0
     }
-    let spritesToLoad = [this.sprites];
     let scene;
     for(let i = 0, l = scenes.length; i < l; i++) {
         scene = scenes[i];
         this._scenes[scene.nom] = scene;
         this._model[scene.nom] = {};
-        spritesToLoad.push(scene.getSprites());
     }
-    this.loadSprites(spritesToLoad, function() {
+    this.loadSprites("", this.sprites, function() {
         // créé le masque
         that._masqueCanvas = document.createElement("canvas");
         that._masqueCanvas.width = that._jeuCanvas.width;
@@ -50,6 +45,9 @@ const Jeu = function(jeuCanvas, scenes, objects, quiDefaut, initCb) {
 
         initCb(that);
     });
+}
+Jeu.prototype.setDefautQui = function(quiDefaut) {
+    this.quiDefaut = quiDefaut;
 }
 Jeu.prototype._mouseMoveCb = function(e) {
     let mouseX, mouseY;
@@ -110,7 +108,7 @@ Jeu.prototype.texte = function(texte) {
         console.error("Le texte n'a pas la propriété 'texte'");
     }
     if(!texte.qui) {
-        texte.qui = this.sprites[this.quiDefaut];
+        texte.qui = this.quiDefaut;
     }
     this._texte = texte;
 }
@@ -123,7 +121,7 @@ Jeu.prototype.choix = function(choix) {
         console.error("Le choix n'a pas la propriété 'choix'");
     }
     if(!choix.qui) {
-        choix.qui = this.sprites[this.quiDefaut];
+        choix.qui = this.quiDefaut;
     }
     this._choix = choix;
 }
@@ -225,7 +223,7 @@ Jeu.prototype._afficheInventaire = function() {
         this._jeuCtx.strokeRect(80 + (i * 50), 488, 50, 50);
         if(i < this._model.inventaire.length) {
             item = this._model.inventaire[i];
-            this.ajouteObjet(this.sprites[item.nom], 82 + (i * 50), 490, item.seeCb, item.useCb, null, true);
+            this.ajouteObjet(this.sprites.inventaire[item.nom], 82 + (i * 50), 490, item.seeCb, item.useCb, null, true);
         }
     }
 }
@@ -253,11 +251,6 @@ Jeu.prototype.inventaireContient = function(item) {
 Jeu.prototype.inventaireAjoute = function(item) {
     return this._model.inventaire.push(this.objects[item]);
 }
-Jeu.prototype.inventaireAjouteUnique = function(item) {
-    if(!this.inventaireContient(item)) {
-        return this._model.inventaire.push(this.objects[item]);
-    }
-}
 Jeu.prototype.inventaireRetire = function(item) {
     let index = this._model.inventaire.findIndex(function(i) {
         return (i.nom === item);
@@ -266,6 +259,15 @@ Jeu.prototype.inventaireRetire = function(item) {
         return;
     }
     return this._model.inventaire.splice(index, 1);
+}
+Jeu.prototype.inventaireRemplace = function(oldItem, newItem) {
+    let index = this._model.inventaire.findIndex(function(i) {
+        return (i.nom === oldItem);
+    });
+    if(index === -1) {
+        return;
+    }
+    return this._model.inventaire.splice(index, 1, this.objects[newItem]);
 }
 Jeu.prototype.afficheFond = function(fond) {
     this._jeuCtx.drawImage(fond, 0, 0);
@@ -358,17 +360,11 @@ Jeu.prototype.fillText = function(texte, x, y, width) {
         this._jeuCtx.fillText(words.join(' '), x, y + (20 * currentLine));
     }
 }
-Jeu.prototype.loadSprites = function(spritesList, cb) {
-    let that = this;
-    let sprites = spritesList.shift();
+Jeu.prototype.loadSprites = function(directory, sprites, cb) {
     let count = 0;
     let imageLoaded = function() {
         count--;
         if(count === 0) {
-            if(spritesList.length > 0) {
-                that.loadSprites(spritesList, cb);
-                return;
-            }
             cb();
         }
     };
@@ -377,16 +373,39 @@ Jeu.prototype.loadSprites = function(spritesList, cb) {
             continue;
         }
         count++;
-        let i = new Image();
-        i.addEventListener("load", imageLoaded, false);
-        i.src = "sprites/" + image + ".png";
-        i.setAttribute("crossOrigin", "");
-        sprites[image] = i;
+        if(sprites[image] != null) {
+            // sous-object
+            this.loadSprites(directory + image + "/", sprites[image], imageLoaded);
+        } else {
+            // image
+            let i = new Image();
+            i.addEventListener("load", imageLoaded, false);
+            i.src = "sprites/" + directory + image + ".png";
+            i.setAttribute("crossOrigin", "");
+            sprites[image] = i;
+        }
     }
 }
-
-Jeu.prototype.noop = function() {
-}
+Jeu.flattenObject = function(ob) {
+    let toReturn = {};
+    for(let i in ob) {
+        if(!ob.hasOwnProperty(i)) {
+            continue;
+        }
+        if((typeof ob[i]) == 'object') {
+            let flatObject = this.flattenObject(ob[i]);
+            for(let x in flatObject) {
+                if(!flatObject.hasOwnProperty(x)) {
+                    continue;
+                }
+                toReturn[i + '.' + x] = flatObject[x];
+            }
+        } else {
+            toReturn[i] = ob[i];
+        }
+    }
+    return toReturn;
+};
 Jeu.prototype.CURSEURS = {
     "see": "url(sprites/curseur_see.png) 32 32, pointer",
     "seea": "url(sprites/curseur_seea.png) 32 32, pointer",

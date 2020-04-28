@@ -16,7 +16,7 @@
     <script src="Chambre.js" charset="utf-8"></script>
     <script src="Salon.js" charset="utf-8"></script>
     <script src="Atelier.js" charset="utf-8"></script>
-    <script src="Objects.js" charset="utf-8"></script>
+    <script src="Inventaire.js" charset="utf-8"></script>
 </head>
 <body onload="onload();">
 <h1>Une aventure d'Heurace : le robot de combat</h1>
@@ -29,12 +29,81 @@
         let jeuCanvas = document.getElementById('jeuCanvas');
         jeuCanvas.width = 640;
         jeuCanvas.height = 560;
+        let SPRITES = {
+            "atelier": {
+                "fond": null,
+                "affiche": null,
+                "casiers": null,
+                "chalumeau": null,
+                "masque": null,
+                "moustikiller": null,
+                "papa": null,
+                "perceuse": null,
+                "planches": null,
+                "porte": null,
+                "scie": null,
+                "toles2": null,
+                "toles3": null,
+                "carton": null
+            },
+            "chambre": {
+                "fond": null,
+                "crayons": null,
+                "terrarium": null,
+                "livres": null,
+                "porte": null,
+                "cailloux": null,
+                "tapis": null,
+                "poster": null,
+                "fenetre": null,
+                "lit": null,
+                "tiroirlit": null,
+                "ordinateur": null,
+                "bazaravec": null,
+                "bazarsans": null
+            },
+            "inventaire": {
+                "idee": null,
+                "idee_aspirobot": null,
+                "idee_carte": null,
+                "idee_chalumeau": null,
+                "idee_moustikiller": null,
+                "idee_passoire": null,
+                "idee_perceuse": null,
+                "idee_planches": null,
+                "idee_scie": null,
+                "idee_tole": null,
+                "idee_voiture": null,
+                "aspirobot": null,
+                "carte": null,
+                "scie": null,
+                "tole": null,
+            },
+            "salon": {
+                "fond": null,
+                "porteatelier": null,
+                "portechambre": null,
+                "portecuisine": null,
+                "baseaspirobot": null,
+                "chaine": null,
+                "araignee": null,
+                "cds": null,
+                "maman": null,
+                "yeuxmaman": null,
+            },
+            "qui": {
+                "heurace": null,
+                "maman": null,
+                "papa": null
+            }
+        };
         jeu = new Jeu(
             jeuCanvas,
+            SPRITES,
             [new Chambre(), new Salon(), new Atelier()],
-            OBJECTS,
-            "heurace",
+            INVENTAIRE,
             function() {
+                jeu.setDefautQui(SPRITES.qui.heurace);
                 jeu.scene("chambre");
             }
         );
