@@ -9,7 +9,7 @@ Atelier.prototype.affiche = function(jeu) {
         547,
         369,
         function(jeu) {
-            if(jeu._model.etape === "recherche") {
+            if(jeu.model.etape === "recherche") {
                 if(jeu.inventaireContient("idee_perceuse")) {
                     jeu.texte({"texte": "Une perceuse, avec la bonne mèche, ça peut faire du dégât."});
                 } else {
@@ -19,7 +19,7 @@ Atelier.prototype.affiche = function(jeu) {
             }
         },
         function(jeu) {
-            if(jeu._model.etape === "recherche") {
+            if(jeu.model.etape === "recherche") {
                 jeu.texte({"texte": "Je cherche juste des idées, je ne prends rien pour l'instant."});
             } else {
                 jeu.texte({"texte": "Je n'ai pas le temps de faire des petits trous, je dois construire mon robot."});
@@ -55,7 +55,7 @@ Atelier.prototype.affiche = function(jeu) {
             }
         },
         function(jeu) {
-            if(jeu._model.etape === "recherche") {
+            if(jeu.model.etape === "recherche") {
                 jeu.texte({"texte": "Je cherche juste des idées, je ne prends rien pour l'instant."});
             } else {
                 if(jeu.inventaireContient("tole") || jeu.inventaireContient("toledecoupee")) {
@@ -75,11 +75,11 @@ Atelier.prototype.affiche = function(jeu) {
             jeu.texte({"texte": "Mon père passe des heures à ranger les vis, les boulons, les écrous et autres trucs bien chacun dans sa petite case."});
         },
         function(jeu) {
-            if(jeu._model.atelier.papaCasiers) {
+            if(jeu.model.atelier.papaCasiers) {
                 jeu.texte({"qui": jeu.sprites.qui.papa, "texte": "Pas touche à mes casiers !"});
                 return;
             }
-            if(jeu._model.atelier.casiersDeranges) {
+            if(jeu.model.atelier.casiersDeranges) {
                 jeu.texte({"texte": "J'y ai assez mis le bazar comme ça."});
                 return;
             }
@@ -90,7 +90,7 @@ Atelier.prototype.affiche = function(jeu) {
                         jeu.texte({
                             "texte": "Ok, c'est parti, revoyons légèrement le classement par mon ordre favori : l'ordre aléatoire !",
                             "cb": function(jeu) {
-                                jeu._model.atelier.casiersDeranges = true;
+                                jeu.model.atelier.casiersDeranges = true;
                             }
                         });
                     }
@@ -100,7 +100,7 @@ Atelier.prototype.affiche = function(jeu) {
             });
         }
     );
-    if(jeu._model.atelier.masqueBouge) {
+    if(jeu.model.atelier.masqueBouge) {
         jeu.ajouteObjet(
             jeu.sprites.atelier.masque,
             322,
@@ -115,7 +115,7 @@ Atelier.prototype.affiche = function(jeu) {
         302,
         228,
         function(jeu) {
-            if(jeu._model.etape === "recherche" && !jeu.inventaireContient("idee_chalumeau")) {
+            if(jeu.model.etape === "recherche" && !jeu.inventaireContient("idee_chalumeau")) {
                 jeu.texte({"texte": "Oh le beau chalumeau, comme il a l'air dangereux ! C'est une idée."});
                 jeu.inventaireRemplace("idee", "idee_chalumeau");
             } else {
@@ -123,14 +123,14 @@ Atelier.prototype.affiche = function(jeu) {
             }
         },
         function(jeu) {
-            if(jeu._model.etape === "recherche") {
+            if(jeu.model.etape === "recherche") {
                 jeu.texte({"texte": "Je cherche juste des idées, je ne prends rien pour l'instant."});
             } else {
                 jeu.texte({"texte": "Je n'ai pas le temps de jouer, je dois construire mon robot."});
             }
         }
     );
-    if(!jeu._model.atelier.masqueBouge) {
+    if(!jeu.model.atelier.masqueBouge) {
         jeu.ajouteObjet(
             jeu.sprites.atelier.masque,
             304,
@@ -139,7 +139,7 @@ Atelier.prototype.affiche = function(jeu) {
                 jeu.texte({"texte": "C'est un masque qui sert avec le chalumeau pour la soudure, mais je ne sais pas où est le chalumeau."});
             },
             function(jeu) {
-                jeu._model.atelier.masqueBouge = true;
+                jeu.model.atelier.masqueBouge = true;
             }
         );
     }
@@ -172,7 +172,7 @@ Atelier.prototype.affiche = function(jeu) {
         231,
         313,
         function(jeu) {
-            if(jeu._model.etape === "recherche") {
+            if(jeu.model.etape === "recherche") {
                 if(jeu.inventaireContient("idee_planches")) {
                     jeu.texte({"texte": "Du bois, j'en prends parfois pour bricoler des cabanes. J'en prends aussi pour bricoler des trébuchets pour détruire les cabanes."});
                 } else {
@@ -182,7 +182,7 @@ Atelier.prototype.affiche = function(jeu) {
             }
         },
         function(jeu) {
-            if(jeu._model.etape === "recherche") {
+            if(jeu.model.etape === "recherche") {
                 jeu.texte({"texte": "Je cherche juste des idées, je ne prends rien pour l'instant."});
             } else {
                 jeu.texte({"texte": "Je n'en ai pas besoin."});
@@ -194,7 +194,7 @@ Atelier.prototype.affiche = function(jeu) {
         185,
         308,
         function(jeu) {
-            if(jeu._model.etape === "recherche" && !jeu.inventaireContient("idee_scie")) {
+            if(jeu.model.etape === "recherche" && !jeu.inventaireContient("idee_scie")) {
                 jeu.texte({"texte": "Une scie circulaire. Ça découpe n'importe quoi, souvent même ce qu'on ne veut pas. C'est une idée."});
                 jeu.inventaireRemplace("idee", "idee_scie");
             } else {
@@ -202,7 +202,7 @@ Atelier.prototype.affiche = function(jeu) {
             }
         },
         function(jeu) {
-            if(jeu._model.etape === "recherche") {
+            if(jeu.model.etape === "recherche") {
                 jeu.texte({"texte": "Je cherche juste des idées, je ne prends rien pour l'instant."});
             } else {
                 jeu.texte({"qui": jeu.sprites.qui.papa, "texte": "Ne touche pas à ça, c'est dangereux !"});
@@ -211,11 +211,12 @@ Atelier.prototype.affiche = function(jeu) {
     );
     jeu.ajouteObjet(
         jeu.sprites.atelier.papa,
-        jeu._model.atelier.papaCasiers ? 199 : 532,
-        jeu._model.atelier.papaCasiers ? 171 : 258,
+        jeu.model.atelier.papaCasiers ? 199 : 532,
+        jeu.model.atelier.papaCasiers ? 171 : 258,
         function(jeu) {
             jeu.texte({"texte": "Mon papa, il est inventeur."});
         },
+        null,
         function(jeu) {
             jeu.choix({
                 "choix": [{
@@ -224,7 +225,7 @@ Atelier.prototype.affiche = function(jeu) {
                         let choix = [{
                             "texte": "Tu veux que je t'aide à les ranger ?",
                             "cb": function(jeu) {
-                                if(!jeu._model.atelier.papaCasiers) {
+                                if(!jeu.model.atelier.papaCasiers) {
                                     jeu.texte({
                                         "qui": jeu.sprites.qui.papa,
                                         "texte": "Noooooon ! Ne touche pas à mes casiers ! Ils sont déjà parfaitement rangés."
@@ -237,7 +238,7 @@ Atelier.prototype.affiche = function(jeu) {
                                 }
                             },
                         }];
-                        if(jeu._model.atelier.casiersDeranges && !jeu._model.atelier.papaCasiers) {
+                        if(jeu.model.atelier.casiersDeranges && !jeu.model.atelier.papaCasiers) {
                             choix.push({
                                 "texte": "Je vois un boulon dans les écrous et une vis dans les rondelles.",
                                 "cb": function(jeu) {
@@ -245,7 +246,7 @@ Atelier.prototype.affiche = function(jeu) {
                                         "qui": jeu.sprites.qui.papa,
                                         "texte": "Quoi !?! Laisse-moi voir ça...",
                                         "cb": function(jeu) {
-                                            jeu._model.atelier.papaCasiers = true;
+                                            jeu.model.atelier.papaCasiers = true;
                                         }
                                     });
                                 }
@@ -263,9 +264,7 @@ Atelier.prototype.affiche = function(jeu) {
         jeu.sprites.atelier.porte,
         16,
         78,
-        function(jeu) {
-            jeu.texte({"texte": "Le salon"});
-        },
+        null,
         function(jeu) {
             jeu.scene("salon");
         }

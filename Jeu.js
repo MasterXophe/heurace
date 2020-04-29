@@ -4,8 +4,9 @@ const Jeu = function(jeuCanvas, sprites, scenes, objects, initCb) {
     this._jeuCanvas.width = 640;
     this._jeuCanvas.height = 560;
     this.sprites = sprites;
-    this.sprites.curseur_seea = null;
-    this.sprites.curseur_usea = null;
+    this.sprites.curseur_see = null;
+    this.sprites.curseur_use = null;
+    this.sprites.curseur_talk = null;
     this.objects = {};
     let object;
     for(let i = 0, l = objects.length; i < l; i++) {
@@ -17,8 +18,8 @@ const Jeu = function(jeuCanvas, sprites, scenes, objects, initCb) {
     this._actions = {};
     this._texte = null;
     this._choix = null;
-    this._click = false;
-    this._model = {
+    this._mode = null;
+    this.model = {
         "inventaire": [],
         "inventairePage": 0
     }
@@ -26,7 +27,7 @@ const Jeu = function(jeuCanvas, sprites, scenes, objects, initCb) {
     for(let i = 0, l = scenes.length; i < l; i++) {
         scene = scenes[i];
         this._scenes[scene.nom] = scene;
-        this._model[scene.nom] = {};
+        this.model[scene.nom] = {};
     }
     this.loadSprites("", this.sprites, function() {
         // créé le masque
@@ -54,108 +55,28 @@ Jeu.prototype._mouseMoveCb = function(e) {
     let mouseX, mouseY;
     mouseX = e.offsetX;
     mouseY = e.offsetY;
-    if(this._texte != null) {
-        this._jeuCanvas.style.cursor = "text";
-        return;
-    }
-    this._jeuCanvas.style.cursor = "pointer";
+    this._jeuCanvas.style.cursor = "default";
     let color = this._getMasqueColor(mouseX, mouseY);
-    if(color === "000000") {
-        this._jeuCanvas.style.cursor = "default";
-        return;
-    }
     let action = this._actions[color];
     if(action == null) {
-        this._jeuCanvas.style.cursor = "default";
         return;
     }
-    this._jeuCanvas.style.cursor = "pointer";
+    this._jeuCanvas.style.cursor = (action.curseurCb != null ? action.curseurCb() : "pointer");
 }
 Jeu.prototype._mouseClickCb = function(e) {
-    let that = this;
     let mouseX, mouseY;
     mouseX = e.offsetX;
     mouseY = e.offsetY;
-    this._jeuCanvas.style.cursor = "default";
-    if(this._texte != null) {
-        let cb = this._texte.cb;
-        this._texte = null;
-        if(cb != null) {
-            cb(this);
-        }
-        this._affiche();
-        this._jeuCanvas.style.cursor = "default";
-        return;
-    }
     let color = this._getMasqueColor(mouseX, mouseY);
-    if(color === "000000") {
-        if(this._click) {
-            this._click = false;
-            this._affiche();
-        }
-        return;
-    }
     let action = this._actions[color];
     if(action == null) {
         return;
     }
-
-    if(this._click) {
-        action.useCb(this);
-        this._click = false;
-        this._jeuCanvas.style.cursor = "pointer";
-        this._affiche();
-    } else {
-        // vide le masque pour l'affichage du click
-        this._masqueCtx.fillStyle = "black";
-        this._masqueCtx.fillRect(0, 0, 640, 560);
-
-        // afficher le click see
-        this._jeuCtx.beginPath();
-        this._jeuCtx.arc(mouseX - 25, mouseY, 20, 0, Math.PI * 2, true);
-        this._jeuCtx.fillStyle = "white";
-        this._jeuCtx.fill();
-        this._jeuCtx.fillStyle = "black";
-        this._jeuCtx.stroke();
-        this._jeuCtx.drawImage(this.sprites.curseur_seea, 0, 0, 60, 60, mouseX - 45, mouseY - 20, 40, 40);
-        this._masqueCtx.beginPath();
-        this._masqueCtx.arc(mouseX - 25, mouseY, 20, 0, Math.PI * 2, true);
-        this._masqueCtx.fillStyle = "#ffff00";
-        this._masqueCtx.fill();
-        let cb = function() {
-            action.seeCb(that);
-        };
-        this.definitObjet("ffff00", cb, cb, function() {
-            return "usea";
-        });
-
-        // afficher le click use
-        this._jeuCtx.beginPath();
-        this._jeuCtx.arc(mouseX + 25, mouseY, 20, 0, Math.PI * 2, true);
-        this._jeuCtx.fillStyle = "white";
-        this._jeuCtx.fill();
-        this._jeuCtx.fillStyle = "black";
-        this._jeuCtx.stroke();
-        this._jeuCtx.drawImage(this.sprites.curseur_usea, 0, 0, 60, 60, mouseX + 5, mouseY - 20, 40, 40);
-        this._masqueCtx.beginPath();
-        this._masqueCtx.arc(mouseX + 25, mouseY, 20, 0, Math.PI * 2, true);
-        this._masqueCtx.fillStyle = "#ffff20";
-        this._masqueCtx.fill();
-        cb = function() {
-            if(action.useCb != null) {
-                action.useCb(that);
-            } else {
-                that.texte({"texte": "Ça ne fait rien."});
-            }
-            that._click = false;
-        };
-        this.definitObjet("ffff20", cb, cb, function() {
-            return "usea";
-        });
-
-        this._masque = this._masqueCtx.getImageData(0, 0, 640, 560).data;
-        this._click = true;
+    if(action.cb == null) {
+        return;
     }
+    action.cb(this, mouseX, mouseY);
+    this._affiche();
 }
 /**
  * Affiche un dialogue
@@ -187,21 +108,11 @@ Jeu.prototype.scene = function(sceneNom) {
     this._texte = null;
     this._choix = null;
     this._scene = this._scenes[sceneNom];
-    this._model.scene = sceneNom;
+    this.model.scene = sceneNom;
     this._affiche();
 }
-Jeu.prototype._choixCbHelper = function(cb) {
-    let that = this;
-    return function() {
-        that._choix = null;
-        if(cb != null) {
-            cb(that);
-        } else {
-            that._affiche();
-        }
-    }
-}
 Jeu.prototype._afficheTexte = function() {
+    let that = this;
     this._jeuCtx.fillStyle = "white";
     this._jeuCtx.fillRect(0, 480, 640, 79);
     this._jeuCtx.fillStyle = "black";
@@ -211,7 +122,31 @@ Jeu.prototype._afficheTexte = function() {
     this.fillText(this._texte.texte, 80, 480, 556);
     this._jeuCtx.fillStyle = "gray";
     this._jeuCtx.fillText("(cliquer pour continuer)", 460, 540);
+    this._masqueCtx.fillStyle = "#ffff00";
+    this._masqueCtx.fillRect(0, 0, 640, 560);
+    this._actions["ffff00"] = {
+        "curseurCb": function() {
+            return "text";
+        },
+        "cb": function() {
+            let cb = that._texte.cb;
+            that._texte = null;
+            if(cb != null) {
+                cb(that);
+            }
+            that._jeuCanvas.style.cursor = "default";
+        }
+    }
     this._jeuCanvas.style.cursor = "text";
+}
+Jeu.prototype._choixCbHelper = function(cb) {
+    let that = this;
+    return function() {
+        that._choix = null;
+         if(cb != null) {
+            cb(that);
+        }
+    }
 }
 Jeu.prototype._afficheChoix = function() {
     this._jeuCtx.fillStyle = "white";
@@ -221,42 +156,111 @@ Jeu.prototype._afficheChoix = function() {
     this._jeuCtx.drawImage(this._choix.qui, 0, 0, this._choix.qui.width, this._choix.qui.height, 6, 490, 60, 60);
     this._jeuCtx.fillStyle = "black";
     this._jeuCtx.fillText("> " + this._choix.choix[0].texte, 80, 480);
+    this._masqueCtx.fillStyle = "#000000";
+    this._masqueCtx.fillRect(0, 0, 640, 560);
     this._masqueCtx.fillStyle = "#ffff80";
     this._masqueCtx.fillRect(80, 480, 630, 20);
-    let cb = this._choixCbHelper(this._choix.choix[0].cb);
-    this.definitObjet("ffff80", cb, cb, function() {
-        return "usea";
-    });
+    this._actions["ffff80"] = {
+        "cb": this._choixCbHelper(this._choix.choix[0].cb)
+    };
     if(this._choix.choix.length > 1) {
         this._jeuCtx.fillText("> " + this._choix.choix[1].texte, 80, 500);
         this._masqueCtx.fillStyle = "#ffff90";
         this._masqueCtx.fillRect(80, 500, 630, 20);
-        let cb = this._choixCbHelper(this._choix.choix[1].cb);
-        this.definitObjet("ffff90", cb, cb, function() {
-            return "usea";
-        });
+        this._actions["ffff90"] = {
+            "cb": this._choixCbHelper(this._choix.choix[1].cb)
+        }
     }
     if(this._choix.choix.length > 2) {
         this._jeuCtx.fillText("> " + this._choix.choix[2].texte, 80, 520);
         this._masqueCtx.fillStyle = "#ffffa0";
         this._masqueCtx.fillRect(80, 520, 630, 20);
-        let cb = this._choixCbHelper(this._choix.choix[2].cb);
-        this.definitObjet("ffffa0", cb, cb, function() {
-            return "usea";
-        });
+        this._actions["ffffa0"] = {
+            "cb": this._choixCbHelper(this._choix.choix[2].cb)
+        }
     }
     if(this._choix.choix.length > 3) {
         this._jeuCtx.fillText("> " + this._choix.choix[3].texte, 80, 540);
         this._masqueCtx.fillStyle = "#ffffb0";
         this._masqueCtx.fillRect(80, 540, 630, 20);
-        let cb = this._choixCbHelper(this._choix.choix[3].cb);
-        this.definitObjet("ffffb0", cb, cb, function() {
-            return "usea";
-        });
+        this._actions["ffffb0"] = {
+            "cb": this._choixCbHelper(this._choix.choix[3].cb)
+        }
+    }
+}
+Jeu.prototype._afficheMode = function() {
+    let that = this;
+
+    // vide le masque pour l'affichage du click
+    this._masqueCtx.fillStyle = "black";
+    this._masqueCtx.fillRect(0, 0, 640, 560);
+    this._actions["000000"] = {
+        "curseurCb": function() {
+            return "default";
+        },
+        "cb": function() {
+            that._mode = null;
+        }
+    };
+
+    // cas particulier : si useCb mais pas seeCb, alors c'est "direct use"
+    if(this._mode.seeCb == null && this._mode.useCb != null) {
+        let cb = this._mode.useCb;
+        this._mode = null;
+        cb(this);
+        this._jeuCanvas.style.cursor = "default";
+        return;
+    }
+
+    // afficher le click see
+    if(this._mode.seeCb != null) {
+        this._jeuCtx.beginPath();
+        this._jeuCtx.arc(this._mode.mouseX - 25, this._mode.mouseY, 20, 0, Math.PI * 2, true);
+        this._jeuCtx.fillStyle = "white";
+        this._jeuCtx.fill();
+        this._jeuCtx.fillStyle = "black";
+        this._jeuCtx.stroke();
+        this._jeuCtx.drawImage(this.sprites.curseur_see, this._mode.mouseX - 45, this._mode.mouseY - 20);
+        this._masqueCtx.beginPath();
+        this._masqueCtx.arc(this._mode.mouseX - 25, this._mode.mouseY, 20, 0, Math.PI * 2, true);
+        this._masqueCtx.fillStyle = "#ffff00";
+        this._masqueCtx.fill();
+        this._actions["ffff00"] = {
+            "cb": function() {
+                that._mode.seeCb(that);
+                that._mode = null;
+                that._jeuCanvas.style.cursor = "default";
+            }
+        };
+    }
+
+    // afficher le click use/talk
+    if(this._mode.useCb != null || this._mode.talkCb != null) {
+        this._jeuCtx.beginPath();
+        this._jeuCtx.arc(this._mode.mouseX + 25, this._mode.mouseY, 20, 0, Math.PI * 2, true);
+        this._jeuCtx.fillStyle = "white";
+        this._jeuCtx.fill();
+        this._jeuCtx.fillStyle = "black";
+        this._jeuCtx.stroke();
+        this._jeuCtx.drawImage(this._mode.useCb != null ? this.sprites.curseur_use : this.sprites.curseur_talk, this._mode.mouseX + 5, this._mode.mouseY - 20);
+        this._masqueCtx.beginPath();
+        this._masqueCtx.arc(this._mode.mouseX + 25, this._mode.mouseY, 20, 0, Math.PI * 2, true);
+        this._masqueCtx.fillStyle = "#ffff10";
+        this._masqueCtx.fill();
+        this._actions["ffff10"] = {
+            "cb": function() {
+                if(that._mode.useCb != null) {
+                    that._mode.useCb(that);
+                } else {
+                    that._mode.talkCb(that);
+                }
+                that._mode = null;
+                that._jeuCanvas.style.cursor = "default";
+            }
+        };
     }
 }
 Jeu.prototype._afficheInventaire = function() {
-    let that = this;
     this._jeuCtx.fillStyle = "white";
     this._jeuCtx.fillRect(0, 480, 640, 79);
     this._texte = null;
@@ -265,8 +269,8 @@ Jeu.prototype._afficheInventaire = function() {
     let item;
     for(let i = 0; i < 11; i++) {
         this._jeuCtx.strokeRect(80 + (i * 50), 488, 50, 50);
-        if(i < this._model.inventaire.length) {
-            item = this._model.inventaire[i];
+        if(i < this.model.inventaire.length) {
+            item = this.model.inventaire[i];
             this.ajouteObjet(this.sprites.inventaire[item.nom], 82 + (i * 50), 490, item.seeCb, item.useCb, null, true);
         }
     }
@@ -280,6 +284,8 @@ Jeu.prototype._affiche = function() {
         this._afficheTexte();
     } else if(this._choix != null) {
         this._afficheChoix();
+    } else if(this._mode != null) {
+        this._afficheMode();
     } else {
         this._afficheInventaire();
     }
@@ -288,42 +294,36 @@ Jeu.prototype._affiche = function() {
 //    this._jeuCtx.putImageData(this._masqueCtx.getImageData(0, 0, 640, 560), 0, 0);
 }
 Jeu.prototype.inventaireContient = function(item) {
-    return (this._model.inventaire.findIndex(function(i) {
+    return (this.model.inventaire.findIndex(function(i) {
         return (i.nom === item);
     }) !== -1);
 }
 Jeu.prototype.inventaireAjoute = function(item) {
-    return this._model.inventaire.push(this.objects[item]);
+    return this.model.inventaire.push(this.objects[item]);
 }
 Jeu.prototype.inventaireRetire = function(item) {
-    let index = this._model.inventaire.findIndex(function(i) {
+    let index = this.model.inventaire.findIndex(function(i) {
         return (i.nom === item);
     });
     if(index === -1) {
         return;
     }
-    return this._model.inventaire.splice(index, 1);
+    return this.model.inventaire.splice(index, 1);
 }
 Jeu.prototype.inventaireRemplace = function(oldItem, newItem) {
-    let index = this._model.inventaire.findIndex(function(i) {
+    let index = this.model.inventaire.findIndex(function(i) {
         return (i.nom === oldItem);
     });
     if(index === -1) {
         return;
     }
-    return this._model.inventaire.splice(index, 1, this.objects[newItem]);
+    return this.model.inventaire.splice(index, 1, this.objects[newItem]);
 }
 Jeu.prototype.afficheFond = function(fond) {
     this._jeuCtx.drawImage(fond, 0, 0);
 }
-Jeu.prototype.definitObjet = function(couleur, seeCb, useCb, curseurCb) {
-    this._actions[couleur] = {
-        "curseurCb": curseurCb,
-        "seeCb": seeCb,
-        "useCb": useCb
-    }
-}
-Jeu.prototype.ajouteObjet = function(sprite, x, y, seeCb, useCb, curseurCb, inclutTransparent) {
+Jeu.prototype.ajouteObjet = function(sprite, x, y, seeCb, useCb, talkCb, inclutTransparent) {
+    let that = this;
     if(inclutTransparent == null) {
         inclutTransparent = false;
     }
@@ -333,9 +333,15 @@ Jeu.prototype.ajouteObjet = function(sprite, x, y, seeCb, useCb, curseurCb, incl
     let b = Math.floor(Math.random() * 256);
     let couleur = this._toHex(r, v, b);
     this._actions[couleur] = {
-        "curseurCb": curseurCb,
-        "seeCb": seeCb,
-        "useCb": useCb
+        "cb": function(jeu, mouseX, mouseY) {
+            that._mode = {
+                "seeCb": seeCb,
+                "useCb": useCb,
+                "talkCb": talkCb,
+                "mouseX": mouseX,
+                "mouseY": mouseY
+            }
+        },
     }
     this._jeuCtx.drawImage(sprite, x, y);
     // recopie le sprite dans le masque avec la couleur choisie

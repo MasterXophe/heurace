@@ -32,9 +32,7 @@ Chambre.prototype.affiche = function(jeu) {
         jeu.sprites.chambre.porte,
         0,
         88,
-        function(jeu) {
-            jeu.scene("salon");
-        },
+        null,
         function(jeu) {
             jeu.scene("salon");
         }
@@ -47,7 +45,7 @@ Chambre.prototype.affiche = function(jeu) {
             jeu.texte({"texte": "Ma collection de cailloux."});
         },
         function(jeu) {
-            if(jeu._model.etape === "recherche") {
+            if(jeu.model.etape === "recherche") {
                 jeu.texte({"texte": "Pour l'instant, je cherche juste des idées."});
                 return;
             }
@@ -75,11 +73,11 @@ Chambre.prototype.affiche = function(jeu) {
         566,
         103,
         function(jeu) {
-            if(jeu._model.chambre.fenetreRegardee) {
+            if(jeu.model.chambre.fenetreRegardee) {
                 jeu.texte({"texte": "Je ne vois rien d'intéressant dehors."});
             } else {
                 jeu.texte({"texte": "La fenêtre"});
-                jeu._model.chambre.fenetreRegardee = true;
+                jeu.model.chambre.fenetreRegardee = true;
             }
         },
         function(jeu) {
@@ -94,16 +92,16 @@ Chambre.prototype.affiche = function(jeu) {
             jeu.texte({"texte": "Mon lit. Il y a un grand tiroir dessous où je peux ranger mes inventions."});
         },
         function(jeu) {
-            jeu._model.chambre.litOuvert = !jeu._model.chambre.litOuvert;
+            jeu.model.chambre.litOuvert = !jeu.model.chambre.litOuvert;
         }
     );
-    if(jeu._model.chambre.litOuvert) {
+    if(jeu.model.chambre.litOuvert) {
         jeu.ajouteObjet(
             jeu.sprites.chambre.tiroirlit,
             474,
             309,
             function(jeu) {
-                if(jeu._model.chambre.tiroirCherche) {
+                if(jeu.model.chambre.tiroirCherche) {
                     if(jeu.inventaireContient("idee_voiture")) {
                         jeu.texte({"texte": "J'ai bien cherché, il n'y a plus rien d'intéressant."});
                     } else {
@@ -112,11 +110,11 @@ Chambre.prototype.affiche = function(jeu) {
                     }
                 } else {
                     jeu.texte({"texte": "Il y a beaucoup de choses dans ce tiroir. Au premier coup d'oeil, je ne vois rien d'intéressant."});
-                    jeu._model.chambre.tiroirCherche = true;
+                    jeu.model.chambre.tiroirCherche = true;
                 }
             },
             function(jeu) {
-                jeu._model.chambre.litOuvert = false;
+                jeu.model.chambre.litOuvert = false;
             }
         );
     }
@@ -131,7 +129,7 @@ Chambre.prototype.affiche = function(jeu) {
             that._utiliserOrdinateur(jeu);
         }
     );
-    if(jeu._model.chambre.cartePrise) {
+    if(jeu.model.chambre.cartePrise) {
         jeu.ajouteObjet(
             jeu.sprites.chambre.bazarsans,
             146,
@@ -146,7 +144,7 @@ Chambre.prototype.affiche = function(jeu) {
             146,
             153,
             function(jeu) {
-                if(jeu._model.etape === "recherche") {
+                if(jeu.model.etape === "recherche") {
                     if(jeu.inventaireContient("idee_carte")) {
                         jeu.texte({"texte": "Une caisse avec du bazar, mais rien d'autre d'intéressant."});
                     } else {
@@ -158,14 +156,14 @@ Chambre.prototype.affiche = function(jeu) {
                 }
             },
             function(jeu) {
-                if(jeu._model.etape === "recherche") {
+                if(jeu.model.etape === "recherche") {
                     jeu.texte({"texte": "Je ne vais rien prendre pour l'instant, j'attends de savoir ce qu'il me faut."});
                 } else {
                     if(!jeu.inventaireContient("carte")) {
                         jeu.texte({
                             "texte": "Je prends la carte électronique.", "cb": function() {
                                 jeu.inventaireAjoute("carte");
-                                jeu._model.chambre.cartePrise = true;
+                                jeu.model.chambre.cartePrise = true;
                             }
                         });
                     }
@@ -173,7 +171,7 @@ Chambre.prototype.affiche = function(jeu) {
             }
         );
     }
-    if(!jeu._model.debut) {
+    if(!jeu.model.debut) {
         jeu.texte({
             "qui": jeu.sprites.qui.ordinateur,
             "texte": "Nouveau mail : Grand concours de robots de combat !",
@@ -184,8 +182,8 @@ Chambre.prototype.affiche = function(jeu) {
                 }
             }
         });
-        jeu._model.debut = true;
-        jeu._model.etape = "recherche";
+        jeu.model.debut = true;
+        jeu.model.etape = "recherche";
     }
 };
 Chambre.prototype._utiliserOrdinateur = function(jeu) {
@@ -205,7 +203,7 @@ Chambre.prototype._utiliserOrdinateur = function(jeu) {
                     }, {
                         "texte": "Répondre au mail du concours",
                         "cb": function() {
-                            if(jeu._model.etape === "termine") {
+                            if(jeu.model.etape === "termine") {
                                 jeu.texte({
                                     "texte": "Et voilà, je suis inscrit ! Muhahaha, que j'ai hâte !", "cb": function() {
                                         jeu.scene("fin");
@@ -231,7 +229,7 @@ Chambre.prototype._utiliserOrdinateur = function(jeu) {
         }, {
             "texte": "Concevoir un plan...",
             "cb": function() {
-                switch(jeu._model.etape) {
+                switch(jeu.model.etape) {
                     case "recherche": {
                         if(jeu.inventaireContient("idee_aspirobot")
                         && jeu.inventaireContient("idee_voiture")
@@ -415,7 +413,7 @@ Chambre.prototype._conceptionFinale = function(jeu, plan) {
                     jeu.texte({"texte": "Il me faut maintenant rassembler tous les éléments nécessaires, découper la tôle suivant mes plans et assembler le robot !"});
                 }
             });
-            jeu._model.etape = "collecte";
+            jeu.model.etape = "collecte";
             jeu.inventaireRetire("idee_aspirobot");
             jeu.inventaireRetire("idee_voiture");
             jeu.inventaireRetire("idee_passoire");

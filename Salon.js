@@ -8,9 +8,7 @@ Salon.prototype.affiche = function(jeu) {
         jeu.sprites.salon.porteatelier,
         524,
         102,
-        function(jeu) {
-            jeu.texte({"texte": "L'atelier de mon père."});
-        },
+        null,
         function(jeu) {
             jeu.scene("atelier");
         }
@@ -19,9 +17,7 @@ Salon.prototype.affiche = function(jeu) {
         jeu.sprites.salon.portechambre,
         326,
         115,
-        function(jeu) {
-            jeu.texte({"texte": "Ma chambre."});
-        },
+        null,
         function(jeu) {
             jeu.scene("chambre");
         }
@@ -30,11 +26,9 @@ Salon.prototype.affiche = function(jeu) {
         jeu.sprites.salon.portecuisine,
         0,
         81,
+        null,
         function(jeu) {
-            jeu.texte({"texte": "La cuisine."});
-        },
-        function(jeu) {
-            if(jeu._model.etape === "recherche") {
+            if(jeu.model.etape === "recherche") {
                 if(!jeu.inventaireContient("idee_passoire")) {
                     jeu.texte({"texte": "Il y a une passoire, c'est une idée."});
                     jeu.inventaireRemplace("idee", "idee_passoire");
@@ -76,9 +70,9 @@ Salon.prototype.affiche = function(jeu) {
         121,
         279,
         function(jeu) {
-            if(jeu._model.salon.robotSousMeuble && !jeu._model.salon.robotDecoince) {
+            if(jeu.model.salon.robotSousMeuble && !jeu.model.salon.robotDecoince) {
                 jeu.texte({"texte": "Hey, l'aspirateur-robot est dessous. Je vais le décoincer."});
-                jeu._model.salon.robotDecoince = true;
+                jeu.model.salon.robotDecoince = true;
             } else {
                 jeu.texte({"texte": "La collection de CDs de mes parents, il y en a tellement ! Tout ça tient dans une clé USB, mais c'est moins joli."});
             }
@@ -91,6 +85,7 @@ Salon.prototype.affiche = function(jeu) {
         function(jeu) {
             jeu.texte({"texte": "Ma maman. Elle se repose, elle a beaucoup travaillé aujourd'hui."});
         },
+        null,
         function(jeu) {
             jeu.choix({
                 "choix": [{
@@ -100,7 +95,7 @@ Salon.prototype.affiche = function(jeu) {
                             "qui": jeu.sprites.qui.maman,
                             "texte": "Je ne sais pas, peut-être sous le meuble de la chaîne, il se coince parfois dessous."
                         });
-                        jeu._model.salon.robotSousMeuble = true;
+                        jeu.model.salon.robotSousMeuble = true;
                     }
                 }, {
                     "texte": "Non, rien."
@@ -113,13 +108,13 @@ Salon.prototype.affiche = function(jeu) {
         585,
         348
     );
-    if(jeu._model.salon.robotDecoince) {
+    if(jeu.model.salon.robotDecoince) {
         jeu.ajouteObjet(
             jeu.sprites.inventaire.aspirobot,
             150,
             345,
             function(jeu) {
-                if(jeu._model.etape === "recherche" && !jeu.inventaireContient("idee_aspirobot")) {
+                if(jeu.model.etape === "recherche" && !jeu.inventaireContient("idee_aspirobot")) {
                     jeu.texte({"texte": "L'apirateur-robot a des capteurs de proximité, un moteur, une bonne batterie... C'est une idée."});
                     jeu.inventaireRemplace("idee", "idee_aspirobot");
                 } else {
@@ -127,7 +122,7 @@ Salon.prototype.affiche = function(jeu) {
                 }
             },
             function(jeu) {
-                if(jeu._model.etape === "recherche") {
+                if(jeu.model.etape === "recherche") {
                     jeu.texte({"texte": "Pour l'instant, je cherche des idées, je ne prends rien."});
                 } else {
                     jeu.texte({
