@@ -4,9 +4,9 @@ const Jeu = function(jeuCanvas, sprites, scenes, objects, initCb) {
     this._jeuCanvas.width = 640;
     this._jeuCanvas.height = 560;
     this.sprites = sprites;
-    this.sprites.curseur_see = null;
-    this.sprites.curseur_use = null;
-    this.sprites.curseur_talk = null;
+    this.sprites.see = null;
+    this.sprites.use = null;
+    this.sprites.talk = null;
     this.objects = {};
     let object;
     for(let i = 0, l = objects.length; i < l; i++) {
@@ -220,7 +220,7 @@ Jeu.prototype._afficheMode = function() {
         this._jeuCtx.fill();
         this._jeuCtx.fillStyle = "black";
         this._jeuCtx.stroke();
-        this._jeuCtx.drawImage(this.sprites.curseur_see, this._mode.mouseX - 45, this._mode.mouseY - 20);
+        this._jeuCtx.drawImage(this.sprites.see, this._mode.mouseX - 45, this._mode.mouseY - 20);
         this._masqueCtx.beginPath();
         this._masqueCtx.arc(this._mode.mouseX - 25, this._mode.mouseY, 20, 0, Math.PI * 2, true);
         this._masqueCtx.fillStyle = "#ffff00";
@@ -242,7 +242,7 @@ Jeu.prototype._afficheMode = function() {
         this._jeuCtx.fill();
         this._jeuCtx.fillStyle = "black";
         this._jeuCtx.stroke();
-        this._jeuCtx.drawImage(this._mode.useCb != null ? this.sprites.curseur_use : this.sprites.curseur_talk, this._mode.mouseX + 5, this._mode.mouseY - 20);
+        this._jeuCtx.drawImage(this._mode.useCb != null ? this.sprites.use : this.sprites.talk, this._mode.mouseX + 5, this._mode.mouseY - 20);
         this._masqueCtx.beginPath();
         this._masqueCtx.arc(this._mode.mouseX + 25, this._mode.mouseY, 20, 0, Math.PI * 2, true);
         this._masqueCtx.fillStyle = "#ffff10";
