@@ -129,7 +129,7 @@ Chambre.prototype.affiche = function(jeu) {
             that._utiliserOrdinateur(jeu);
         }
     );
-    if(jeu.model.chambre.cartePrise) {
+    if(jeu.inventaireContient("carte")) {
         jeu.ajouteObjet(
             jeu.sprites.chambre.bazarsans,
             146,
@@ -162,8 +162,7 @@ Chambre.prototype.affiche = function(jeu) {
                     if(!jeu.inventaireContient("carte")) {
                         jeu.texte({
                             "texte": "Je prends la carte électronique.", "cb": function() {
-                                jeu.inventaireAjoute("carte");
-                                jeu.model.chambre.cartePrise = true;
+                                jeu.inventaireRemplace("objectif_carte", "carte");
                             }
                         });
                     }
@@ -177,7 +176,7 @@ Chambre.prototype.affiche = function(jeu) {
             "texte": "Nouveau mail : Grand concours de robots de combat !",
             "cb": function(jeu) {
                 jeu.texte({"texte": "Génialique ! Voilà un défi pour moi ! Je vais construire un robot de combat hypra-super-mortel et remporter ce concours.\nVoyons, il me faut un chassis, une arme, un blindage et un contrôleur. Je vais fouiller la maison pour voir ce que je pourrais utiliser."});
-                for(let i = 0 ; i < 10 ; i++) {
+                for(let i = 0; i < 10; i++) {
                     jeu.inventaireAjoute("idee");
                 }
             }
@@ -224,6 +223,24 @@ Chambre.prototype._utiliserOrdinateur = function(jeu) {
         }, {
             "texte": "Navigateur web...",
             "cb": function() {
+                if(jeu.model.mamanChanson === "titre") {
+                    jeu.choix({
+                        "choix": [{
+                            "texte": "Recherche : morgen band couple balade fjord",
+                            "cb": function(jeu) {
+                                jeu.texte({
+                                    "qui": jeu.sprites.qui.ordinateur,
+                                    "texte": "Morgen Mergen par Mørgen band, de l'album Margen Murgen (1997).",
+                                    "cb": function(jeu) {
+                                        jeu.texte({"texte":"Voila, j'ai trouvé !"});
+                                        jeu.model.mamanChanson = "trouve";
+                                    }
+                                });
+                            }
+                        }]
+                    });
+                    return;
+                }
                 jeu.texte({"texte": "Je n'ai rien à rechercher, et je n'ai pas de temps à perdre avec des vidéos de chat pour le moment : je dois terminer mon robot !"});
             }
         }, {
@@ -232,15 +249,15 @@ Chambre.prototype._utiliserOrdinateur = function(jeu) {
                 switch(jeu.model.etape) {
                     case "recherche": {
                         if(jeu.inventaireContient("idee_aspirobot")
-                        && jeu.inventaireContient("idee_voiture")
-                        && jeu.inventaireContient("idee_passoire")
-                        && jeu.inventaireContient("idee_planches")
-                        && jeu.inventaireContient("idee_tole")
-                        && jeu.inventaireContient("idee_perceuse")
-                        && jeu.inventaireContient("idee_scie")
-                        && jeu.inventaireContient("idee_chalumeau")
-                        && jeu.inventaireContient("idee_moustikiller")
-                        && jeu.inventaireContient("idee_carte")
+                            && jeu.inventaireContient("idee_voiture")
+                            && jeu.inventaireContient("idee_passoire")
+                            && jeu.inventaireContient("idee_planches")
+                            && jeu.inventaireContient("idee_tole")
+                            && jeu.inventaireContient("idee_perceuse")
+                            && jeu.inventaireContient("idee_scie")
+                            && jeu.inventaireContient("idee_chalumeau")
+                            && jeu.inventaireContient("idee_moustikiller")
+                            && jeu.inventaireContient("idee_carte")
                         ) {
                             jeu.texte({
                                 "texte": "J'ai assez d'idées. Je dois choisir le chassis, le blindage, l'arme et le contrôleur qui ensemble formeront mon supra robot de combat.",
@@ -424,6 +441,10 @@ Chambre.prototype._conceptionFinale = function(jeu, plan) {
             jeu.inventaireRetire("idee_chalumeau");
             jeu.inventaireRetire("idee_moustikiller");
             jeu.inventaireRetire("idee_carte");
+            jeu.inventaireAjoute("objectif_aspirobot");
+            jeu.inventaireAjoute("objectif_toledecoupee");
+            jeu.inventaireAjoute("objectif_scie");
+            jeu.inventaireAjoute("objectif_carte");
             return;
         }
         case "atcm":

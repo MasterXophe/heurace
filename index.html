@@ -16,6 +16,7 @@
     <script src="Chambre.js" charset="utf-8"></script>
     <script src="Salon.js" charset="utf-8"></script>
     <script src="Atelier.js" charset="utf-8"></script>
+    <script src="Cuisine.js" charset="utf-8"></script>
     <script src="Inventaire.js" charset="utf-8"></script>
 </head>
 <body onload="onload();">
@@ -60,6 +61,18 @@
                 "bazaravec": null,
                 "bazarsans": null
             },
+            "cuisine": {
+                "fond": null,
+                "blender": null,
+                "blendercailloux": null,
+                "blendercasse": null,
+                "blendercassecailloux": null,
+                "blendermarche": null,
+                "bouilloirechaude": null,
+                "carnet": null,
+                "passoire": null,
+                "portesalon": null
+            },
             "inventaire": {
                 "idee": null,
                 "idee_aspirobot": null,
@@ -72,10 +85,20 @@
                 "idee_scie": null,
                 "idee_tole": null,
                 "idee_voiture": null,
+                "objectif_aspirobot": null,
+                "objectif_toledecoupee": null,
+                "objectif_scie": null,
+                "objectif_carte": null,
                 "aspirobot": null,
                 "carte": null,
                 "scie": null,
                 "tole": null,
+                "cd": null,
+                "bouilloire": null,
+                "bouilloirepleine": null,
+                "potmiel": null,
+                "potfourmis": null,
+                "carnet": null
             },
             "salon": {
                 "fond": null,
@@ -88,6 +111,7 @@
                 "cds": null,
                 "maman": null,
                 "yeuxmaman": null,
+                "musique": null
             },
             "qui": {
                 "heurace": null,
@@ -98,10 +122,22 @@
         jeu = new Jeu(
             jeuCanvas,
             SPRITES,
-            [new Chambre(), new Salon(), new Atelier()],
+            [new Chambre(), new Salon(), new Atelier(), new Cuisine()],
             INVENTAIRE,
             function() {
                 jeu.setDefautQui(SPRITES.qui.heurace);
+
+                jeu.model.debut = true;
+                jeu.model.etape = "collecte";
+                for(let i = 0 ; i < 10 ; i++) {
+                    jeu.inventaireRetire("idee");
+                }
+                jeu.inventaireAjoute("objectif_aspirobot");
+                jeu.inventaireAjoute("objectif_toledecoupee");
+                jeu.inventaireAjoute("objectif_scie");
+                jeu.inventaireAjoute("objectif_carte");
+                jeu.model.salon.robotDecoince = true;
+
                 jeu.scene("chambre");
             }
         );
