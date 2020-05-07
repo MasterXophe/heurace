@@ -13,6 +13,7 @@
         }
     </style>
     <script src="Jeu.js" charset="utf-8"></script>
+    <script src="Global.js" charset="utf-8"></script>
     <script src="Chambre.js" charset="utf-8"></script>
     <script src="Salon.js" charset="utf-8"></script>
     <script src="Atelier.js" charset="utf-8"></script>
@@ -119,14 +120,86 @@
                 "papa": null
             }
         };
+        const CHAMBRE = [
+            CHAMBRE_OBJETS.chambre,
+            CHAMBRE_OBJETS.crayons,
+            CHAMBRE_OBJETS.terrarium,
+            CHAMBRE_OBJETS.lit,
+            CHAMBRE_OBJETS.porte,
+            CHAMBRE_OBJETS.cailloux,
+            CHAMBRE_OBJETS.tapis,
+            CHAMBRE_OBJETS.poster,
+            CHAMBRE_OBJETS.fenetre,
+            CHAMBRE_OBJETS.lit,
+            CHAMBRE_OBJETS.tiroirlit,
+            CHAMBRE_OBJETS.ordinateur,
+            CHAMBRE_OBJETS.carte
+        ];
+        const CUISINE = [
+            CUISINE_OBJETS.cuisine,
+            CUISINE_OBJETS.portesalon,
+            CUISINE_OBJETS.bouilloire,
+            CUISINE_OBJETS.carnet,
+            CUISINE_OBJETS.passoire,
+            CUISINE_OBJETS.blender
+        ];
+        const SALON = [
+            SALON_OBJETS.salon,
+            SALON_OBJETS.porteatelier,
+            SALON_OBJETS.portechambre,
+            SALON_OBJETS.portecuisine,
+            SALON_OBJETS.baseaspirobot,
+            SALON_OBJETS.chaine,
+            SALON_OBJETS.araignee,
+            SALON_OBJETS.cds,
+            SALON_OBJETS.maman,
+            SALON_OBJETS.yeuxmaman,
+            SALON_OBJETS.aspirobot,
+            SALON_OBJETS.musique
+        ];
+        const ATELIER = [
+            ATELIER_OBJETS.atelier,
+            ATELIER_OBJETS.perceuse,
+            ATELIER_OBJETS.affiche,
+            ATELIER_OBJETS.carton,
+            ATELIER_OBJETS.tole,
+            ATELIER_OBJETS.casiers,
+            ATELIER_OBJETS.masque,
+            ATELIER_OBJETS.chalumeau,
+            ATELIER_OBJETS.moustikiller,
+            ATELIER_OBJETS.planches,
+            ATELIER_OBJETS.scie,
+            ATELIER_OBJETS.porte,
+            GLOBAL_OBJETS.papa
+        ];
         jeu = new Jeu(
             jeuCanvas,
             SPRITES,
-            [new Chambre(), new Salon(), new Atelier(), new Cuisine()],
-            INVENTAIRE,
-            function() {
+            function(jeu) {
+                jeu.objets = {};//GLOBAL_OBJETS;
+                jeu.objets.chambre = CHAMBRE_OBJETS;
+                jeu.objets.salon = SALON_OBJETS;
+                jeu.objets.atelier = ATELIER_OBJETS;
+                jeu.objets.cuisine = CUISINE_OBJETS;
+                jeu.objets.inventaire = INVENTAIRE_OBJETS;
+                jeu.addScene("chambre", CHAMBRE);
+                jeu.addScene("salon", SALON);
+                jeu.addScene("atelier", ATELIER);
+                jeu.addScene("cuisine", CUISINE);
                 jeu.setDefautQui(SPRITES.qui.heurace);
+                jeu.texte({
+                    "qui": jeu.sprites.qui.ordinateur,
+                    "texte": "Nouveau mail : Grand concours de robots de combat !",
+                    "cb": function(jeu) {
+                        jeu.texte({"texte": "Génialique ! Voilà un défi pour moi ! Je vais construire un robot de combat hypra-super-mortel et remporter ce concours.\nVoyons, il me faut un chassis, une arme, un blindage et un contrôleur. Je vais fouiller la maison pour voir ce que je pourrais utiliser."});
+                        for(let i = 0; i < 10; i++) {
+                            jeu.inventaireAjoute("idee");
+                        }
+                    }
+                });
+                jeu.model.etape = "recherche";
 
+                // avance rapide
                 jeu.model.debut = true;
                 jeu.model.etape = "collecte";
                 for(let i = 0 ; i < 10 ; i++) {

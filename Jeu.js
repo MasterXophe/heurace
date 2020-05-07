@@ -1,4 +1,4 @@
-const Jeu = function(jeuCanvas, sprites, scenes, objects, initCb) {
+const Jeu = function(jeuCanvas, sprites, initCb) {
     let that = this;
     this._jeuCanvas = jeuCanvas;
     this._jeuCanvas.width = 640;
@@ -7,12 +7,7 @@ const Jeu = function(jeuCanvas, sprites, scenes, objects, initCb) {
     this.sprites.see = null;
     this.sprites.use = null;
     this.sprites.talk = null;
-    this.objects = {};
-    let object;
-    for(let i = 0, l = objects.length; i < l; i++) {
-        object = objects[i];
-        this.objects[object.nom] = object;
-    }
+    this.objets = {};
     this._scenes = {};
     this._scene = null;
     this._actions = {};
@@ -22,12 +17,6 @@ const Jeu = function(jeuCanvas, sprites, scenes, objects, initCb) {
     this.model = {
         "inventaire": [],
         "inventairePage": 0
-    }
-    let scene;
-    for(let i = 0, l = scenes.length; i < l; i++) {
-        scene = scenes[i];
-        this._scenes[scene.nom] = scene;
-        this.model[scene.nom] = {};
     }
     this.loadSprites("", this.sprites, function() {
         // créé le masque
@@ -46,7 +35,12 @@ const Jeu = function(jeuCanvas, sprites, scenes, objects, initCb) {
         that._jeuCanvas.addEventListener("click", that._mouseClickCb.bind(that), false);
 
         initCb(that);
+        that._affiche();
     });
+}
+Jeu.prototype.addScene= function(nom, objets) {
+    this._scenes[nom] = objets;
+    this.model[nom] = {};
 }
 Jeu.prototype.setDefautQui = function(quiDefaut) {
     this.quiDefaut = quiDefaut;
@@ -109,7 +103,6 @@ Jeu.prototype.scene = function(sceneNom) {
     this._choix = null;
     this._scene = this._scenes[sceneNom];
     this.model.scene = sceneNom;
-    this._affiche();
 }
 Jeu.prototype._afficheTexte = function() {
     let that = this;
@@ -203,15 +196,6 @@ Jeu.prototype._afficheMode = function() {
         }
     };
 
-    // cas particulier : si useCb mais pas seeCb, alors c'est "direct use"
-    if(this._mode.seeCb == null && this._mode.useCb != null) {
-        let cb = this._mode.useCb;
-        this._mode = null;
-        cb(this);
-        this._jeuCanvas.style.cursor = "default";
-        return;
-    }
-
     // afficher le click see
     if(this._mode.seeCb != null) {
         this._jeuCtx.beginPath();
@@ -266,12 +250,17 @@ Jeu.prototype._afficheInventaire = function() {
     this._texte = null;
     this._jeuCtx.fillStyle = "black";
     this._jeuCtx.strokeRect(4, 488, 64, 64);
-    let item;
+    let item, objetProvider, objet;
     for(let i = 0; i < 11; i++) {
         this._jeuCtx.strokeRect(80 + (i * 50), 488, 50, 50);
         if(i < this.model.inventaire.length) {
             item = this.model.inventaire[i];
-            this.ajouteObjet(this.sprites.inventaire[item.nom], 82 + (i * 50), 490, item.seeCb, item.useCb, null, true);
+            objetProvider = this.objets.inventaire[item];
+            objet = objetProvider(this);
+            if(objet == null) {
+                continue;
+            }
+            this.ajouteObjet(objet.sprite, 82 + (i * 50), 490, objet.seeCb, objet.useCb, null, true);
         }
     }
 }
@@ -279,7 +268,15 @@ Jeu.prototype._affiche = function() {
     this._masqueCtx.fillStyle = "black";
     this._masqueCtx.fillRect(0, 0, 640, 560);
     this._actions = {};
-    this._scene.affiche(this);
+    let objetProvider, objet;
+    for(let i = 0, l = this._scene.length ; i < l ; i++) {
+        objetProvider = this._scene[i];
+        objet = objetProvider(this);
+        if(objet == null) {
+            continue;
+        }
+        this.ajouteObjet(objet.sprite, objet.x, objet.y, objet.seeCb, objet.useCb, objet.talkCb, false);
+    }
     if(this._texte != null) {
         this._afficheTexte();
     } else if(this._choix != null) {
@@ -294,30 +291,24 @@ Jeu.prototype._affiche = function() {
 //    this._jeuCtx.putImageData(this._masqueCtx.getImageData(0, 0, 640, 560), 0, 0);
 }
 Jeu.prototype.inventaireContient = function(item) {
-    return (this.model.inventaire.findIndex(function(i) {
-        return (i.nom === item);
-    }) !== -1);
+    return (this.model.inventaire.indexOf(item) !== -1);
 }
 Jeu.prototype.inventaireAjoute = function(item) {
-    return this.model.inventaire.push(this.objects[item]);
+    return this.model.inventaire.push(item);
 }
 Jeu.prototype.inventaireRetire = function(item) {
-    let index = this.model.inventaire.findIndex(function(i) {
-        return (i.nom === item);
-    });
+    let index = this.model.inventaire.indexOf(item);
     if(index === -1) {
         return;
     }
     return this.model.inventaire.splice(index, 1);
 }
 Jeu.prototype.inventaireRemplace = function(oldItem, newItem) {
-    let index = this.model.inventaire.findIndex(function(i) {
-        return (i.nom === oldItem);
-    });
+    let index = this.model.inventaire.indexOf(oldItem);
     if(index === -1) {
         return;
     }
-    return this.model.inventaire.splice(index, 1, this.objects[newItem]);
+    return this.model.inventaire.splice(index, 1, newItem);
 }
 Jeu.prototype.afficheFond = function(fond) {
     this._jeuCtx.drawImage(fond, 0, 0);
@@ -327,6 +318,10 @@ Jeu.prototype.ajouteObjet = function(sprite, x, y, seeCb, useCb, talkCb, inclutT
     if(inclutTransparent == null) {
         inclutTransparent = false;
     }
+    this._jeuCtx.drawImage(sprite, x, y);
+    if(seeCb == null && useCb == null && talkCb == null) {
+        return;
+    }
     // choisit une couleur et enregistre l'action
     let r = Math.floor(Math.random() * 256);
     let v = Math.floor(Math.random() * 256);
@@ -334,6 +329,12 @@ Jeu.prototype.ajouteObjet = function(sprite, x, y, seeCb, useCb, talkCb, inclutT
     let couleur = this._toHex(r, v, b);
     this._actions[couleur] = {
         "cb": function(jeu, mouseX, mouseY) {
+            // cas particulier : si useCb mais pas seeCb, alors c'est "direct use"
+            if(seeCb == null && useCb != null) {
+                useCb(that);
+                that._jeuCanvas.style.cursor = "default";
+                return;
+            }
             that._mode = {
                 "seeCb": seeCb,
                 "useCb": useCb,
@@ -343,7 +344,6 @@ Jeu.prototype.ajouteObjet = function(sprite, x, y, seeCb, useCb, talkCb, inclutT
             }
         },
     }
-    this._jeuCtx.drawImage(sprite, x, y);
     // recopie le sprite dans le masque avec la couleur choisie
     let spriteCanvas = document.createElement("canvas");
     spriteCanvas.width = sprite.width;
