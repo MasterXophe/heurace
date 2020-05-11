@@ -1,6 +1,7 @@
 const CHAMBRE_OBJETS = {
     "chambre": function(jeu) {
         return {
+            "nom": "chambre",
             "sprite": jeu.sprites.chambre.fond,
             "x": 0,
             "y": 0
@@ -8,6 +9,7 @@ const CHAMBRE_OBJETS = {
     },
     "crayons": function(jeu) {
         return {
+            "nom": "crayons",
             "sprite": jeu.sprites.chambre.crayons,
             "x": 259,
             "y": 274,
@@ -18,6 +20,7 @@ const CHAMBRE_OBJETS = {
     },
     "terrarium": function(jeu) {
         return {
+            "nom": "terrarium",
             "sprite": jeu.sprites.chambre.terrarium,
             "x": 115,
             "y": 268,
@@ -28,6 +31,7 @@ const CHAMBRE_OBJETS = {
     },
     "livres": function(jeu) {
         return {
+            "nom": "livres",
             "sprite": jeu.sprites.chambre.livres,
             "x": 81,
             "y": 313,
@@ -38,6 +42,7 @@ const CHAMBRE_OBJETS = {
     },
     "porte": function(jeu) {
         return {
+            "nom": "porte",
             "sprite": jeu.sprites.chambre.porte,
             "x": 0,
             "y": 88,
@@ -47,7 +52,11 @@ const CHAMBRE_OBJETS = {
         }
     },
     "cailloux": function(jeu) {
+        if(jeu.inventaireContient("cailloux") || jeu.model.cuisine.blender === "cailloux") {
+            return null;
+        }
         return {
+            "nom": "cailloux",
             "sprite": jeu.sprites.chambre.cailloux,
             "x": 89,
             "y": 158,
@@ -59,12 +68,18 @@ const CHAMBRE_OBJETS = {
                     jeu.texte({"texte": "Pour l'instant, je cherche juste des idées."});
                     return;
                 }
+                if(jeu.model.cuisine.blender === "explication") {
+                    jeu.texte({"texte": "Je vais peut-être retenter l'expérience du blender..."});
+                    jeu.inventaireAjoute("cailloux");
+                    return;
+                }
                 jeu.texte({"texte": "Je les aime beaucoup, mais de là à me les trimballer sans raison..."});
             }
         }
     },
     "tapis": function(jeu) {
         return {
+            "nom": "tapis",
             "sprite": jeu.sprites.chambre.tapis,
             "x": 158,
             "y": 363,
@@ -75,6 +90,7 @@ const CHAMBRE_OBJETS = {
     },
     "poster": function(jeu) {
         return {
+            "nom": "poster",
             "sprite": jeu.sprites.chambre.poster,
             "x": 431,
             "y": 94,
@@ -85,6 +101,7 @@ const CHAMBRE_OBJETS = {
     },
     "fenetre":function(jeu) {
         return {
+            "nom": "fenetre",
             "sprite": jeu.sprites.chambre.fenetre,
             "x": 566,
             "y": 103,
@@ -103,6 +120,7 @@ const CHAMBRE_OBJETS = {
     },
     "lit": function(jeu) {
         return {
+            "nom": "lit",
             "sprite": jeu.sprites.chambre.lit,
             "x": 490,
             "y": 293,
@@ -118,6 +136,7 @@ const CHAMBRE_OBJETS = {
     "tiroirlit": function(jeu) {
         if(jeu.model.chambre.litOuvert) {
             return {
+                "nom": "tiroirlit",
                 "sprite": jeu.sprites.chambre.tiroirlit,
                 "x": 474,
                 "y": 309,
@@ -430,6 +449,7 @@ const CHAMBRE_OBJETS = {
             }
         }
         return {
+            "nom": "ordinateur",
             "sprite": jeu.sprites.chambre.ordinateur,
             "x": 308,
             "y": 229,
@@ -441,9 +461,10 @@ const CHAMBRE_OBJETS = {
             }
         }
     },
-    "carte": function(jeu) {
+    "bazar": function(jeu) {
         if(jeu.inventaireContient("carte")) {
             return {
+                "nom": "bazar",
                 "sprite": jeu.sprites.chambre.bazarsans,
                 "x": 146,
                 "y": 153,
@@ -453,6 +474,7 @@ const CHAMBRE_OBJETS = {
             }
         } else {
             return {
+                "nom": "bazar",
                 "sprite": jeu.sprites.chambre.bazaravec,
                 "x": 146,
                 "y": 153,

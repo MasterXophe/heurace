@@ -1,6 +1,7 @@
 const SALON_OBJETS = {
     "salon": function(jeu) {
         return {
+            "nom": "salon",
             "sprite": jeu.sprites.salon.fond,
             "x": 0,
             "y": 0
@@ -8,6 +9,7 @@ const SALON_OBJETS = {
     },
     "porteatelier": function(jeu) {
         return {
+            "nom": "porteatelier",
             "sprite": jeu.sprites.salon.porteatelier,
             "x": 524,
             "y": 102,
@@ -18,6 +20,7 @@ const SALON_OBJETS = {
     },
     "portechambre": function(jeu) {
         return {
+            "nom": "portechambre",
             "sprite": jeu.sprites.salon.portechambre,
             "x": 326,
             "y": 115,
@@ -28,6 +31,7 @@ const SALON_OBJETS = {
     },
     "portecuisine": function(jeu) {
         return {
+            "nom": "portecuisine",
             "sprite": jeu.sprites.salon.portecuisine,
             "x": 0,
             "y": 81,
@@ -38,6 +42,7 @@ const SALON_OBJETS = {
     },
     "baseaspirobot": function(jeu) {
         return {
+            "nom": "baseaspirobot",
             "sprite": jeu.sprites.salon.baseaspirobot,
             "x": 69,
             "y": 314,
@@ -49,6 +54,7 @@ const SALON_OBJETS = {
     },
     "chaine": function(jeu) {
         return {
+            "nom": "chaine",
             "sprite": jeu.sprites.salon.chaine,
             "x": 144,
             "y": 236,
@@ -59,6 +65,7 @@ const SALON_OBJETS = {
     },
     "araignee": function(jeu) {
         return {
+            "nom": "araignee",
             "sprite": jeu.sprites.salon.araignee,
             "x": 72,
             "y": 86,
@@ -72,6 +79,7 @@ const SALON_OBJETS = {
     },
     "cds": function(jeu) {
         return {
+            "nom": "cds",
             "sprite": jeu.sprites.salon.cds,
             "x": 121,
             "y": 279,
@@ -94,19 +102,13 @@ const SALON_OBJETS = {
                 jeu.texte({"texte": "La collection de CDs de mes parents, il y en a tellement ! Tout ça tient dans une clé USB, mais c'est moins joli."});
             },
             "useCb": function(jeu) {
-                if(jeu.model.mamanChanson === "trouve") {
-                    jeu.texte({
-                        "texte": "Je vais mettre la chanson préférée de maman : Morgen Mergen par Mørgen band, de l'album Margen Murgen !",
-                        "cb": function(jeu) {
-                            jeu.texte({"qui": jeu.sprites.qui.maman, "texte": "Oh, j'adore cette chanson !."});
-                        }
-                    });
+                if(jeu.model.mamanChanson === "trouve" && !jeu.inventaireContient("cd")) {
+                    jeu.texte({"texte": "Voilà le CD avec la chanson préférée de maman, je le prends."});
                     jeu.inventaireAjoute("cd");
-                    jeu.model.mamanChanson = "joue";
                     return;
                 }
                 if(jeu.model.mamanChanson === "joue") {
-                    jeu.texte({"texte": "J'ai déjà mis la chanson préférée de maman, je vais la laisser."});
+                    jeu.texte({"texte": "J'ai déjà pris le CD avec la chanson préférée de maman, je ne vais pas en prendre un autre."});
                     return;
                 }
                 if(jeu.model.mamanChanson != null) {
@@ -126,6 +128,7 @@ const SALON_OBJETS = {
     },
     "maman": function(jeu) {
         return {
+            "nom": "maman",
             "sprite": jeu.sprites.salon.maman,
             "x": 459,
             "y": 324,
@@ -133,30 +136,80 @@ const SALON_OBJETS = {
                 jeu.texte({"texte": "Ma maman. Elle se repose, elle a beaucoup travaillé aujourd'hui."});
             },
             "talkCb": function(jeu) {
-                let choix = [];
-                if(jeu.model.salon.aspiCherche && !jeu.model.salon.robotDecoince) {
-                    choix.push({
-                        "texte": "Maman, tu sais où est l'aspirateur-robot ?",
-                        "cb": function(jeu) {
-                            jeu.texte({
-                                "qui": jeu.sprites.qui.maman,
-                                "texte": "Je ne sais pas, peut-être sous le meuble de la chaîne, il se coince parfois dessous."
-                            });
-                            jeu.model.salon.robotSousMeuble = true;
-                        }
-                    });
-                }
-                choix.push({
-                    "texte": "Non, rien."
-                });
                 jeu.choix({
-                    "choix": choix
+                    "choix": [{
+                        "texte": "À propos de l'aspirateur-robot...",
+                        "cb": function(jeu) {
+                            let choix = [{
+                                "texte": "Pourquoi on en a un ?",
+                                "cb": function(jeu) {
+                                    jeu.texte({
+                                        "qui": jeu.sprites.qui.maman,
+                                        "texte": "Parce qu'il faut faire le ménage, mais que personne n'aime le faire."
+                                    });
+                                    jeu.model.salon.robotSousMeuble = true;
+                                }
+                            }, {
+                                "texte": "Je peux le prendre ?",
+                                "cb": function(jeu) {
+                                    jeu.texte({
+                                        "qui": jeu.sprites.qui.maman,
+                                        "texte": "Ne. Touche. Pas. Cet. Aspirateur."
+                                    });
+                                }
+                            }];
+                            if(jeu.model.salon.aspiCherche && !jeu.model.salon.robotDecoince) {
+                                choix.push({
+                                    "texte": "Tu sais où il est ?",
+                                    "cb": function(jeu) {
+                                        jeu.texte({
+                                            "qui": jeu.sprites.qui.maman,
+                                            "texte": "Je ne sais pas, peut-être sous le meuble de la chaîne, il se coince parfois dessous."
+                                        });
+                                        jeu.model.salon.robotSousMeuble = true;
+                                    }
+                                });
+                            }
+                            choix.push({ "texte": "Non, rien." });
+                            jeu.choix({"choix":choix});
+                        }
+                    }, {
+                        "texte": "À propos du blender...",
+                        "cb": function(jeu) {
+                            let choix = [{
+                                "texte": "Je peux m'en servir pour faire quelque chose ?",
+                                "cb": function(jeu) {
+                                    jeu.texte({
+                                        "qui": jeu.sprites.qui.maman,
+                                        "texte": "Je préfère que tu n'y touches pas."
+                                    });
+                                }
+                            }];
+                            if(jeu.model.cuisine.blender === "comment") {
+                                choix.push({
+                                    "texte": "Tu te rappelles comment je l'ai cassé ?",
+                                    "cb": function(jeu) {
+                                        jeu.texte({
+                                            "qui": jeu.sprites.qui.maman,
+                                            "texte": "Oh oui ! Tu as voulu mixer des cailloux pour faire du sable. Ça a pris des heures à ton père pour le réparer"
+                                        });
+                                        jeu.model.cuisine.blender = "explication";
+                                    }
+                                });
+                            }
+                            choix.push({"texte": "Non, rien."});
+                            jeu.choix({"choix":choix});
+                        }
+                    }, {
+                        "texte": "Non, rien."
+                    }]
                 });
             }
         }
     },
     "yeuxmaman": function(jeu) {
         return {
+            "nom": "yeuxmaman",
             "sprite": jeu.sprites.salon.yeuxmaman,
             "x": 585,
             "y": 348
@@ -165,6 +218,7 @@ const SALON_OBJETS = {
     "aspirobot": function(jeu) {
         if(jeu.model.salon.robotDecoince) {
             return {
+                "nom": "aspirobot",
                 "sprite": jeu.sprites.inventaire.aspirobot,
                 "x": 150,
                 "y": 345,
@@ -197,6 +251,7 @@ const SALON_OBJETS = {
     "musique": function(jeu) {
         if(jeu.model.mamanChanson === "joue") {
             return {
+                "nom": "musique",
                 "sprite": jeu.sprites.salon.musique,
                 "x": 226,
                 "y": 193

@@ -1,6 +1,7 @@
 const CUISINE_OBJETS = {
     "cuisine": function(jeu) {
         return {
+            "nom": "cuisine",
             "sprite": jeu.sprites.cuisine.fond,
             "x": 0,
             "y": 0
@@ -8,6 +9,7 @@ const CUISINE_OBJETS = {
     },
     "portesalon": function(jeu) {
         return {
+            "nom": "portesalon",
             "sprite": jeu.sprites.cuisine.portesalon,
             "x": 576,
             "y": 50,
@@ -19,6 +21,7 @@ const CUISINE_OBJETS = {
     },
     "bouilloire": function(jeu) {
         return {
+            "nom": "bouilloire",
             "sprite": jeu.sprites.cuisine.bouilloirechaude,
             "x": 200,
             "y": 200,
@@ -33,6 +36,7 @@ const CUISINE_OBJETS = {
     "carnet": function(jeu) {
         if(jeu.model.carnet == null) {
             return {
+                "nom": "carnet",
                 "sprite": jeu.sprites.cuisine.carnet,
                 "x": 300,
                 "y": 200,
@@ -53,6 +57,7 @@ const CUISINE_OBJETS = {
     },
     "passoire": function(jeu) {
         return {
+            "nom": "passoire",
             "sprite": jeu.sprites.cuisine.passoire,
             "x": 400,
             "y": 200,
@@ -74,19 +79,30 @@ const CUISINE_OBJETS = {
     "blender": function(jeu) {
         switch(jeu.model.cuisine.blender) {
             case undefined:
+            case "comment":
                 return {
+                    "nom": "blender",
                     "sprite": jeu.sprites.cuisine.blender,
                     "x": 100,
                     "y": 200,
                     "seeCb": function(jeu) {
-                        jeu.texte({"texte": "Le blender dont maman se sert pour faire des jus ou des soupes. Je n'ai plus le droit de m'en servir pour mes expériences, parce qu'après il est cassé et papa doit le réparer."});
-                    },
-                    "useCb": function(jeu) {
-                        jeu.model.cuisine.blender = "cailloux";
+                        jeu.texte({"texte": "Le blender dont maman se sert pour faire des jus ou des soupes. Papa a du le réparer une fois parce que je l'avais cassé, mais je ne sais plus comment."});
+                        jeu.model.cuisine.blender = "comment";
+                    }
+                }
+            case "explication":
+                return {
+                    "nom": "blender",
+                    "sprite": jeu.sprites.cuisine.blender,
+                    "x": 100,
+                    "y": 200,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Le blender dont maman se sert pour faire des jus ou des soupes. Papa a du le réparer une fois parce que je l'avais cassé en essayant de mixer des cailloux."});
                     }
                 }
             case "cailloux":
                 return {
+                    "nom": "cailloux",
                     "sprite": jeu.sprites.cuisine.blendercailloux,
                     "x": 100,
                     "y": 200,
@@ -103,7 +119,7 @@ const CUISINE_OBJETS = {
                                             "texte": "Houlà, ça fait un drôle de bruit !", "cb": function(jeu) {
                                                 jeu.model.cuisine.blender = "cassecailloux";
                                                 jeu.texte({
-                                                    "texte": "Le blender n'a pas réussi à mixer mes cailloux en sable. Je vais enlever mes cailloux, sinon je vais me faire gronder !",
+                                                    "texte": "Le blender n'a pas réussi à mixer mes cailloux en sable. Je vais remettre mes cailloux dans ma chambre, sinon je vais me faire gronder !",
                                                     "cb": function(jeu) {
                                                         jeu.model.cuisine.blender = "casse";
                                                     }

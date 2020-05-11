@@ -13,6 +13,7 @@ const Jeu = function(jeuCanvas, sprites, initCb) {
     this._actions = {};
     this._texte = null;
     this._choix = null;
+    this._useWith = null;
     this._mode = null;
     this.model = {
         "inventaire": [],
@@ -244,12 +245,30 @@ Jeu.prototype._afficheMode = function() {
         };
     }
 }
+Jeu.prototype._ajouteInventaire = function(objet, x, y) {
+    let that = this;
+    this.ajouteObjet(
+        objet.nom,
+        objet.sprite,
+        x,
+        y,
+        objet.seeCb,
+        objet.useWithCb != null ? function() {
+            if(that._useWith == null) {
+                that._useWith = objet;
+            }
+        } : null,
+        null,
+        true
+    );
+}
 Jeu.prototype._afficheInventaire = function() {
     this._jeuCtx.fillStyle = "white";
     this._jeuCtx.fillRect(0, 480, 640, 79);
     this._texte = null;
-    this._jeuCtx.fillStyle = "black";
+    this._jeuCtx.strokeStyle = "black";
     this._jeuCtx.strokeRect(4, 488, 64, 64);
+    this._jeuCtx.fillStyle = "yellow";
     let item, objetProvider, objet;
     for(let i = 0; i < 11; i++) {
         this._jeuCtx.strokeRect(80 + (i * 50), 488, 50, 50);
@@ -260,7 +279,10 @@ Jeu.prototype._afficheInventaire = function() {
             if(objet == null) {
                 continue;
             }
-            this.ajouteObjet(objet.sprite, 82 + (i * 50), 490, objet.seeCb, objet.useCb, null, true);
+            if(this._useWith != null && this._useWith.nom === objet.nom) {
+                this._jeuCtx.fillRect(81 + (i * 50), 489, 48, 48);
+            }
+            this._ajouteInventaire(objet, 82 + (i * 50), 490);
         }
     }
 }
@@ -275,7 +297,7 @@ Jeu.prototype._affiche = function() {
         if(objet == null) {
             continue;
         }
-        this.ajouteObjet(objet.sprite, objet.x, objet.y, objet.seeCb, objet.useCb, objet.talkCb, false);
+        this.ajouteObjet(objet.nom, objet.sprite, objet.x, objet.y, objet.seeCb, objet.useCb, objet.talkCb, false);
     }
     if(this._texte != null) {
         this._afficheTexte();
@@ -313,7 +335,7 @@ Jeu.prototype.inventaireRemplace = function(oldItem, newItem) {
 Jeu.prototype.afficheFond = function(fond) {
     this._jeuCtx.drawImage(fond, 0, 0);
 }
-Jeu.prototype.ajouteObjet = function(sprite, x, y, seeCb, useCb, talkCb, inclutTransparent) {
+Jeu.prototype.ajouteObjet = function(nom, sprite, x, y, seeCb, useCb, talkCb, inclutTransparent) {
     let that = this;
     if(inclutTransparent == null) {
         inclutTransparent = false;
@@ -328,7 +350,13 @@ Jeu.prototype.ajouteObjet = function(sprite, x, y, seeCb, useCb, talkCb, inclutT
     let b = Math.floor(Math.random() * 256);
     let couleur = this._toHex(r, v, b);
     this._actions[couleur] = {
+        "nom": nom,
         "cb": function(jeu, mouseX, mouseY) {
+            if(that._useWith != null) {
+                that._useWith.useWithCb(that, this.nom);
+                that._useWith = null;
+                return;
+            }
             // cas particulier : si useCb mais pas seeCb, alors c'est "direct use"
             if(seeCb == null && useCb != null) {
                 useCb(that);

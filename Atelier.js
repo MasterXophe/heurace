@@ -1,6 +1,7 @@
 const ATELIER_OBJETS = {
     "atelier": function(jeu) {
         return {
+            "nom": "atelier",
             "sprite": jeu.sprites.atelier.fond,
             "x": 0,
             "y": 0
@@ -8,6 +9,7 @@ const ATELIER_OBJETS = {
     },
     "perceuse": function(jeu) {
         return {
+            "nom": "perceuse",
             "sprite": jeu.sprites.atelier.perceuse,
             "x": 547,
             "y": 369,
@@ -32,6 +34,7 @@ const ATELIER_OBJETS = {
     },
     "affiche": function(jeu) {
         return {
+            "nom": "affiche",
             "sprite": jeu.sprites.atelier.affiche,
             "x": 393,
             "y": 108,
@@ -42,6 +45,7 @@ const ATELIER_OBJETS = {
     },
     "carton": function(jeu) {
         return {
+            "nom": "carton",
             "sprite": jeu.sprites.atelier.carton,
             "x": 394,
             "y": 269,
@@ -52,6 +56,7 @@ const ATELIER_OBJETS = {
     },
     "tole": function(jeu) {
         return {
+            "nom": "tole",
             "sprite": jeu.inventaireContient("tole") || jeu.inventaireContient("toledecoupee") ? jeu.sprites.atelier.toles2 : jeu.sprites.atelier.toles3,
             "x": 462,
             "y": 293,
@@ -79,6 +84,7 @@ const ATELIER_OBJETS = {
     },
     "casiers": function(jeu) {
         return {
+            "nom": "casiers",
             "sprite": jeu.sprites.atelier.casiers,
             "x": 178,
             "y": 156,
@@ -115,6 +121,7 @@ const ATELIER_OBJETS = {
     "masque": function(jeu) {
         if(jeu.model.atelier.masqueBouge) {
             return {
+                "nom": "masque",
                 "sprite": jeu.sprites.atelier.masque,
                 "x": 322,
                 "y": 211,
@@ -124,6 +131,7 @@ const ATELIER_OBJETS = {
             }
         } else {
             return {
+                "nom": "masque",
                 "sprite": jeu.sprites.atelier.masque,
                 "x": 304,
                 "y": 219,
@@ -139,6 +147,7 @@ const ATELIER_OBJETS = {
     "chalumeau": function(jeu) {
         if(jeu.model.atelier.masqueBouge) {
             return {
+                "nom": "chalumeau",
                 "sprite": jeu.sprites.atelier.chalumeau,
                 "x": 302,
                 "y": 228,
@@ -164,6 +173,7 @@ const ATELIER_OBJETS = {
     },
     "moustikiller": function(jeu) {
         return {
+            "nom": "moustikiller",
             "sprite": jeu.sprites.atelier.moustikiller,
             "x": 516,
             "y": 253,
@@ -194,6 +204,7 @@ const ATELIER_OBJETS = {
     },
     "planches": function(jeu) {
         return {
+            "nom": "planches",
             "sprite": jeu.sprites.atelier.planches,
             "x": 231,
             "y": 313,
@@ -217,6 +228,7 @@ const ATELIER_OBJETS = {
     "scie": function(jeu) {
         if(!jeu.inventaireContient("scie")) {
             return {
+                "nom": "scie",
                 "sprite": jeu.sprites.atelier.scie,
                 "x": 112,
                 "y": 308,
@@ -245,6 +257,7 @@ const ATELIER_OBJETS = {
     },
     "porte": function(jeu) {
         return {
+            "nom": "porte",
             "sprite": jeu.sprites.atelier.porte,
             "x": 16,
             "y": 78,
