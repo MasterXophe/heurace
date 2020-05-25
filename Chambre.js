@@ -8,25 +8,50 @@ const CHAMBRE_OBJETS = {
         }
     },
     "crayons": function(jeu) {
-        return {
+        let objet = {
             "nom": "crayons",
             "sprite": jeu.sprites.chambre.crayons,
             "x": 259,
             "y": 274,
             "seeCb": function(jeu) {
-                jeu.texte({"texte": "Mes crayons. Il y a des noirs, des bleus, un rouge, un vert et un vide."});
+                jeu.texte({"texte": "Mes crayons. Il y a des noirs, des bleus, un rouge, un vert et un vide que je garde si je veux le remplir de liquide bizarre et dessiner avec."});
             }
         }
+        if(jeu.model.etape === "collecte" && jeu.model.crayon == null) {
+            objet.useCb = function(jeu) {
+                jeu.texte({"texte": "Je le prends, on ne sait jamais, j'aurais peut-être envie de le remplir avec un liquide quelconque et dessiner avec."});
+                jeu.inventaireAjoute("crayon");
+                jeu.model.crayon = "pris";
+            };
+        }
+        return objet;
     },
     "terrarium": function(jeu) {
-        return {
-            "nom": "terrarium",
-            "sprite": jeu.sprites.chambre.terrarium,
-            "x": 115,
-            "y": 268,
-            "seeCb": function(jeu) {
-                jeu.texte({"texte": "Mon terrarium, qui abrite une colonie de fourmis."});
-            }
+        switch(jeu.model.chambre.terrarium) {
+            case "tole":
+                return {
+                    "nom": "terrarium",
+                    "sprite": jeu.sprites.chambre.terrariumtole,
+                    "x": 115,
+                    "y": 242
+                }
+            case "tolefourmis":
+                return {
+                    "nom": "terrarium",
+                    "sprite": jeu.sprites.chambre.terrariumtolefourmis,
+                    "x": 115,
+                    "y": 242
+                }
+            default:
+                return {
+                    "nom": "terrarium",
+                    "sprite": jeu.sprites.chambre.terrarium,
+                    "x": 115,
+                    "y": 268,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Mon terrarium, qui abrite une colonie de fourmis."});
+                    }
+                }
         }
     },
     "livres": function(jeu) {
@@ -99,7 +124,7 @@ const CHAMBRE_OBJETS = {
             }
         }
     },
-    "fenetre":function(jeu) {
+    "fenetre": function(jeu) {
         return {
             "nom": "fenetre",
             "sprite": jeu.sprites.chambre.fenetre,
@@ -179,7 +204,8 @@ const CHAMBRE_OBJETS = {
                                 "cb": function() {
                                     if(jeu.model.etape === "termine") {
                                         jeu.texte({
-                                            "texte": "Et voilà, je suis inscrit ! Muhahaha, que j'ai hâte !", "cb": function() {
+                                            "texte": "Et voilà, je suis inscrit ! Muhahaha, que j'ai hâte !",
+                                            "cb": function() {
                                                 jeu.scene("fin");
                                             }
                                         });

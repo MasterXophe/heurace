@@ -37,6 +37,8 @@
                 "chalumeau": null,
                 "masque": null,
                 "moustikiller": null,
+                "moustikillerpret": null,
+                "moustikillertire": null,
                 "papa": null,
                 "perceuse": null,
                 "planches": null,
@@ -44,12 +46,15 @@
                 "scie": null,
                 "toles2": null,
                 "toles3": null,
-                "carton": null
+                "carton": null,
+                "tolefourmis": null
             },
             "chambre": {
                 "fond": null,
                 "crayons": null,
                 "terrarium": null,
+                "terrariumtole": null,
+                "terrariumtolefourmis": null,
                 "livres": null,
                 "porte": null,
                 "cailloux": null,
@@ -94,13 +99,17 @@
                 "carte": null,
                 "scie": null,
                 "tole": null,
+                "tolemiel": null,
+                "tolefourmis": null,
+                "toledecoupee": null,
                 "cd": null,
                 "bouilloire": null,
                 "bouilloirepleine": null,
                 "potmiel": null,
-                "potfourmis": null,
                 "carnet": null,
-                "cailloux": null
+                "cailloux": null,
+                "crayonvide": null,
+                "crayonmiel": null
             },
             "salon": {
                 "fond": null,
@@ -118,7 +127,8 @@
             "qui": {
                 "heurace": null,
                 "maman": null,
-                "papa": null
+                "papa": null,
+                "moustikiller": null
             }
         };
         const CHAMBRE = [
@@ -143,7 +153,8 @@
             CUISINE_OBJETS.carnet,
             CUISINE_OBJETS.passoire,
             CUISINE_OBJETS.blender,
-            GLOBAL_OBJETS.papa
+            GLOBAL_OBJETS.papa,
+            CUISINE_OBJETS.potmiel
         ];
         const SALON = [
             SALON_OBJETS.salon,
@@ -172,8 +183,8 @@
             ATELIER_OBJETS.planches,
             ATELIER_OBJETS.scie,
             ATELIER_OBJETS.porte,
-            GLOBAL_OBJETS.papa
-        ];
+            GLOBAL_OBJETS.papa,
+            ATELIER_OBJETS.tolefourmis        ];
         jeu = new Jeu(
             jeuCanvas,
             SPRITES,
@@ -189,31 +200,27 @@
                 jeu.addScene("atelier", ATELIER);
                 jeu.addScene("cuisine", CUISINE);
                 jeu.setDefautQui(SPRITES.qui.heurace);
-                jeu.texte({
-                    "qui": jeu.sprites.qui.ordinateur,
-                    "texte": "Nouveau mail : Grand concours de robots de combat !",
-                    "cb": function(jeu) {
-                        jeu.texte({"texte": "Génialique ! Voilà un défi pour moi ! Je vais construire un robot de combat hypra-super-mortel et remporter ce concours.\nVoyons, il me faut un chassis, une arme, un blindage et un contrôleur. Je vais fouiller la maison pour voir ce que je pourrais utiliser."});
-                        for(let i = 0; i < 10; i++) {
-                            jeu.inventaireAjoute("idee");
-                        }
-                    }
-                });
                 jeu.model.etape = "recherche";
 
-                // avance rapide
-                jeu.model.debut = true;
-                jeu.model.etape = "collecte";
-                for(let i = 0 ; i < 10 ; i++) {
-                    jeu.inventaireRetire("idee");
-                }
-                jeu.inventaireAjoute("objectif_aspirobot");
-                jeu.inventaireAjoute("objectif_toledecoupee");
-                jeu.inventaireAjoute("objectif_scie");
-                jeu.inventaireAjoute("objectif_carte");
-                jeu.model.salon.robotDecoince = true;
+                // avance rapide avant découpe
+                jeu.model = {"inventaire":["objectif_aspirobot","objectif_toledecoupee","scie","carte","crayon","potmiel","tole"],"inventairePage":0,"chambre":{"terrarium":null},"salon":{"robotDecoince":true,"robotSousMeuble":true},"atelier":{"masqueBouge":true},"cuisine":{"blender":"casse"},"etape":"collecte","debut":false,"scene":"atelier","crayon":"miel","potmiel":"pris","papa":"cuisine","mamanThe":"quoi","mamanChanson":"joue","tole":"fourmis"};
+                // avance rapide après découpe
+//                jeu.model = {"inventaire":["objectif_aspirobot","objectif_toledecoupee","scie","carte","crayon","potmiel"],"inventairePage":0,"chambre":{"terrarium":null},"salon":{"robotDecoince":true,"robotSousMeuble":true},"atelier":{"masqueBouge":true},"cuisine":{"blender":"casse"},"etape":"collecte","debut":false,"scene":"salon","crayon":"miel","potmiel":"pris","papa":"cuisine","mamanThe":"quoi","mamanChanson":"joue"};
 
-                jeu.scene("chambre");
+                // intro
+                if(jeu.model.debut) {
+                    jeu.texte({
+                        "qui": jeu.sprites.qui.ordinateur,
+                        "texte": "Nouveau mail : Grand concours de robots de combat !",
+                        "cb": function(jeu) {
+                            jeu.texte({"texte": "Génialique ! Voilà un défi pour moi ! Je vais construire un robot de combat hypra-super-mortel et remporter ce concours.\nVoyons, il me faut un chassis, une arme, un blindage et un contrôleur. Je vais fouiller la maison pour voir ce que je pourrais utiliser."});
+                            for(let i = 0; i < 10; i++) {
+                                jeu.inventaireAjoute("idee");
+                            }
+                        }
+                    });
+                    jeu.model.debut = false;
+                }
             }
         );
     }

@@ -144,12 +144,113 @@ const INVENTAIRE_OBJETS = {
         }
     },
     "tole": function(jeu) {
-        return {
-            "nom": "tole",
-            "sprite": jeu.sprites.inventaire.tole,
-            "seeCb": function(jeu) {
-                jeu.texte({"texte": "Une tôle en acier pour le blindage du robot de combat. Mais comment la découper ?"});
-            }
+        switch(jeu.model.tole) {
+            case undefined:
+                return {
+                    "nom": "tole",
+                    "sprite": jeu.sprites.inventaire.tole,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Une tôle en acier pour le blindage du robot de combat. Mais comment la découper ?"});
+                    },
+                    "useWithCb": function(jeu, objet) {
+                        if(objet === "crayon") {
+                            jeu.texte({"texte": "Pourquoi pas ! Je vais dessiner les parties que je dois découper avec du miel."});
+                            jeu.model.tole = "miel";
+                            return;
+                        }
+                        jeu.texte({"texte": "Ça ne fait rien."});
+                    }
+                }
+            case "miel":
+                return {
+                    "nom": "tole",
+                    "sprite": jeu.sprites.inventaire.tolemiel,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Une tôle en acier pour le blindage du robot de combat. J'ai tracé les pièces à découper avec du miel, mais comment la découper ?"});
+                    },
+                    "useWithCb": function(jeu, objet) {
+                        if(objet === "terrarium") {
+                            jeu.model.chambre.terrarium = "tole";
+                            jeu.texte({
+                                "texte": "Je mets la tôle dans terrarium un moment...",
+                                "cb": function(jeu) {
+                                    jeu.model.chambre.terrarium = "tolefourmis";
+                                    jeu.texte({
+                                        "texte": "Les fourmis se précipitent sur le miel !",
+                                        "cb": function(jeu) {
+                                            jeu.model.chambre.terrarium = null;
+                                            jeu.texte({"texte": "J'ai maintenant un tracé grouillant de fourmis... C'est cool et un peu dégueu à la fois. La question, c'est : et maintenant ?"});
+                                            jeu.model.tole = "fourmis";
+                                        }
+                                    });
+                                }
+                            });
+                            jeu.model.chambre.terrarium = "tole";
+                            return;
+                        }
+                        jeu.texte({"texte": "Ça ne fait rien."});
+                    }
+                }
+            case "fourmis":
+                return {
+                    "nom": "tole",
+                    "sprite": jeu.sprites.inventaire.tolefourmis,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Une tôle en acier pour le blindage du robot de combat. Le tracé des pièces à découper est recouvert de fourmis, mais comment la découper ?"});
+                    },
+                    "useWithCb": function(jeu, objet) {
+                        if(objet === "moustikiller") {
+                            if(jeu.model.papa !== "cuisine") {
+                                jeu.texte({"texte": "Je ne peux pas toucher au moustikiller tant que papa est dans l'atelier."});
+                                return;
+                            }
+                            jeu.texte({
+                                "texte": "Ooohhhh... terrible ! Je place la tôle devant le moustikiller...",
+                                "cb": function(jeu) {
+                                    jeu.model.atelier.moustikiller = "tole";
+                                    jeu.texte({
+                                        "texte": "...je me place DERRIÈRE le moustikiller et je l'allume...",
+                                        "cb": function(jeu) {
+                                            jeu.model.atelier.moustikiller = "pret";
+                                            jeu.texte({
+                                                "qui": jeu.sprites.qui.moustikiller,
+                                                "texte": "Clic. Bzz. Gni ?",
+                                                "cb": function(jeu) {
+                                                    jeu.model.atelier.moustikiller = "tire";
+                                                    jeu.texte({
+                                                        "qui": jeu.sprites.qui.moustikiller,
+                                                        "texte": "BZZAAAPPP !!!",
+                                                        "cb": function(jeu) {
+                                                            jeu.model.atelier.moustikiller = null;
+                                                            jeu.texte({
+                                                                "texte": "Wow ! Le moustikiller a dézingué les pauvres fourmis en un éclair ! C'est moche, mais ça a découpé la tôle tout comme il faut ! J'éteins cet engin de mort et je récupère mes pièces.",
+                                                                "cb": function(jeu) {
+                                                                    jeu.model.tole = "decoupee";
+                                                                    jeu.inventaireRetire("tole");
+                                                                    jeu.inventaireRemplace("objectif_toledecoupee", "tole");
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                            return;
+                        }
+                        jeu.texte({"texte": "Ça ne fait rien."});
+                    }
+                }
+            case "decoupee":
+                return {
+                    "nom": "tole",
+                    "sprite": jeu.sprites.inventaire.toledecoupee,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Les morceaux de tôle en acier pour le blindage du robot de combat."});
+                    }
+                }
         }
     },
     "aspirobot": function(jeu) {
@@ -218,6 +319,75 @@ const INVENTAIRE_OBJETS = {
                 }
                 jeu.texte({"texte": "Ça ne fait rien."});
             } : null
+        }
+    },
+    "potmiel": function(jeu) {
+        return {
+            "nom": "potmiel",
+            "sprite": jeu.sprites.inventaire.potmiel,
+            "seeCb": function(jeu) {
+                jeu.texte({"texte": "C'est le pot de miel dont je me suis servi pour attirer les fourmis de mon terrarium. Je devrais peut-être leur en donner un peu ?"});
+            },
+            "useWithCb": function(jeu, objet) {
+                if(objet === "terrarium") {
+                    jeu.texte({
+                        "texte": "Je mets au fourmi un filet de miel en zigzag.",
+                        "cb": function(jeu) {
+                            jeu.texte({"texte": "Oh, c'est amusant ! Les fourmis se sont toutes agglutinées sur le filet de miel. Ça fait comme un dessin grouillant !"});
+                        }
+                    });
+                    return;
+                }
+                if(objet === "tole") {
+                    jeu.texte({"texte": "Je veux bien mettre du miel sur la tôle, mais il me faut un moyen de le faire avec précision."});
+                    jeu.model.crayon = "miel";
+                    return;
+                }
+                if(objet === "crayon") {
+                    jeu.texte({"texte": "Je remplis le crayon avec du miel, ça me permettra de faire des dessins en miel."});
+                    jeu.model.crayon = "miel";
+                    return;
+                }
+                jeu.texte({"texte": "Ça ne fait rien."});
+            }
+        }
+    },
+    "crayon": function(jeu) {
+        switch(jeu.model.crayon) {
+            case undefined:
+                return null;
+            case "pris":
+                return {
+                    "nom": "crayon",
+                    "sprite": jeu.sprites.inventaire.crayonvide,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "C'est un crayon vide. On ne sait jamais j'aurais peut-être envie de le remplir avec un liquide quelconque et dessiner avec."});
+                    },
+                    "useWithCb": function(jeu, objet) {
+                        if(objet === "potmiel") {
+                            jeu.texte({"texte": "Je remplis le crayon avec du miel, ça me permettra de faire des dessins en miel."});
+                            jeu.model.crayon = "miel";
+                            return;
+                        }
+                        jeu.texte({"texte": "Ça ne fait rien."});
+                    }
+                }
+            case "miel":
+                return {
+                    "nom": "crayon",
+                    "sprite": jeu.sprites.inventaire.crayonmiel,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "C'est un crayon que j'ai rempli avec du miel. Je peux maintenant faire des dessins en miel !"});
+                    },
+                    "useWithCb": function(jeu, objet) {
+                        if(objet === "tole" && jeu.model.tole == null) {
+                            jeu.texte({"texte": "Pourquoi pas ! Je vais dessiner les parties que je dois découper avec du miel."});
+                            jeu.model.tole = "miel";
+                            return;
+                        }
+                        jeu.texte({"texte": "Ça ne fait rien."});
+                    }
+                }
         }
     }
 };

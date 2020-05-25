@@ -9,7 +9,6 @@ const Jeu = function(jeuCanvas, sprites, initCb) {
     this.sprites.talk = null;
     this.objets = {};
     this._scenes = {};
-    this._scene = null;
     this._actions = {};
     this._texte = null;
     this._choix = null;
@@ -102,7 +101,6 @@ Jeu.prototype.choix = function(choix) {
 Jeu.prototype.scene = function(sceneNom) {
     this._texte = null;
     this._choix = null;
-    this._scene = this._scenes[sceneNom];
     this.model.scene = sceneNom;
 }
 Jeu.prototype._afficheTexte = function() {
@@ -291,8 +289,9 @@ Jeu.prototype._affiche = function() {
     this._masqueCtx.fillRect(0, 0, 640, 560);
     this._actions = {};
     let objetProvider, objet;
-    for(let i = 0, l = this._scene.length ; i < l ; i++) {
-        objetProvider = this._scene[i];
+    let scene = this._scenes[this.model.scene];
+    for(let i = 0, l = scene.length ; i < l ; i++) {
+        objetProvider = scene[i];
         objet = objetProvider(this);
         if(objet == null) {
             continue;

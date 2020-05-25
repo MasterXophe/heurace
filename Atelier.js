@@ -7,6 +7,17 @@ const ATELIER_OBJETS = {
             "y": 0
         }
     },
+    "tolefourmis": function(jeu) {
+        if(jeu.model.atelier.moustikiller == null) {
+            return null;
+        }
+        return {
+            "nom": "tolefourmis",
+            "sprite": jeu.sprites.atelier.tolefourmis,
+            "x": 403,
+            "y": 378
+        }
+    },
     "perceuse": function(jeu) {
         return {
             "nom": "perceuse",
@@ -163,7 +174,7 @@ const ATELIER_OBJETS = {
                     if(jeu.model.etape === "recherche") {
                         jeu.texte({"texte": "Je cherche juste des idées, je ne prends rien pour l'instant."});
                     } else {
-                        jeu.texte({"texte": "Je n'ai pas le temps de jouer, je dois construire mon robot."});
+                        jeu.texte({"texte": "Je pense que je pourrais découper les tôles avec, mais je ne sais pas m'en servir... Il va falloir que je trouve un autre moyen !"});
                     }
                 }
             }
@@ -172,11 +183,29 @@ const ATELIER_OBJETS = {
         }
     },
     "moustikiller": function(jeu) {
+        let x, y, sprite;
+        switch(jeu.model.atelier.moustikiller) {
+            case "pret":
+                x = 516;
+                y = 253;
+                sprite = jeu.sprites.atelier.moustikillerpret;
+                break;
+            case "tire":
+                x = 416;
+                y = 253;
+                sprite = jeu.sprites.atelier.moustikillertire;
+                break;
+            default:
+                x = 516;
+                y = 253;
+                sprite = jeu.sprites.atelier.moustikiller;
+                break;
+        }
         return {
             "nom": "moustikiller",
-            "sprite": jeu.sprites.atelier.moustikiller,
-            "x": 516,
-            "y": 253,
+            "sprite": sprite,
+            "x": x,
+            "y": y,
             "seeCb": function(jeu) {
                 jeu.texte({
                     "texte": "Le Moustikiller, la dernière invention de mon père. Il a couplé un détecteur de mouvement très sensible avec un laser très puissant. Son rôle est de réperer et de cramer les moustiques...",
