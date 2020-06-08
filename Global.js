@@ -69,53 +69,65 @@ const GLOBAL_OBJETS = {
                 });
             }
             choix.push({
-                    "texte": "À propos de maman...",
-                    "cb": function(jeu) {
-                        let choix = [{
-                            "texte": "Elle est dans le salon, tu ne veux pas aller la voir ?",
+                "texte": "À propos de maman...",
+                "cb": function(jeu) {
+                    let choix = [{
+                        "texte": "Elle est dans le salon, tu ne veux pas aller la voir ?",
+                        "cb": function(jeu) {
+                            jeu.texte({
+                                "qui": jeu.sprites.qui.papa,
+                                "texte": "J'irai la voir tout à l'heure, je dois d'abord finir ça."
+                            });
+                        }
+                    }];
+                    if(jeu.model.mamanChanson === "quoi") {
+                        choix.push({
+                            "texte": "Tu connais sa chanson préférée ?",
                             "cb": function(jeu) {
                                 jeu.texte({
                                     "qui": jeu.sprites.qui.papa,
-                                    "texte": "J'irai la voir tout à l'heure, je dois d'abord finir ça."
+                                    "texte": "C'est une chanson d'un groupe norvégien, Morgen quelque chose..."
                                 });
+                                jeu.model.mamanChanson = "groupe";
                             }
-                        }];
-                        if(jeu.model.mamanChanson === "quoi") {
-                            choix.push({
-                                "texte": "Tu connais sa chanson préférée ?",
-                                "cb": function(jeu) {
-                                    jeu.texte({
-                                        "qui": jeu.sprites.qui.papa,
-                                        "texte": "C'est une chanson d'un groupe norvégien, Morgen quelque chose..."
-                                    });
-                                    jeu.model.mamanChanson = "groupe";
-                                }
-                            });
-                        }
-                        if(jeu.model.mamanChanson === "chanson") {
-                            choix.push({
-                                "texte": "Tu connais sa chanson préférée ? C'est de Mørgen band.",
-                                "cb": function(jeu) {
-                                    jeu.texte({
-                                        "qui": jeu.sprites.qui.papa,
-                                        "texte": "Ah oui, Mørgen band, ça me revient ! C'est une chanson qui parle d'un couple qui se balade dans un fjord, je crois..."
-                                    });
-                                    jeu.model.mamanChanson = "titre";
-                                }
-                            });
-                        }
-                        if(jeu.model.mamanThe === "quoi") {
-                            choix.push({
-                                "texte": "Tu connais son thé préféré ?",
-                                "cb": function(jeu) {
-
-                                }
-                            });
-                        }
-                        jeu.choix({"choix": choix});
+                        });
                     }
+                    if(jeu.model.mamanChanson === "chanson") {
+                        choix.push({
+                            "texte": "Tu connais sa chanson préférée ? C'est de Mørgen band.",
+                            "cb": function(jeu) {
+                                jeu.texte({
+                                    "qui": jeu.sprites.qui.papa,
+                                    "texte": "Ah oui, Mørgen band, ça me revient ! C'est une chanson qui parle d'un couple qui se balade dans un fjord, je crois..."
+                                });
+                                jeu.model.mamanChanson = "titre";
+                            }
+                        });
+                    }
+                    if(jeu.model.mamanThe === "quoi") {
+                        choix.push({
+                            "texte": "Tu connais son thé préféré ?",
+                            "cb": function(jeu) {
+                                if(jeu.model.the == null || jeu.model.the === "carnet") {
+                                    jeu.texte({
+                                        "qui": jeu.sprites.qui.papa,
+                                        "texte": "Oh c'est compliqué, j'ai noté la recette dans mon carnet, mais je ne sais plus où je l'ai mis."
+                                    });
+                                    return;
+                                }
+                                jeu.texte({
+                                    "qui": jeu.sprites.qui.papa,
+                                    "texte": "Attends, c'est dans mon carnet... c'est pas ça... c'est pas ça... ah voila ! Son thé favori est le Rooibos-cannelle-gingembre."
+                                });
+                                if(jeu.model.the === "carnetpapa") {
+                                    jeu.model.the = "recette";
+                                }
+                            }
+                        });
+                    }
+                    jeu.choix({"choix": choix});
                 }
-            );
+            });
             choix.push({
                 "texte": "Non, rien."
             });
@@ -123,6 +135,7 @@ const GLOBAL_OBJETS = {
         }
         if(jeu.model.papa == null && jeu.model.scene === "atelier") {
             return {
+                "nom": "papa",
                 "sprite": jeu.sprites.atelier.papa,
                 "x": 532,
                 "y": 258,
@@ -134,6 +147,7 @@ const GLOBAL_OBJETS = {
         }
         if(jeu.model.papa === "casiers" && jeu.model.scene === "atelier") {
             return {
+                "nom": "papa",
                 "sprite": jeu.sprites.atelier.papa,
                 "x": 199,
                 "y": 171,
@@ -145,6 +159,7 @@ const GLOBAL_OBJETS = {
         }
         if(jeu.model.papa === "cuisine" && jeu.model.scene === "cuisine") {
             return {
+                "nom": "papa",
                 "sprite": jeu.sprites.atelier.papa,
                 "x": 50,
                 "y": 200,

@@ -300,6 +300,21 @@ const INVENTAIRE_OBJETS = {
             "sprite": jeu.sprites.inventaire.carnet,
             "seeCb": function(jeu) {
                 jeu.texte({"texte": "C'est le carnet de papa, il y a le thé favori de maman noté dedans. Mais papa écrit trop mal et trop petit, je n'arrive pas à le lire ce qu'il a marqué !"});
+            },
+            "useWithCb": function(jeu, objet) {
+                if(objet === "papa") {
+                    jeu.texte({
+                        "texte": "Papa ! J'ai retrouvé ton carnet, le voilà !",
+                        "cb": function(jeu) {
+                            jeu.texte({
+                                "qui": jeu.sprites.qui.papa,
+                                "texte": "Ah formidable ! J'ai noté des choses dont je dois me souvenir dans ce carnet. Des choses... dont je ne me souviens plus."
+                            });
+                            jeu.inventaireRetire("carnet");
+                            jeu.model.the = "carnetpapa";
+                        }
+                    });
+                }
             }
         }
     },
@@ -388,6 +403,52 @@ const INVENTAIRE_OBJETS = {
                         jeu.texte({"texte": "Ça ne fait rien."});
                     }
                 }
+        }
+    },
+    "bouilloire": function(jeu) {
+        return {
+            "nom": "bouilloire",
+            "sprite": jeu.sprites.inventaire.bouilloire,
+            "seeCb": function(jeu) {
+                jeu.texte({"texte": "La bouilloire. Puisque je l'ai, je pourrai la remplir."});
+            },
+            "useWithCb": function(jeu, objet) {
+                if(objet === "bouilloiresocle") {
+                    jeu.texte({"texte": "Je devrais la remplir avant de la remettre."});
+                    return;
+                }
+                if(objet === "evier") {
+                    jeu.texte({"texte": "Je l'ai remplie, mais pas trop."});
+                    jeu.inventaireRemplace("bouilloire", "bouilloirepleine");
+                    return;
+                }
+                jeu.texte({"texte": "Ça ne fait rien."});
+            }
+        }
+    },
+    "bouilloirepleine": function(jeu) {
+        return {
+            "nom": "bouilloirepleine",
+            "sprite": jeu.sprites.inventaire.bouilloirepleine,
+            "seeCb": function(jeu) {
+                jeu.texte({"texte": "La bouilloire, remplie d'eau. Je pourrais la remettre sur son socle. Ou je pourrais arroser des choses ou des gens avec !"});
+            },
+            "useWithCb": function(jeu, objet) {
+                if(objet === "papa") {
+                    jeu.texte({"texte": "Je pourrais l'arroser, mais je ne crois pas qu'il soit d'humeur."});
+                    return;
+                }
+                if(objet === "terrarium") {
+                    jeu.texte({"texte": "C'est un terrarium, pas un aquarium !"});
+                    return;
+                }
+                if(objet === "bouilloiresocle") {
+                    jeu.inventaireRetire("bouilloirepleine");
+                    jeu.model.bouilloire = "pleine";
+                    return;
+                }
+                jeu.texte({"texte": "Ça ne fait rien."});
+            }
         }
     }
 };

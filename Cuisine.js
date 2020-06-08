@@ -19,22 +19,92 @@ const CUISINE_OBJETS = {
             }
         }
     },
+    "bouilloiresocle": function(jeu) {
+        return {
+            "nom": "bouilloiresocle",
+            "sprite": jeu.sprites.cuisine.bouilloiresocle,
+            "x": 300,
+            "y": 300,
+            "seeCb": function(jeu) {
+                jeu.texte({"texte": "Le socle de la bouilloire. On pose la bouilloire dessus, on appuie sur le bouton, et l'eau bout. C'est... plutôt simple."});
+            }
+        }
+    },
     "bouilloire": function(jeu) {
+        if(jeu.inventaireContient("bouilloire") || jeu.inventaireContient("bouilloirepleine")) {
+            return null;
+        }
+        if(jeu.model.bouilloire === "bouillie") {
+            return {
+                "nom": "bouilloire",
+                "sprite": jeu.sprites.cuisine.bouilloirechaude,
+                "x": 294,
+                "y": 291,
+                "seeCb": function(jeu) {
+                    jeu.texte({"texte": "La bouilloire, pleine d'eau chaude."});
+                }
+            }
+        }
+        if(jeu.model.bouilloire === "pleine") {
+            return {
+                "nom": "bouilloire",
+                "sprite": jeu.sprites.cuisine.bouilloirepleine,
+                "x": 299,
+                "y": 302,
+                "seeCb": function(jeu) {
+                    jeu.texte({"texte": "La bouilloire, que j'ai remplie d'eau."});
+                },
+                "useCb": function() {
+                    jeu.texte({
+                        "texte":"Je l'allume, l'eau va bouillir.",
+                        "cb": function(jeu) {
+                            jeu.texte({
+                                "qui": jeu.sprites.cuisine.bouilloirepleine,
+                                "texte": "(pssssssssch)",
+                                "cb": function(jeu) {
+                                    jeu.texte({
+                                        "qui": jeu.sprites.cuisine.bouilloirepleine,
+                                        "texte": "fschhsccchchshchchsschh",
+                                        "cb": function(jeu) {
+                                            jeu.texte({
+                                                "qui": jeu.sprites.cuisine.bouilloirepleine,
+                                                "texte": "FSSSSCCCCHHHHHHH",
+                                                "cb": function(jeu) {
+                                                    jeu.model.bouilloire = "bouillie";
+                                                    jeu.texte({
+                                                        "qui": jeu.sprites.cuisine.bouilloirepleine,
+                                                        "texte": "BLUBORGLURBLORGLABULBULGLRB... cloc !",
+                                                        "cb": function(jeu) {
+                                                            jeu.texte({"texte": "Voilà ! L'eau est chaude !"});
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        }
         return {
             "nom": "bouilloire",
-            "sprite": jeu.sprites.cuisine.bouilloirechaude,
-            "x": 200,
-            "y": 100,
+            "sprite": jeu.sprites.cuisine.bouilloire,
+            "x": 299,
+            "y": 302,
             "seeCb": function(jeu) {
-
+                jeu.texte({"texte": "Une bouilloire. Pour faire boullir de l'eau, et rien que de l'eau, sinon je suis puni."});
             },
             "useCb": function() {
-
+                jeu.texte({"texte":"Elle est vide, je la prends, je pourrai la remplir."});
+                jeu.inventaireAjoute("bouilloire");
             }
         }
     },
     "carnet": function(jeu) {
-        if(jeu.model.carnet == null) {
+        if(jeu.model.the == null) {
             return {
                 "nom": "carnet",
                 "sprite": jeu.sprites.cuisine.carnet,
@@ -45,9 +115,10 @@ const CUISINE_OBJETS = {
                 },
                 "useCb": function(jeu) {
                     jeu.texte({
-                        "texte": "Je le prends, il y a le thé favori de maman noté dedans.", "cb": function(jeu) {
+                        "texte": "C'est le carnet de papa ! Je le prends, il y a le thé favori de maman noté dedans.",
+                        "cb": function(jeu) {
                             jeu.inventaireAjoute("carnet");
-                            jeu.model.carnet = "trouve";
+                            jeu.model.the = "carnet";
                         }
                     });
                 }
@@ -177,6 +248,17 @@ const CUISINE_OBJETS = {
                         jeu.model.potmiel = "pris";
                     }
                 });
+            }
+        }
+    },
+    "evier": function(jeu) {
+        return {
+            "nom": "evier",
+            "sprite": jeu.sprites.cuisine.evier,
+            "x": 400,
+            "y": 200,
+            "seeCb": function(jeu) {
+                jeu.texte({"texte": "C'est l'évier de la cuisine."});
             }
         }
     }

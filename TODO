@@ -1,2 +1,12 @@
-- faire un dessin de la tôle dans le terrarium
-- faire un dessin du moustikiller en train de découper la tôle
+* trouver le carnet (utiliser carnet) => model.the = "carnet"
+* essayer de lire le carnet (voir carnet)
+* donner le carnet au papa (utiliser carnet avec papa) => model.the = "carnetpapa"
+* interroger le papa (parler papa) => recette du thé => model.the = "recette"
+- prendre bouilloire (utiliser bouilloire)
+- remplir bouilloire (utiliser bouilloire avec evier)
+- remettre bouilloire (utiliser bouilloire avec socle bouilloire)
+- allumer bouilloire (utiliser bouilloire)
+- prendre tasse (utiliser tasse)
+- préparer thé (utiliser boîte à thé AVEC recette) => model.the = "pret1"
+- remplir tasse (utiliser tasse avec bouilloire) => model.the = "pret2"
+- donner tasse à la maman (utiliser tasse avec maman) => model.the = "donne"
