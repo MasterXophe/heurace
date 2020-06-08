@@ -56,7 +56,7 @@ const CUISINE_OBJETS = {
                 },
                 "useCb": function() {
                     jeu.texte({
-                        "texte":"Je l'allume, l'eau va bouillir.",
+                        "texte": "Je l'allume, l'eau va bouillir.",
                         "cb": function(jeu) {
                             jeu.texte({
                                 "qui": jeu.sprites.cuisine.bouilloirepleine,
@@ -98,7 +98,7 @@ const CUISINE_OBJETS = {
                 jeu.texte({"texte": "Une bouilloire. Pour faire boullir de l'eau, et rien que de l'eau, sinon je suis puni."});
             },
             "useCb": function() {
-                jeu.texte({"texte":"Elle est vide, je la prends, je pourrai la remplir."});
+                jeu.texte({"texte": "Elle est vide, je la prends, je pourrai la remplir."});
                 jeu.inventaireAjoute("bouilloire");
             }
         }
@@ -259,6 +259,29 @@ const CUISINE_OBJETS = {
             "y": 200,
             "seeCb": function(jeu) {
                 jeu.texte({"texte": "C'est l'évier de la cuisine."});
+            }
+        }
+    },
+    "tasse": function(jeu) {
+        if(jeu.model.tasse === "prise") {
+            return null;
+        }
+        return {
+            "nom": "tasse",
+            "sprite": jeu.sprites.inventaire.tasse,
+            "x": 500,
+            "y": 300,
+            "seeCb": function(jeu) {
+                jeu.texte({"texte": "La tasse préférée de maman."});
+            },
+            "useCb": function(jeu) {
+                if(jeu.model.mamanThe === "quoi") {
+                    jeu.texte({"texte": "Je la prends, je dois lui préparer son thé préféré."});
+                    jeu.model.tasse = "prise";
+                    jeu.inventaireAjoute("tasse");
+                    return;
+                }
+                jeu.texte({"texte": "Je ne vais pas y toucher sans raison."});
             }
         }
     }

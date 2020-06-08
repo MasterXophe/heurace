@@ -113,7 +113,9 @@
                 "carnet": null,
                 "cailloux": null,
                 "crayonvide": null,
-                "crayonmiel": null
+                "crayonmiel": null,
+                "tasse": null,
+                "tassepleine": null
             },
             "salon": {
                 "fond": null,
@@ -160,7 +162,8 @@
             CUISINE_OBJETS.blender,
             GLOBAL_OBJETS.papa,
             CUISINE_OBJETS.potmiel,
-            CUISINE_OBJETS.evier
+            CUISINE_OBJETS.evier,
+            CUISINE_OBJETS.tasse
         ];
         const SALON = [
             SALON_OBJETS.salon,
@@ -209,7 +212,7 @@
                 jeu.model.etape = "recherche";
 
                 // avance rapide
-                jeu.model = {"inventaire":["objectif_aspirobot","tole","scie","carte","crayon","potmiel"],"inventairePage":0,"chambre":{"terrarium":null},"salon":{"robotDecoince":true,"robotSousMeuble":true},"atelier":{"masqueBouge":true,"moustikiller":null},"cuisine":{"blender":"casse"},"etape":"collecte","debut":false,"scene":"cuisine","crayon":"miel","potmiel":"pris","papa":"cuisine","mamanThe":"quoi","mamanChanson":"joue","tole":"decoupee","the":"recette","bouilloire":"pleine"};
+                jeu.model = {"inventaire":["objectif_aspirobot","tole","scie","carte","crayon","potmiel"],"inventairePage":0,"chambre":{"terrarium":null},"salon":{"robotDecoince":true,"robotSousMeuble":true},"atelier":{"masqueBouge":true,"moustikiller":null},"cuisine":{"blender":"casse"},"etape":"collecte","debut":false,"scene":"cuisine","crayon":"miel","potmiel":"pris","papa":"cuisine","mamanThe":"quoi","mamanChanson":"joue","tole":"decoupee","the":"recette","bouilloire":"bouillie"};
 
                 // intro
                 if(jeu.model.debut) {

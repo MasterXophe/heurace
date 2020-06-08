@@ -450,5 +450,14 @@ const INVENTAIRE_OBJETS = {
                 jeu.texte({"texte": "Ça ne fait rien."});
             }
         }
+    },
+    "tasse": function(jeu) {
+        return {
+            "nom": "tasse",
+            "sprite": jeu.sprites.inventaire.tasse,
+            "seeCb": function(jeu) {
+                jeu.texte({"texte": "La tasse préférée de maman, je l'ai prise pour lui préparer un thé."});
+            }
+        }
     }
 };
