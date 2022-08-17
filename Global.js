@@ -161,8 +161,8 @@ const GLOBAL_OBJETS = {
             return {
                 "nom": "papa",
                 "sprite": jeu.sprites.atelier.papa,
-                "x": 50,
-                "y": 200,
+                "x": 165,
+                "y": 230,
                 "seeCb": function(jeu) {
                     jeu.texte({"texte": "Mon papa, il est inventeur."});
                 },

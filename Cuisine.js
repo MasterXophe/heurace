@@ -24,7 +24,7 @@ const CUISINE_OBJETS = {
             "nom": "bouilloiresocle",
             "sprite": jeu.sprites.cuisine.bouilloiresocle,
             "x": 300,
-            "y": 300,
+            "y": 250,
             "seeCb": function(jeu) {
                 jeu.texte({"texte": "Le socle de la bouilloire. On pose la bouilloire dessus, on appuie sur le bouton, et l'eau bout. C'est... plutôt simple."});
             }
@@ -39,7 +39,7 @@ const CUISINE_OBJETS = {
                 "nom": "bouilloire",
                 "sprite": jeu.sprites.cuisine.bouilloirechaude,
                 "x": 294,
-                "y": 291,
+                "y": 241,
                 "seeCb": function(jeu) {
                     jeu.texte({"texte": "La bouilloire, pleine d'eau chaude."});
                 }
@@ -50,7 +50,7 @@ const CUISINE_OBJETS = {
                 "nom": "bouilloire",
                 "sprite": jeu.sprites.cuisine.bouilloirepleine,
                 "x": 299,
-                "y": 302,
+                "y": 252,
                 "seeCb": function(jeu) {
                     jeu.texte({"texte": "La bouilloire, que j'ai remplie d'eau."});
                 },
@@ -93,7 +93,7 @@ const CUISINE_OBJETS = {
             "nom": "bouilloire",
             "sprite": jeu.sprites.cuisine.bouilloire,
             "x": 299,
-            "y": 302,
+            "y": 252,
             "seeCb": function(jeu) {
                 jeu.texte({"texte": "Une bouilloire. Pour faire boullir de l'eau, et rien que de l'eau, sinon je suis puni."});
             },
@@ -130,8 +130,8 @@ const CUISINE_OBJETS = {
         return {
             "nom": "passoire",
             "sprite": jeu.sprites.cuisine.passoire,
-            "x": 400,
-            "y": 100,
+            "x": 480,
+            "y": 360,
             "seeCb": function(jeu) {
                 if(jeu.model.etape === "recherche") {
                     if(!jeu.inventaireContient("idee_passoire")) {
@@ -154,8 +154,8 @@ const CUISINE_OBJETS = {
                 return {
                     "nom": "blender",
                     "sprite": jeu.sprites.cuisine.blender,
-                    "x": 100,
-                    "y": 100,
+                    "x": 120,
+                    "y": 250,
                     "seeCb": function(jeu) {
                         jeu.texte({"texte": "Le blender dont maman se sert pour faire des jus ou des soupes. Papa a du le réparer une fois parce que je l'avais cassé, mais je ne sais plus comment."});
                         jeu.model.cuisine.blender = "comment";
@@ -165,8 +165,8 @@ const CUISINE_OBJETS = {
                 return {
                     "nom": "blender",
                     "sprite": jeu.sprites.cuisine.blender,
-                    "x": 100,
-                    "y": 100,
+                    "x": 120,
+                    "y": 250,
                     "seeCb": function(jeu) {
                         jeu.texte({"texte": "Le blender dont maman se sert pour faire des jus ou des soupes. Papa a du le réparer une fois parce que je l'avais cassé en essayant de mixer des cailloux."});
                     }
@@ -175,8 +175,8 @@ const CUISINE_OBJETS = {
                 return {
                     "nom": "cailloux",
                     "sprite": jeu.sprites.cuisine.blendercailloux,
-                    "x": 100,
-                    "y": 100,
+                    "x": 120,
+                    "y": 250,
                     "seeCb": function(jeu) {
                         jeu.texte({"texte": "J'ai mis ma collection de cailloux dans le blender. S'il est assez puissant, cela va faire du sable. S'il ne l'est pas, il va probablement se casser. Dans les deux cas, ce sera amusant !"});
                     },
@@ -209,20 +209,20 @@ const CUISINE_OBJETS = {
             case "marche":
                 return {
                     "sprite": jeu.sprites.cuisine.blendermarche,
-                    "x": 100,
-                    "y": 100
+                    "x": 120,
+                    "y": 250
                 }
             case "cassecailloux":
                 return {
                     "sprite": jeu.sprites.cuisine.blendercassecailloux,
-                    "x": 100,
-                    "y": 100
+                    "x": 120,
+                    "y": 250
                 }
             case "casse":
                 return {
                     "sprite": jeu.sprites.cuisine.blendercasse,
-                    "x": 100,
-                    "y": 100,
+                    "x": 120,
+                    "y": 250,
                     "seeCb": function(jeu) {
                         jeu.texte({"texte": "Le blender est cassé, il va falloir que papa le répare à nouveau..."});
                     }
@@ -256,7 +256,7 @@ const CUISINE_OBJETS = {
             "nom": "evier",
             "sprite": jeu.sprites.cuisine.evier,
             "x": 400,
-            "y": 200,
+            "y": 250,
             "seeCb": function(jeu) {
                 jeu.texte({"texte": "C'est l'évier de la cuisine."});
             }
@@ -289,8 +289,8 @@ const CUISINE_OBJETS = {
         return {
             "nom": "boiteathe",
             "sprite": jeu.sprites.cuisine.boiteathe,
-            "x": 200,
-            "y": 100,
+            "x": 20,
+            "y": 250,
             "seeCb": function(jeu) {
                 if(jeu.model.the === "recette") {
                     jeu.texte({"texte": "Le thé préféré de Maman est le Rooibos-cannelle-gingembre."});
