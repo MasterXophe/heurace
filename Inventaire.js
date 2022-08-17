@@ -520,7 +520,7 @@ const INVENTAIRE_OBJETS = {
             },
             "useWithCb": function(jeu, objet) {
                 if(objet === "bouilloire") {
-                    if(jeu.model.bouilloire !== "bouillie") {
+                    if(jeu.model.bouilloire !== "chaude") {
                         jeu.texte({"texte": "Il faut que la bouilloire soit pleine d'eau chaude."});
                         return;
                     }

@@ -25,7 +25,7 @@ const MODEL = {
     },
     papa: null, // casiers, cuisine
     crayon: null, // null, pris, miel
-    bouilloire: null, // null, pleine, bouillie
+    bouilloire: null, // null, pleine, chaude
     the: null, // null, carnet, carnetpapa, recette
     potmiel: null, // null, pris
     tasse: null, // null, prise

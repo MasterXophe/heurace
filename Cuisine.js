@@ -34,7 +34,7 @@ const CUISINE_OBJETS = {
         if(jeu.inventaireContient("bouilloire") || jeu.inventaireContient("bouilloirepleine")) {
             return null;
         }
-        if(jeu.model.bouilloire === "bouillie") {
+        if(jeu.model.bouilloire === "chaude") {
             return {
                 "nom": "bouilloire",
                 "sprite": jeu.sprites.cuisine.bouilloirechaude,
@@ -70,7 +70,7 @@ const CUISINE_OBJETS = {
                                                 "qui": jeu.sprites.cuisine.bouilloirepleine,
                                                 "texte": "FSSSSCCCCHHHHHHH",
                                                 "cb": function(jeu) {
-                                                    jeu.model.bouilloire = "bouillie";
+                                                    jeu.model.bouilloire = "chaude";
                                                     jeu.texte({
                                                         "qui": jeu.sprites.cuisine.bouilloirepleine,
                                                         "texte": "BLUBORGLURBLORGLABULBULGLRB... cloc !",
