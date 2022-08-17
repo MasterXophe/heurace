@@ -191,7 +191,7 @@ const SALON_OBJETS = {
                                     "cb": function(jeu) {
                                         jeu.texte({
                                             "qui": jeu.sprites.qui.maman,
-                                            "texte": "Oh oui ! Tu as voulu mixer des cailloux pour faire du sable. Ça a pris des heures à ton père pour le réparer"
+                                            "texte": "Oh oui ! Tu as voulu mixer des cailloux pour faire du sable. Ça a pris des heures à ton père pour le réparer."
                                         });
                                         jeu.model.cuisine.blender = "explication";
                                     }

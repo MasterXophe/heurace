@@ -459,5 +459,85 @@ const INVENTAIRE_OBJETS = {
                 jeu.texte({"texte": "La tasse préférée de maman, je l'ai prise pour lui préparer un thé."});
             }
         }
+    },
+    "tassepleine": function(jeu) {
+        return {
+            "nom": "tassepleine",
+            "sprite": jeu.sprites.inventaire.tassepleine,
+            "seeCb": function(jeu) {
+                jeu.texte({"texte": "Une tasse du thé préféré de Maman."});
+            },
+            "useWithCb": function(jeu, objet) {
+                if(objet === "maman") {
+                    jeu.texte({
+                        "texte": "Tiens, Maman, je t'ai préparé ton thé préféré !",
+                        "cb": function(jeu) {
+                            jeu.texte({"texte": "Oh, merci mon chéri, c'est adorable !", "qui": "maman"});
+                        }
+                    });
+                }
+            }
+        }
+    },
+    "tassesachet": function(jeu) {
+        return {
+            "nom": "tassesachet",
+            "sprite": jeu.sprites.inventaire.tassesachet,
+            "seeCb": function(jeu) {
+                jeu.texte({"texte": "La tasse avec le sachet, il ne manque que l'eau chaude !"});
+            },
+            "useWithCb": function(jeu, objet) {
+                if(objet === "bouilloire") {
+                    if(jeu.model.bouilloire !== "bouillie") {
+                        jeu.texte({"texte": "Il faut que la bouilloire soit pleine d'eau chaude."});
+                        return;
+                    }
+                    jeu.inventaireRetire("tassesachet");
+                    jeu.inventaireAjoute("tassepleine");
+                    jeu.texte({"texte": "Je verse l'eau, et voilà, le thé préféré de Maman est prêt !"});
+                    return;
+                }
+                if(objet === "potmiel") {
+                    jeu.texte({"texte": "Non, elle ne prend pas de miel dans son thé."});
+                    return;
+                }
+                if(objet === "evier") {
+                    jeu.texte({"texte": "Non, il faut de l'eau chaude."});
+                    return;
+                }
+                jeu.texte({"texte": "Ça ne fait rien."});
+            }
+        }
+    },
+    "sachetthe": function(jeu) {
+        return {
+            "nom": "sachetthe",
+            "sprite": jeu.sprites.inventaire.sachetthe,
+            "seeCb": function(jeu) {
+                jeu.texte({"texte": "Un sachet du thé préféré de maman, je l'ai pris pour lui en préparer une tasse."});
+            },
+            "useWithCb": function(jeu, objet) {
+                if(objet === "tasse") {
+                    jeu.inventaireRetire("sachetthe");
+                    jeu.inventaireRetire("tasse");
+                    jeu.inventaireAjoute("tassesachet");
+                    jeu.texte({"texte": "Je mets le sachet dans la tasse."});
+                    return;
+                }
+                if(objet === "boiteathe") {
+                    jeu.texte({"texte": "Pourquoi le remettre dedans ? J'en ai besoin pour préparer le thé pour Maman."});
+                    return;
+                }
+                if(objet === "terrarium") {
+                    jeu.texte({"texte": "Je ne pense pas que les fourmis aiment le thé..."});
+                    return;
+                }
+                if(objet === "bouilloire" || objet === "bouilloirechaude" || objet === "bouilloirepleine") {
+                    jeu.texte({"texte": "Hmmm... Je suis quasiment sûr que le sachet ne se met pas directement dans la bouilloire."});
+                    return;
+                }
+                jeu.texte({"texte": "Ça ne fait rien."});
+            }
+        }
     }
 };

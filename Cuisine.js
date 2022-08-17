@@ -284,5 +284,28 @@ const CUISINE_OBJETS = {
                 jeu.texte({"texte": "Je ne vais pas y toucher sans raison."});
             }
         }
+    },
+    "boiteathe": function(jeu) {
+        return {
+            "nom": "boiteathe",
+            "sprite": jeu.sprites.cuisine.boiteathe,
+            "x": 200,
+            "y": 100,
+            "seeCb": function(jeu) {
+                if(jeu.model.the === "recette") {
+                    jeu.texte({"texte": "Le thé préféré de Maman est le Rooibos-cannelle-gingembre."});
+                } else {
+                    jeu.texte({"texte": "Il y a tellement de sachets différents ! Je ne sais pas quel est le préféré de Maman..."});
+                }
+            },
+            "useCb": function(jeu) {
+                if(jeu.model.the === "recette") {
+                    jeu.texte({"texte": "Je prends un sachet de Rooibos-cannelle-gingembre."});
+                    jeu.inventaireAjoute("sachetthe");
+                } else {
+                    jeu.texte({"texte": "Il y a tellement de sachets différents ! Je ne sais pas quel est le préféré de Maman..."});
+                }
+            }
+        }
     }
 }

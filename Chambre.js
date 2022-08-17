@@ -19,7 +19,7 @@ const CHAMBRE_OBJETS = {
         }
         if(jeu.model.etape === "collecte" && jeu.model.crayon == null) {
             objet.useCb = function(jeu) {
-                jeu.texte({"texte": "Je le prends, on ne sait jamais, j'aurais peut-être envie de le remplir avec un liquide quelconque et dessiner avec."});
+                jeu.texte({"texte": "Je prends le crayon vide, on ne sait jamais, j'aurais peut-être envie de le remplir avec un liquide quelconque et dessiner avec."});
                 jeu.inventaireAjoute("crayon");
                 jeu.model.crayon = "pris";
             };

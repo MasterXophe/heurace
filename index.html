@@ -74,6 +74,7 @@
                 "blendercasse": null,
                 "blendercassecailloux": null,
                 "blendermarche": null,
+                "boiteathe": null,
                 "bouilloire": null,
                 "bouilloirepleine": null,
                 "bouilloirechaude": null,
@@ -81,7 +82,7 @@
                 "carnet": null,
                 "evier": null,
                 "passoire": null,
-                "portesalon": null
+                "portesalon": null,
             },
             "inventaire": {
                 "idee": null,
@@ -115,7 +116,9 @@
                 "crayonvide": null,
                 "crayonmiel": null,
                 "tasse": null,
-                "tassepleine": null
+                "tassepleine": null,
+                "tassesachet": null,
+                "sachetthe": null
             },
             "salon": {
                 "fond": null,
@@ -163,7 +166,8 @@
             GLOBAL_OBJETS.papa,
             CUISINE_OBJETS.potmiel,
             CUISINE_OBJETS.evier,
-            CUISINE_OBJETS.tasse
+            CUISINE_OBJETS.tasse,
+            CUISINE_OBJETS.boiteathe
         ];
         const SALON = [
             SALON_OBJETS.salon,
@@ -210,9 +214,11 @@
                 jeu.addScene("cuisine", CUISINE);
                 jeu.setDefautQui(SPRITES.qui.heurace);
                 jeu.model.etape = "recherche";
+                jeu.model.debut = true;
+                jeu.scene("chambre");
 
                 // avance rapide
-                jeu.model = {"inventaire":["objectif_aspirobot","tole","scie","carte","crayon","potmiel"],"inventairePage":0,"chambre":{"terrarium":null},"salon":{"robotDecoince":true,"robotSousMeuble":true},"atelier":{"masqueBouge":true,"moustikiller":null},"cuisine":{"blender":"casse"},"etape":"collecte","debut":false,"scene":"cuisine","crayon":"miel","potmiel":"pris","papa":"cuisine","mamanThe":"quoi","mamanChanson":"joue","tole":"decoupee","the":"recette","bouilloire":"bouillie"};
+                jeu.model = {"inventaire":["objectif_aspirobot","tole","scie","carte","potmiel","crayon","tassepleine"],"inventairePage":0,"chambre":{"litOuvert":false,"tiroirCherche":true,"terrarium":null},"salon":{"robotSousMeuble":true,"aspiCherche":true,"robotDecoince":true},"atelier":{"masqueBouge":true,"casiersDeranges":true,"moustikiller":null},"cuisine":{"blender":"casse"},"etape":"collecte","debut":false,"scene":"salon","papa":"cuisine","potmiel":"pris","the":"recette","bouilloire":"bouillie","mamanThe":"quoi","mamanChanson":"joue","tasse":"prise","crayon":"miel","tole":"decoupee"};
 
                 // intro
                 if(jeu.model.debut) {
