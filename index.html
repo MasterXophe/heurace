@@ -82,8 +82,10 @@
                 "bouilloiresocle": null,
                 "carnet": null,
                 "evier": null,
-                "passoire": null,
                 "portesalon": null,
+                "porteouverte": null,
+                "portefermee": null,
+                "passoire": null
             },
             "inventaire": {
                 "idee": null,
@@ -162,13 +164,15 @@
             CUISINE_OBJETS.bouilloiresocle,
             CUISINE_OBJETS.bouilloire,
             CUISINE_OBJETS.carnet,
-            CUISINE_OBJETS.passoire,
             CUISINE_OBJETS.blender,
             GLOBAL_OBJETS.papa,
             CUISINE_OBJETS.potmiel,
             CUISINE_OBJETS.evier,
             CUISINE_OBJETS.tasse,
-            CUISINE_OBJETS.boiteathe
+            CUISINE_OBJETS.boiteathe,
+            CUISINE_OBJETS.porteouverte,
+            CUISINE_OBJETS.portefermee,
+            CUISINE_OBJETS.passoire
         ];
         const SALON = [
             SALON_OBJETS.salon,
@@ -218,8 +222,7 @@
                 jeu.scene("chambre");
 
                 // avance rapide
-                jeu.model =
-                    {"inventaire":["objectif_aspirobot","tole","scie","carte","potmiel","crayon","tassepleine"],"inventairePage":0,"chambre":{"litOuvert":false,"tiroirCherche":true,"terrarium":null},"salon":{"robotSousMeuble":true,"aspiCherche":true,"robotDecoince":true,"mamanChanson":"joue","mamanThe":"quoi"},"atelier":{"masqueBouge":true,"casiersDeranges":true,"moustikiller":null},"cuisine":{"blender":"casse"},"etape":"collecte","debut":false,"scene":"cuisine","papa":"cuisine","potmiel":"pris","the":"recette","bouilloire":"chaude","tasse":"prise","crayon":"miel","tole":"decoupee"};
+                jeu.model = {"etape":"collecte","debut":false,"atelier":{"moustikiller":null,"casiersDeranges":true,"masqueBouge":true},"salon":{"aspiCherche":true,"robotSousMeuble":true,"robotDecoince":true,"mamanChanson":"joue","mamanThe":"ok","mamanDort":true},"chambre":{"terrarium":null,"fenetreRegardee":false,"litOuvert":false,"tiroirCherche":true},"cuisine":{"porteouverte":false,"potmielpris":true,"blender":null,"bouilloire":"chaude","potmiel":null,"tasse":"prise"},"papa":"casiers","crayon":"miel","tole":null,"carnet":"rendu","inventaire":["objectif_aspirobot","objectif_toledecoupee","objectif_scie","carte","crayon","potmiel"],"inventairePage":0,"scene":"salon"};
 
                 // intro
                 if(jeu.model.debut) {

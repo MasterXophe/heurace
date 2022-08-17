@@ -40,7 +40,9 @@ const Jeu = function(jeuCanvas, model, sprites, initCb) {
 }
 Jeu.prototype.addScene= function(nom, objets) {
     this._scenes[nom] = objets;
-    this.model[nom] = {};
+    if(this.model[nom] == null) {
+        this.model[nom] = {};
+    }
 }
 Jeu.prototype.setDefautQui = function(quiDefaut) {
     this.quiDefaut = quiDefaut;

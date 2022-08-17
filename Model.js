@@ -21,13 +21,15 @@ const MODEL = {
         tiroirCherche: false
     },
     cuisine: {
-        blender: null // null, comment, explication, cailloux, marche, cassecailloux, casse
+        porteouverte: false,
+        potmielpris: false,
+        blender: null, // null, comment, explication, cailloux, marche, cassecailloux, casse
+        bouilloire: null, // null, pleine, chaude
+        potmiel: null, // null, pris
+        tasse: null // null, prise
     },
     papa: null, // casiers, cuisine
     crayon: null, // null, pris, miel
-    bouilloire: null, // null, pleine, chaude
-    the: null, // null, carnet, carnetpapa, recette
-    potmiel: null, // null, pris
-    tasse: null, // null, prise
+    carnet: null, // null, recherche, trouve, pris, rendu
     tole: null // null, miel, fourmis, decoupee
 }

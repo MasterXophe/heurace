@@ -108,20 +108,19 @@ const GLOBAL_OBJETS = {
                         choix.push({
                             "texte": "Tu connais son thé préféré ?",
                             "cb": function(jeu) {
-                                if(jeu.model.the == null || jeu.model.the === "carnet") {
+                                if(jeu.model.carnet !== "rendu") {
                                     jeu.texte({
                                         "qui": jeu.sprites.qui.papa,
                                         "texte": "Oh c'est compliqué, j'ai noté la recette dans mon carnet, mais je ne sais plus où je l'ai mis."
                                     });
+                                    jeu.model.carnet = "recherche";
                                     return;
                                 }
                                 jeu.texte({
                                     "qui": jeu.sprites.qui.papa,
                                     "texte": "Attends, c'est dans mon carnet... c'est pas ça... c'est pas ça... ah voila ! Son thé favori est le Rooibos-cannelle-gingembre."
                                 });
-                                if(jeu.model.the === "carnetpapa") {
-                                    jeu.model.the = "recette";
-                                }
+                                jeu.model.salon.mamanThe = "recette";
                             }
                         });
                     }

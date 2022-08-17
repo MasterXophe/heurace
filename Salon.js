@@ -116,11 +116,12 @@ const SALON_OBJETS = {
                         "texte": "Je ne connais pas la chanson préférée de maman, je vais en mettre une au hasard.",
                         "cb": function(jeu) {
                             jeu.texte({
-                                "qui": "maman",
-                                "texte": "Heurace, j'aimerais un peu de silence, tu veux bien éteindre cette musique ?"
+                                "qui": jeu.sprites.qui.maman,
+                                "texte": "Heurace, je voudrais me reposer, tu veux bien éteindre cette musique ?"
                             });
                         }
                     });
+                    return;
                 }
                 jeu.texte({"texte": "Je n'ai pas de temps d'écouter de la musique, je dois construire mon robot."});
             }

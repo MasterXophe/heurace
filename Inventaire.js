@@ -145,7 +145,7 @@ const INVENTAIRE_OBJETS = {
     },
     "tole": function(jeu) {
         switch(jeu.model.tole) {
-            case undefined:
+            case null:
                 return {
                     "nom": "tole",
                     "sprite": jeu.sprites.inventaire.tole,
@@ -293,7 +293,7 @@ const INVENTAIRE_OBJETS = {
                                         jeu.texte({
                                             "texte": "Avec son thé et sa chanson, elle va s'endormir rapidement, ça ne rate jamais !",
                                             "cb": function(jeu) {
-                                                jeu.model.mamanDort = true
+                                                jeu.model.salon.mamanDort = true;
                                             }
                                         });
                                     } else {
@@ -326,7 +326,7 @@ const INVENTAIRE_OBJETS = {
                                 "texte": "Ah formidable ! J'ai noté des choses dont je dois me souvenir dans ce carnet. Des choses... dont je ne me souviens plus."
                             });
                             jeu.inventaireRetire("carnet");
-                            jeu.model.the = "carnetpapa";
+                            jeu.model.carnet = "rendu";
                         }
                     });
                 }
@@ -384,7 +384,7 @@ const INVENTAIRE_OBJETS = {
     },
     "crayon": function(jeu) {
         switch(jeu.model.crayon) {
-            case undefined:
+            case null:
                 return null;
             case "pris":
                 return {
@@ -459,7 +459,7 @@ const INVENTAIRE_OBJETS = {
                 }
                 if(objet === "bouilloiresocle") {
                     jeu.inventaireRetire("bouilloirepleine");
-                    jeu.model.bouilloire = "pleine";
+                    jeu.model.cuisine.bouilloire = "pleine";
                     return;
                 }
                 jeu.texte({"texte": "Ça ne fait rien."});
@@ -520,7 +520,7 @@ const INVENTAIRE_OBJETS = {
             },
             "useWithCb": function(jeu, objet) {
                 if(objet === "bouilloire") {
-                    if(jeu.model.bouilloire !== "chaude") {
+                    if(jeu.model.cuisine.bouilloire !== "chaude") {
                         jeu.texte({"texte": "Il faut que la bouilloire soit pleine d'eau chaude."});
                         return;
                     }
@@ -550,6 +550,7 @@ const INVENTAIRE_OBJETS = {
             },
             "useWithCb": function(jeu, objet) {
                 if(objet === "tasse") {
+                    jeu.model.cuisine.tasse = "prise";
                     jeu.inventaireRetire("sachetthe");
                     jeu.inventaireRetire("tasse");
                     jeu.inventaireAjoute("tassesachet");
