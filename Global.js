@@ -80,7 +80,7 @@ const GLOBAL_OBJETS = {
                             });
                         }
                     }];
-                    if(jeu.model.mamanChanson === "quoi") {
+                    if(jeu.model.salon.mamanChanson === "quoi") {
                         choix.push({
                             "texte": "Tu connais sa chanson préférée ?",
                             "cb": function(jeu) {
@@ -88,11 +88,11 @@ const GLOBAL_OBJETS = {
                                     "qui": jeu.sprites.qui.papa,
                                     "texte": "C'est une chanson d'un groupe norvégien, Morgen quelque chose..."
                                 });
-                                jeu.model.mamanChanson = "groupe";
+                                jeu.model.salon.mamanChanson = "groupe";
                             }
                         });
                     }
-                    if(jeu.model.mamanChanson === "chanson") {
+                    if(jeu.model.salon.mamanChanson === "chanson") {
                         choix.push({
                             "texte": "Tu connais sa chanson préférée ? C'est de Mørgen band.",
                             "cb": function(jeu) {
@@ -100,11 +100,11 @@ const GLOBAL_OBJETS = {
                                     "qui": jeu.sprites.qui.papa,
                                     "texte": "Ah oui, Mørgen band, ça me revient ! C'est une chanson qui parle d'un couple qui se balade dans un fjord, je crois..."
                                 });
-                                jeu.model.mamanChanson = "titre";
+                                jeu.model.salon.mamanChanson = "titre";
                             }
                         });
                     }
-                    if(jeu.model.mamanThe === "quoi") {
+                    if(jeu.model.salon.mamanThe === "quoi") {
                         choix.push({
                             "texte": "Tu connais son thé préféré ?",
                             "cb": function(jeu) {

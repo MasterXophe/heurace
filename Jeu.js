@@ -1,4 +1,4 @@
-const Jeu = function(jeuCanvas, sprites, initCb) {
+const Jeu = function(jeuCanvas, model, sprites, initCb) {
     let that = this;
     this._jeuCanvas = jeuCanvas;
     this._jeuCanvas.width = 640;
@@ -14,10 +14,10 @@ const Jeu = function(jeuCanvas, sprites, initCb) {
     this._choix = null;
     this._useWith = null;
     this._mode = null;
-    this.model = {
-        "inventaire": [],
-        "inventairePage": 0
-    }
+    this.model = model;
+    this.model.inventaire = [];
+    this.model.inventairePage = 0;
+    this.model.scene = null;
     this.loadSprites("", this.sprites, function() {
         // créé le masque
         that._masqueCanvas = document.createElement("canvas");

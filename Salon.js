@@ -89,12 +89,12 @@ const SALON_OBJETS = {
                     jeu.model.salon.robotDecoince = true;
                     return;
                 }
-                if(jeu.model.mamanChanson === "groupe") {
+                if(jeu.model.salon.mamanChanson === "groupe") {
                     jeu.texte({
                         "texte": "Je vais chercher s'il y a des albums d'un groupe Morgen quelque chose, le groupe préféré de maman.",
                         "cb": function(jeu) {
                             jeu.texte({"texte": "Ah voilà, Mørgen band ! Mais il y cinq albums, quelle est la bonne chanson !?!"});
-                            jeu.model.mamanChanson = "chanson";
+                            jeu.model.salon.mamanChanson = "chanson";
                         }
                     });
                     return;
@@ -102,16 +102,16 @@ const SALON_OBJETS = {
                 jeu.texte({"texte": "La collection de CDs de mes parents, il y en a tellement ! Tout ça tient dans une clé USB, mais c'est moins joli."});
             },
             "useCb": function(jeu) {
-                if(jeu.model.mamanChanson === "trouve" && !jeu.inventaireContient("cd")) {
+                if(jeu.model.salon.mamanChanson === "trouve" && !jeu.inventaireContient("cd")) {
                     jeu.texte({"texte": "Voilà le CD avec la chanson préférée de maman, je le prends."});
                     jeu.inventaireAjoute("cd");
                     return;
                 }
-                if(jeu.model.mamanChanson === "joue") {
+                if(jeu.model.salon.mamanChanson === "joue") {
                     jeu.texte({"texte": "J'ai déjà pris le CD avec la chanson préférée de maman, je ne vais pas en prendre un autre."});
                     return;
                 }
-                if(jeu.model.mamanChanson != null) {
+                if(jeu.model.salon.mamanChanson != null) {
                     jeu.texte({
                         "texte": "Je ne connais pas la chanson préférée de maman, je vais en mettre une au hasard.",
                         "cb": function(jeu) {
@@ -136,6 +136,10 @@ const SALON_OBJETS = {
                 jeu.texte({"texte": "Ma maman. Elle se repose, elle a beaucoup travaillé aujourd'hui."});
             },
             "talkCb": function(jeu) {
+                if(jeu.model.salon.mamanDort === true) {
+                    jeu.texte({"texte": "Elle dort, je ne veux pas la réveiller."});
+                    return;
+                }
                 jeu.choix({
                     "choix": [{
                         "texte": "À propos de l'aspirateur-robot...",
@@ -208,6 +212,9 @@ const SALON_OBJETS = {
         }
     },
     "yeuxmaman": function(jeu) {
+        if(jeu.model.salon.mamanDort === true) {
+            return null;
+        }
         return {
             "nom": "yeuxmaman",
             "sprite": jeu.sprites.salon.yeuxmaman,
@@ -216,7 +223,7 @@ const SALON_OBJETS = {
         }
     },
     "aspirobot": function(jeu) {
-        if(jeu.model.salon.robotDecoince) {
+        if(jeu.model.salon.robotDecoince && !jeu.inventaireContient("aspirobot")) {
             return {
                 "nom": "aspirobot",
                 "sprite": jeu.sprites.inventaire.aspirobot,
@@ -234,22 +241,33 @@ const SALON_OBJETS = {
                     if(jeu.model.etape === "recherche") {
                         jeu.texte({"texte": "Pour l'instant, je cherche des idées, je ne prends rien."});
                     } else {
-                        jeu.texte({
-                            "qui": jeu.sprites.qui.maman,
-                            "texte": "Laisse cet aspirateur tranquille ! Il est très bien comme il est !",
-                            "cb": function(jeu) {
-                                jeu.texte({"texte": "Maman ne va pas partir. Ma seule chance est qu'elle s'endorme, et pour ça il lui faut sa musique et son thé préféré... mais je ne les connais pas !"});
-                                jeu.model.mamanThe = "quoi";
-                                jeu.model.mamanChanson = "quoi";
-                            }
-                        });
+                        if(jeu.model.salon.mamanDort === true) {
+                            jeu.texte({
+                                "texte": "Maman dort, je peux enfin prendre l'aspirateur-robot... doucement... sans faire de bruit... comme quelqu'un qui n'est pas en train de faire une bêtise...",
+                                "cb": function(jeu) {
+                                    jeu.inventaireRemplace("objectif_aspirobot", "aspirobot");
+                                }
+                            });
+                        } else {
+                            jeu.texte({
+                                "qui": jeu.sprites.qui.maman,
+                                "texte": "Laisse cet aspirateur tranquille ! Il est très bien comme il est !",
+                                "cb": function(jeu) {
+                                    jeu.texte({"texte": "Maman ne va pas partir. Ma seule chance est qu'elle s'endorme, et pour ça il lui faut sa musique et son thé préféré... mais je ne les connais pas !"});
+                                    if(jeu.model.salon.mamanDort !== true) {
+                                        jeu.model.salon.mamanThe = "quoi";
+                                        jeu.model.salon.mamanChanson = "quoi";
+                                    }
+                                }
+                            });
+                        }
                     }
                 }
             }
         }
     },
     "musique": function(jeu) {
-        if(jeu.model.mamanChanson === "joue") {
+        if(jeu.model.salon.mamanChanson === "joue") {
             return {
                 "nom": "musique",
                 "sprite": jeu.sprites.salon.musique,

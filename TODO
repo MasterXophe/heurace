@@ -1,3 +1,0 @@
-- préparer thé (utiliser boîte à thé AVEC recette) => model.the = "pret1"
-- remplir tasse (utiliser tasse avec bouilloire) => model.the = "pret2"
-- donner tasse à la maman (utiliser tasse avec maman) => model.the = "donne"

@@ -13,6 +13,7 @@
         }
     </style>
     <script src="Jeu.js" charset="utf-8"></script>
+    <script src="Model.js" charset="utf-8"></script>
     <script src="Global.js" charset="utf-8"></script>
     <script src="Chambre.js" charset="utf-8"></script>
     <script src="Salon.js" charset="utf-8"></script>
@@ -200,6 +201,7 @@
             ATELIER_OBJETS.tolefourmis        ];
         jeu = new Jeu(
             jeuCanvas,
+            MODEL,
             SPRITES,
             function(jeu) {
                 jeu.objets = {};//GLOBAL_OBJETS;
@@ -213,12 +215,11 @@
                 jeu.addScene("atelier", ATELIER);
                 jeu.addScene("cuisine", CUISINE);
                 jeu.setDefautQui(SPRITES.qui.heurace);
-                jeu.model.etape = "recherche";
-                jeu.model.debut = true;
                 jeu.scene("chambre");
 
                 // avance rapide
-                jeu.model = {"inventaire":["objectif_aspirobot","tole","scie","carte","potmiel","crayon","tassepleine"],"inventairePage":0,"chambre":{"litOuvert":false,"tiroirCherche":true,"terrarium":null},"salon":{"robotSousMeuble":true,"aspiCherche":true,"robotDecoince":true},"atelier":{"masqueBouge":true,"casiersDeranges":true,"moustikiller":null},"cuisine":{"blender":"casse"},"etape":"collecte","debut":false,"scene":"salon","papa":"cuisine","potmiel":"pris","the":"recette","bouilloire":"bouillie","mamanThe":"quoi","mamanChanson":"joue","tasse":"prise","crayon":"miel","tole":"decoupee"};
+                jeu.model =
+                    {"inventaire":["objectif_aspirobot","tole","scie","carte","potmiel","crayon","tassepleine"],"inventairePage":0,"chambre":{"litOuvert":false,"tiroirCherche":true,"terrarium":null},"salon":{"robotSousMeuble":true,"aspiCherche":true,"robotDecoince":true,"mamanChanson":"joue","mamanThe":"quoi"},"atelier":{"masqueBouge":true,"casiersDeranges":true,"moustikiller":null},"cuisine":{"blender":"casse"},"etape":"collecte","debut":false,"scene":"salon","papa":"cuisine","potmiel":"pris","the":"recette","bouilloire":"bouillie","tasse":"prise","crayon":"miel","tole":"decoupee"};
 
                 // intro
                 if(jeu.model.debut) {

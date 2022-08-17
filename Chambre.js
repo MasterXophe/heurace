@@ -224,7 +224,7 @@ const CHAMBRE_OBJETS = {
                 }, {
                     "texte": "Navigateur web...",
                     "cb": function() {
-                        if(jeu.model.mamanChanson === "titre") {
+                        if(jeu.model.salon.mamanChanson === "titre") {
                             jeu.choix({
                                 "choix": [{
                                     "texte": "Recherche : morgen band couple balade fjord",
@@ -234,7 +234,7 @@ const CHAMBRE_OBJETS = {
                                             "texte": "Morgen Mergen par Mørgen band, de l'album Margen Murgen (1997).",
                                             "cb": function(jeu) {
                                                 jeu.texte({"texte": "Voila, j'ai trouvé !"});
-                                                jeu.model.mamanChanson = "trouve";
+                                                jeu.model.salon.mamanChanson = "trouve";
                                             }
                                         });
                                     }

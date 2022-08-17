@@ -283,11 +283,26 @@ const INVENTAIRE_OBJETS = {
                     jeu.texte({
                         "texte": "Je vais mettre la chanson préférée de maman : Morgen Mergen par Mørgen band, de l'album Margen Murgen !",
                         "cb": function(jeu) {
-                            jeu.texte({"qui": jeu.sprites.qui.maman, "texte": "Oh, j'adore cette chanson !."});
+                            jeu.model.salon.mamanChanson = "joue";
+                            jeu.inventaireRetire("cd");
+                            jeu.texte({
+                                "qui": jeu.sprites.qui.maman,
+                                "texte": "Oh, j'adore cette chanson !.",
+                                "cb": function(jeu) {
+                                    if(jeu.model.salon.mamanThe === "ok") {
+                                        jeu.texte({
+                                            "texte": "Avec son thé et sa chanson, elle va s'endormir rapidement, ça ne rate jamais !",
+                                            "cb": function(jeu) {
+                                                jeu.model.mamanDort = true
+                                            }
+                                        });
+                                    } else {
+                                        jeu.texte({"texte": "Et maintenant, il ne reste plus qu'à lui préparer son thé préféré !"});
+                                    }
+                                }
+                            });
                         }
                     });
-                    jeu.model.mamanChanson = "joue";
-                    jeu.inventaireRetire("cd");
                     return;
                 }
                 jeu.texte({"texte": "Ça ne fait rien."});
@@ -472,7 +487,24 @@ const INVENTAIRE_OBJETS = {
                     jeu.texte({
                         "texte": "Tiens, Maman, je t'ai préparé ton thé préféré !",
                         "cb": function(jeu) {
-                            jeu.texte({"texte": "Oh, merci mon chéri, c'est adorable !", "qui": "maman"});
+                            jeu.inventaireRetire("tassepleine");
+                            jeu.texte({
+                                "texte": "Oh, merci mon chéri, c'est adorable !",
+                                "qui": jeu.sprites.qui.maman,
+                                "cb": function(jeu) {
+                                    jeu.model.salon.mamanThe = "ok";
+                                    if(jeu.model.salon.mamanChanson === "joue") {
+                                        jeu.texte({
+                                            "texte": "Le thé, la chanson, elle va s'endormir, c'est sûr !",
+                                            "cb": function(jeu) {
+                                                jeu.model.salon.mamanDort = true;
+                                            }
+                                        });
+                                    } else {
+                                        jeu.texte({"texte": "Voilà pour le thé, ne reste plus qu'à mettre sa chanson."});
+                                    }
+                                }
+                            });
                         }
                     });
                 }
