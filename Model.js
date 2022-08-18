@@ -28,8 +28,8 @@ const MODEL = {
         potmiel: null, // null, pris
         tasse: null // null, prise
     },
-    papa: null, // casiers, cuisine
+    papa: null, // null, casiers, cuisine
     crayon: null, // null, pris, miel
     carnet: null, // null, recherche, trouve, pris, rendu
-    tole: null // null, miel, fourmis, decoupee
+    tole: null // null, miel, fourmis, decoupee, soudee
 }

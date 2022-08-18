@@ -116,6 +116,13 @@ const GLOBAL_OBJETS = {
                                     jeu.model.carnet = "recherche";
                                     return;
                                 }
+                                if(jeu.scene !== "cuisine") {
+                                    jeu.texte({
+                                        "qui": jeu.sprites.qui.papa,
+                                        "texte": "Repose-moi la question quand je ne serai pas dans mon atelier s'il-te-plaît."
+                                    });
+                                    return;
+                                }
                                 jeu.texte({
                                     "qui": jeu.sprites.qui.papa,
                                     "texte": "Attends, c'est dans mon carnet... c'est pas ça... c'est pas ça... ah voila ! Son thé favori est le Rooibos-cannelle-gingembre."
