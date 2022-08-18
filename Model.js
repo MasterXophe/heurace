@@ -26,7 +26,8 @@ const MODEL = {
         blender: null, // null, comment, explication, cailloux, marche, cassecailloux, casse
         bouilloire: null, // null, pleine, chaude
         potmiel: null, // null, pris
-        tasse: null // null, prise
+        tasse: null, // null, prise
+        sachetthepris: false
     },
     papa: null, // null, casiers, cuisine
     crayon: null, // null, pris, miel

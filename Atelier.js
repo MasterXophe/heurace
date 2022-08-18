@@ -276,7 +276,7 @@ const ATELIER_OBJETS = {
                         if(jeu.model.papa == null || jeu.model.papa === "casiers") {
                             jeu.texte({"qui": jeu.sprites.qui.papa, "texte": "Ne touche pas à ça, c'est dangereux !"});
                         } else {
-                            jeu.texte({"texte": "Ah, maintenant je peux prendre la scie circulaire !"});
+                            jeu.texte({"texte": "Ah, maintenant je peux prendre la scie circulaire ! Comme elle est belle ! Comme elle est... dangereuse !!!"});
                             jeu.inventaireRemplace("objectif_scie", "scie");
                         }
                     }

@@ -107,12 +107,12 @@ const INVENTAIRE_OBJETS = {
             }
         }
     },
-    "objectif_toledecoupee": function(jeu) {
+    "objectif_tolesoudee": function(jeu) {
         return {
-            "nom": "objectif_toledecoupee",
-            "sprite": jeu.sprites.inventaire.objectif_toledecoupee,
+            "nom": "objectif_tolesoudee",
+            "sprite": jeu.sprites.inventaire.objectif_tolesoudee,
             "seeCb": function(jeu) {
-                jeu.texte({"texte": "Il faut que je trouve une plaque de tôle et que j'arrive à la découper suivant mes plans pour faire le blindage de mon robot de combat."});
+                jeu.texte({"texte": "Il faut que je trouve une plaque de tôle et que j'arrive à la découper et à la souder suivant mes plans pour faire le blindage de mon robot de combat."});
             }
         }
     },
@@ -226,8 +226,6 @@ const INVENTAIRE_OBJETS = {
                                                                 "texte": "Wow ! Le moustikiller a dézingué les pauvres fourmis en un éclair ! C'est moche, mais ça a découpé la tôle tout comme il faut ! J'éteins cet engin de mort et je récupère mes pièces.",
                                                                 "cb": function(jeu) {
                                                                     jeu.model.tole = "decoupee";
-                                                                    jeu.inventaireRetire("tole");
-                                                                    jeu.inventaireRemplace("objectif_toledecoupee", "tole");
                                                                 }
                                                             });
                                                         }
@@ -248,7 +246,27 @@ const INVENTAIRE_OBJETS = {
                     "nom": "tole",
                     "sprite": jeu.sprites.inventaire.toledecoupee,
                     "seeCb": function(jeu) {
-                        jeu.texte({"texte": "Les morceaux de tôle en acier pour le blindage du robot de combat."});
+                        jeu.texte({"texte": "Les morceaux de tôle en acier pour le blindage du robot de combat. Je dois encore les souder."});
+                    },
+                    "useWithCb": function(jeu, objet) {
+                        switch(objet) {
+                            case "chalumeau":
+                                jeu.texte({"texte": "C'est parti ! Je soude les tôles entre elles.", "qui": jeu.sprites.qui.heuracemasque});
+                                jeu.inventaireRetire("tole");
+                                jeu.inventaireRemplace("objectif_tolesoudee", "tole")
+                                break;
+                            default:
+                                jeu.texte({"texte": "Ça ne fait rien, ce n'est pas avec ça que je vais pouvoir les souder."});
+                                break;
+                        }
+                    }
+                }
+            case "soudee":
+                return {
+                    "nom": "tole",
+                    "sprite": jeu.sprites.inventaire.tolesoudee,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Le blindage en tôle du robot de combat."});
                     }
                 }
         }
@@ -483,30 +501,41 @@ const INVENTAIRE_OBJETS = {
                 jeu.texte({"texte": "Une tasse du thé préféré de Maman."});
             },
             "useWithCb": function(jeu, objet) {
-                if(objet === "maman") {
-                    jeu.texte({
-                        "texte": "Tiens, Maman, je t'ai préparé ton thé préféré !",
-                        "cb": function(jeu) {
-                            jeu.inventaireRetire("tassepleine");
-                            jeu.texte({
-                                "texte": "Oh, merci mon chéri, c'est adorable !",
-                                "qui": jeu.sprites.qui.maman,
-                                "cb": function(jeu) {
-                                    jeu.model.salon.mamanThe = "ok";
-                                    if(jeu.model.salon.mamanChanson === "joue") {
-                                        jeu.texte({
-                                            "texte": "Le thé, la chanson, elle va s'endormir, c'est sûr !",
-                                            "cb": function(jeu) {
-                                                jeu.model.salon.mamanDort = true;
-                                            }
-                                        });
-                                    } else {
-                                        jeu.texte({"texte": "Voilà pour le thé, ne reste plus qu'à mettre sa chanson."});
+                switch(objet) {
+                    case "maman":
+                        jeu.texte({
+                            "texte": "Tiens, Maman, je t'ai préparé ton thé préféré !",
+                            "cb": function(jeu) {
+                                jeu.inventaireRetire("tassepleine");
+                                jeu.texte({
+                                    "texte": "Oh, merci mon chéri, c'est adorable !",
+                                    "qui": jeu.sprites.qui.maman,
+                                    "cb": function(jeu) {
+                                        jeu.model.salon.mamanThe = "ok";
+                                        if(jeu.model.salon.mamanChanson === "joue") {
+                                            jeu.texte({
+                                                "texte": "Le thé, la chanson, elle va s'endormir, c'est sûr !",
+                                                "cb": function(jeu) {
+                                                    jeu.model.salon.mamanDort = true;
+                                                }
+                                            });
+                                        } else {
+                                            jeu.texte({"texte": "Voilà pour le thé, ne reste plus qu'à mettre sa chanson."});
+                                        }
                                     }
-                                }
-                            });
-                        }
-                    });
+                                });
+                            }
+                        });
+                        break;
+                    case "papa":
+                        jeu.texte({"texte": "Ce thé n'est pas pour Papa, il est pour Maman !"});
+                        break;
+                    case "evier":
+                        jeu.texte({"texte": "Mais... Pourquoi faire un thé si c'est pour le jeter après !?!"});
+                        break;
+                    default:
+                        jeu.texte({"texte": "Ça ne fait rien."});
+                        break;
                 }
             }
         }

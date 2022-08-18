@@ -243,18 +243,6 @@ const CUISINE_OBJETS = {
             "y": 155,
             "seeCb": function(jeu) {
                 jeu.texte({"texte": "C'est le pot de miel dont je me suis servi pour attirer les fourmis de mon terrarium. Curieusement, plus personne ne veut en manger maintenant. Je devrais peut-être leur en donner un peu ?"});
-            },
-            "useCb": function(jeu) {
-                if(jeu.model.etape === "collecte") {
-                    jeu.texte({
-                        "texte": "Ok, je le prends.", "cb": function(jeu) {
-                            jeu.inventaireAjoute("potmiel");
-                            jeu.model.cuisine.potmielpris = true;
-                        }
-                    });
-                } else {
-                    jeu.texte({"texte": "Pour le moment, je cherche des idées."});
-                }
             }
         }
     },
@@ -308,8 +296,13 @@ const CUISINE_OBJETS = {
             "useCb": function(jeu) {
                 switch(jeu.model.salon.mamanThe) {
                     case "recette":
-                        jeu.texte({"texte": "Je prends un sachet de Rooibos-cannelle-gingembre."});
-                        jeu.inventaireAjoute("sachetthe");
+                        if(!jeu.model.cuisine.sachetthepris) {
+                            jeu.texte({"texte": "Je prends un sachet de Rooibos-cannelle-gingembre."});
+                            jeu.inventaireAjoute("sachetthe");
+                            jeu.model.cuisine.sachetthepris = true;
+                        } else {
+                            jeu.texte({"texte": "J'en ai déjà pris un."});
+                        }
                         break;
                     case "quoi":
                         jeu.texte({"texte": "Il y a tellement de sachets différents ! Je ne sais pas quel est le préféré de Maman..."});

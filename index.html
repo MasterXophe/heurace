@@ -100,7 +100,7 @@
                 "idee_tole": null,
                 "idee_voiture": null,
                 "objectif_aspirobot": null,
-                "objectif_toledecoupee": null,
+                "objectif_tolesoudee": null,
                 "objectif_scie": null,
                 "objectif_carte": null,
                 "aspirobot": null,
@@ -138,6 +138,7 @@
             },
             "qui": {
                 "heurace": null,
+                "heuracemasque": null,
                 "maman": null,
                 "papa": null,
                 "moustikiller": null
@@ -222,7 +223,7 @@
                 jeu.scene("chambre");
 
                 // avance rapide
-                jeu.model = {"etape":"collecte","debut":false,"atelier":{"moustikiller":null,"casiersDeranges":true,"masqueBouge":true},"salon":{"aspiCherche":true,"robotSousMeuble":true,"robotDecoince":true,"mamanChanson":"joue","mamanThe":"ok","mamanDort":true},"chambre":{"terrarium":null,"fenetreRegardee":false,"litOuvert":false,"tiroirCherche":true},"cuisine":{"porteouverte":false,"potmielpris":true,"blender":null,"bouilloire":"chaude","potmiel":null,"tasse":"prise"},"papa":"casiers","crayon":"miel","tole":null,"carnet":"rendu","inventaire":["objectif_aspirobot","objectif_toledecoupee","objectif_scie","carte","crayon","potmiel"],"inventairePage":0,"scene":"salon"};
+                jeu.model = {"etape":"collecte","debut":false,"atelier":{"moustikiller":null,"casiersDeranges":true,"masqueBouge":true},"salon":{"aspiCherche":true,"robotSousMeuble":true,"robotDecoince":true,"mamanChanson":"joue","mamanThe":"ok","mamanDort":true},"chambre":{"terrarium":null,"fenetreRegardee":false,"litOuvert":false,"tiroirCherche":true},"cuisine":{"porteouverte":false,"potmielpris":false,"blender":"casse","bouilloire":"chaude","potmiel":null,"tasse":"prise","sachetthepris":true},"papa":"cuisine","crayon":"miel","carnet":"rendu","tole":"decoupee","inventaire":["aspirobot","objectif_tolesoudee","scie","carte","crayon","tole"],"inventairePage":0,"scene":"atelier"};
 
                 // intro
                 if(jeu.model.debut) {

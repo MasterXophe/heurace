@@ -116,7 +116,7 @@ const GLOBAL_OBJETS = {
                                     jeu.model.carnet = "recherche";
                                     return;
                                 }
-                                if(jeu.scene !== "cuisine") {
+                                if(jeu.model.scene !== "cuisine") {
                                     jeu.texte({
                                         "qui": jeu.sprites.qui.papa,
                                         "texte": "Repose-moi la question quand je ne serai pas dans mon atelier s'il-te-plaît."
