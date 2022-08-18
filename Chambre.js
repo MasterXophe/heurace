@@ -524,6 +524,7 @@ const CHAMBRE_OBJETS = {
                             jeu.texte({
                                 "texte": "Je prends la carte électronique.", "cb": function() {
                                     jeu.inventaireRemplace("objectif_carte", "carte");
+                                    COMMON.isCollecteTerminee(jeu);
                                 }
                             });
                         }

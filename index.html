@@ -14,6 +14,7 @@
     </style>
     <script src="Jeu.js" charset="utf-8"></script>
     <script src="Model.js" charset="utf-8"></script>
+    <script src="Common.js" charset="utf-8"></script>
     <script src="Global.js" charset="utf-8"></script>
     <script src="Chambre.js" charset="utf-8"></script>
     <script src="Salon.js" charset="utf-8"></script>
@@ -110,6 +111,7 @@
                 "tolemiel": null,
                 "tolefourmis": null,
                 "toledecoupee": null,
+                "tolesoudee": null,
                 "cd": null,
                 "bouilloire": null,
                 "bouilloirepleine": null,
@@ -223,7 +225,7 @@
                 jeu.scene("chambre");
 
                 // avance rapide
-                jeu.model = {"etape":"collecte","debut":false,"atelier":{"moustikiller":null,"casiersDeranges":true,"masqueBouge":true},"salon":{"aspiCherche":true,"robotSousMeuble":true,"robotDecoince":true,"mamanChanson":"joue","mamanThe":"ok","mamanDort":true},"chambre":{"terrarium":null,"fenetreRegardee":false,"litOuvert":false,"tiroirCherche":true},"cuisine":{"porteouverte":false,"potmielpris":false,"blender":"casse","bouilloire":"chaude","potmiel":null,"tasse":"prise","sachetthepris":true},"papa":"cuisine","crayon":"miel","carnet":"rendu","tole":"decoupee","inventaire":["aspirobot","objectif_tolesoudee","scie","carte","crayon","tole"],"inventairePage":0,"scene":"atelier"};
+//                jeu.model = {"etape":"fabrication","debut":false,"atelier":{"moustikiller":null,"casiersDeranges":true,"masqueBouge":true},"salon":{"aspiCherche":true,"robotSousMeuble":true,"robotDecoince":true,"mamanChanson":"joue","mamanThe":"ok","mamanDort":true},"chambre":{"terrarium":null,"fenetreRegardee":false,"litOuvert":false,"tiroirCherche":true},"cuisine":{"porteouverte":false,"potmielpris":false,"blender":"casse","bouilloire":"chaude","potmiel":null,"tasse":"prise","sachetthepris":true},"papa":"cuisine","crayon":"miel","carnet":"rendu","tole":"soudee","inventaire":["aspirobot","tole","scie","carte","crayon"],"inventairePage":0,"scene":"salon"};
 
                 // intro
                 if(jeu.model.debut) {

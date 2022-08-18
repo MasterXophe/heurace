@@ -278,6 +278,7 @@ const ATELIER_OBJETS = {
                         } else {
                             jeu.texte({"texte": "Ah, maintenant je peux prendre la scie circulaire ! Comme elle est belle ! Comme elle est... dangereuse !!!"});
                             jeu.inventaireRemplace("objectif_scie", "scie");
+                            COMMON.isCollecteTerminee(jeu);
                         }
                     }
                 }

@@ -252,8 +252,10 @@ const INVENTAIRE_OBJETS = {
                         switch(objet) {
                             case "chalumeau":
                                 jeu.texte({"texte": "C'est parti ! Je soude les tôles entre elles.", "qui": jeu.sprites.qui.heuracemasque});
+                                jeu.model.tole = "soudee";
                                 jeu.inventaireRetire("tole");
                                 jeu.inventaireRemplace("objectif_tolesoudee", "tole")
+                                COMMON.isCollecteTerminee(jeu);
                                 break;
                             default:
                                 jeu.texte({"texte": "Ça ne fait rien, ce n'est pas avec ça que je vais pouvoir les souder."});

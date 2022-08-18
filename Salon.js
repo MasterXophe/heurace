@@ -26,6 +26,9 @@ const SALON_OBJETS = {
             "y": 115,
             "useCb": function(jeu) {
                 jeu.scene("chambre");
+                if(jeu.model.etape === "fabrication") {
+                    COMMON.fin(jeu);
+                }
             }
         }
     },
@@ -247,6 +250,7 @@ const SALON_OBJETS = {
                                 "texte": "Maman dort, je peux enfin prendre l'aspirateur-robot... doucement... sans faire de bruit... comme quelqu'un qui n'est pas en train de faire une bêtise...",
                                 "cb": function(jeu) {
                                     jeu.inventaireRemplace("objectif_aspirobot", "aspirobot");
+                                    COMMON.isCollecteTerminee(jeu);
                                 }
                             });
                         } else {
