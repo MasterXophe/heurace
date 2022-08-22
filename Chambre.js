@@ -103,14 +103,57 @@ const CHAMBRE_OBJETS = {
         }
     },
     "tapis": function(jeu) {
-        return {
-            "nom": "tapis",
-            "sprite": jeu.sprites.chambre.tapis,
-            "x": 158,
-            "y": 363,
-            "seeCb": function(jeu) {
-                jeu.texte({"texte": "Tiens, un tapis !?! Je ne l'avais jamais remarqué..."});
-            }
+        switch(jeu.model.chambre.tapis) {
+            case null:
+                return {
+                    "nom": "tapis",
+                    "sprite": jeu.sprites.chambre.tapis,
+                    "x": 158,
+                    "y": 363,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Tiens, un tapis !?! Je ne l'avais jamais remarqué..."});
+                    }
+                }
+            case "aspirobot":
+                return {
+                    "nom": "tapis",
+                    "sprite": jeu.sprites.chambre.tapisaspirobot,
+                    "x": 158,
+                    "y": 363,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Je dois maintenant ajouter l'élément suivant."});
+                    }
+                }
+            case "carte":
+                return {
+                    "nom": "tapis",
+                    "sprite": jeu.sprites.chambre.tapiscarte,
+                    "x": 158,
+                    "y": 363,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Je dois maintenant ajouter l'élément suivant."});
+                    }
+                }
+            case "tole":
+                return {
+                    "nom": "tapis",
+                    "sprite": jeu.sprites.chambre.tapistole,
+                    "x": 158,
+                    "y": 363,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Je dois maintenant ajouter l'élément suivant."});
+                    }
+                }
+            case "scie":
+                return {
+                    "nom": "tapis",
+                    "sprite": jeu.sprites.chambre.tapisscie,
+                    "x": 158,
+                    "y": 363,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Je dois maintenant le programmer."});
+                    }
+                }
         }
     },
     "poster": function(jeu) {

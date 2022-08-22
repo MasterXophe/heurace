@@ -140,6 +140,25 @@ const INVENTAIRE_OBJETS = {
             "sprite": jeu.sprites.inventaire.carte,
             "seeCb": function(jeu) {
                 jeu.texte({"texte": "Une carte électronique programmable. Je vais la programmer pour piloter le robot de combat."});
+            },
+            "useWithCb": function(jeu, objet) {
+                switch(objet) {
+                    case "tapis":
+                        if(jeu.model.chambre.tapis === "aspirobot") {
+                            jeu.texte({"texte":"Je fixe la carte sur le robot pour mieux le contrôler..."});
+                            jeu.inventaireRetire("carte");
+                            jeu.model.chambre.tapis = "carte";
+                        } else {
+                            jeu.texte({"texte":"C'est un bon endroit pour construire mon robot, mais je ne devrais pas commencer par ça."});
+                        }
+                        break;
+                    case "aspirobot": case "tole": case "scie":
+                        jeu.texte({"texte":"Je dois poser les pièces quelque part pour assembler mon robot."});
+                        break;
+                    default:
+                        jeu.texte({"texte":"Je cherche le bon endroit pour assembler mon robot, et ce n'est pas ici."});
+                        break;
+                }
             }
         }
     },
@@ -269,6 +288,28 @@ const INVENTAIRE_OBJETS = {
                     "sprite": jeu.sprites.inventaire.tolesoudee,
                     "seeCb": function(jeu) {
                         jeu.texte({"texte": "Le blindage en tôle du robot de combat."});
+                    },
+                    "useWithCb": function(jeu, objet) {
+                        switch(objet) {
+                            case "tapis":
+                                if(jeu.model.chambre.tapis === "carte") {
+                                    jeu.texte({"texte":"Je fixe le blindage sur le robot..."});
+                                    jeu.inventaireRetire("tole");
+                                    jeu.model.chambre.tapis = "tole";
+                                } else {
+                                    jeu.texte({"texte":"C'est un bon endroit pour construire mon robot, mais je ne devrais pas commencer par ça."});
+                                }
+                                break;
+                            case "scie": case "aspirobot": case "carte":
+                                jeu.texte({"texte":"Je dois poser les pièces quelque part pour assembler mon robot."});
+                                break;
+                            case "lit":
+                                jeu.texte({"texte":"Ça ne va pas, c'est trop mou."});
+                                break;
+                            default:
+                                jeu.texte({"texte":"Ça ne fait rien."});
+                                break;
+                        }
                     }
                 }
         }
@@ -278,7 +319,29 @@ const INVENTAIRE_OBJETS = {
             "nom": "aspirobot",
             "sprite": jeu.sprites.inventaire.aspirobot,
             "seeCb": function(jeu) {
-                jeu.texte({"texte": "L'aspirateur-robot. Je vais m'en servir comme chassis pour mon robot de combat. Il se déplace et a des capteurs de proximité, c'est parfait !"});
+                if(jeu.model.etape !== "fabrication") {
+                    jeu.texte({"texte": "L'aspirateur-robot. Je vais m'en servir comme chassis pour mon robot de combat. Il se déplace et a des capteurs de proximité, c'est parfait !"});
+                } else {
+                    jeu.texte({"texte": "L'aspirateur-robot. Je dois le poser quelque part pour commencer à fabriquer mon robot de combat."});
+                }
+            },
+            "useWithCb": function(jeu, objet) {
+                switch(objet) {
+                    case "tapis":
+                        jeu.texte({"texte":"Le meilleur endroit pour bosser ! Au boulot !"});
+                        jeu.model.chambre.tapis = "aspirobot";
+                        jeu.inventaireRetire("aspirobot");
+                        break;
+                    case "baseaspirobot":
+                        jeu.texte({"texte":"Non, pas besoin de le recharger, il faut que je le pose au bon endroit pour assembler mon robot."});
+                        break;
+                    case "tole": case "carte": case "scie":
+                        jeu.texte({"texte":"Je dois poser les pièces quelque part pour assembler mon robot."});
+                        break;
+                    default:
+                        jeu.texte({"texte":"Je cherche le bon endroit pour assembler mon robot, et ce n'est pas ici."});
+                        break;
+                }
             }
         }
     },
@@ -288,6 +351,30 @@ const INVENTAIRE_OBJETS = {
             "sprite": jeu.sprites.inventaire.scie,
             "seeCb": function(jeu) {
                 jeu.texte({"texte": "La scie circulaire. C'est un outil très dangereux qui sera l'arme du robot de combat."});
+            },
+            "useWithCb": function(jeu, objet) {
+                switch(objet) {
+                    case "tapis":
+                        if(jeu.model.chambre.tapis === "tole") {
+                            jeu.texte({
+                                "texte":"Je fixe la scie sur le robot...",
+                                "cb": function(jeu) {
+                                    jeu.texte({"texte":"Fin !"});
+                                }
+                            });
+                            jeu.inventaireRetire("scie");
+                            jeu.model.chambre.tapis = "scie";
+                        } else {
+                            jeu.texte({"texte":"C'est un bon endroit pour construire mon robot, mais je ne devrais pas commencer par ça."});
+                        }
+                        break;
+                    case "aspirobot": case "tole": case "carte":
+                        jeu.texte({"texte":"Je dois poser les pièces quelque part pour assembler mon robot."});
+                        break;
+                    default:
+                        jeu.texte({"texte":"Je cherche le bon endroit pour assembler mon robot, et ce n'est pas ici."});
+                        break;
+                }
             }
         }
     },

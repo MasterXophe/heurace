@@ -61,6 +61,10 @@
                 "porte": null,
                 "cailloux": null,
                 "tapis": null,
+                "tapisaspirobot": null,
+                "tapiscarte": null, // TODO !
+                "tapistole": null,
+                "tapisscie": null, // TODO !
                 "poster": null,
                 "fenetre": null,
                 "lit": null,
@@ -225,7 +229,8 @@
                 jeu.scene("chambre");
 
                 // avance rapide
-//                jeu.model = {"etape":"fabrication","debut":false,"atelier":{"moustikiller":null,"casiersDeranges":true,"masqueBouge":true},"salon":{"aspiCherche":true,"robotSousMeuble":true,"robotDecoince":true,"mamanChanson":"joue","mamanThe":"ok","mamanDort":true},"chambre":{"terrarium":null,"fenetreRegardee":false,"litOuvert":false,"tiroirCherche":true},"cuisine":{"porteouverte":false,"potmielpris":false,"blender":"casse","bouilloire":"chaude","potmiel":null,"tasse":"prise","sachetthepris":true},"papa":"cuisine","crayon":"miel","carnet":"rendu","tole":"soudee","inventaire":["aspirobot","tole","scie","carte","crayon"],"inventairePage":0,"scene":"salon"};
+                jeu.model =
+                    {"etape":"fabrication","debut":false,"atelier":{"moustikiller":null,"casiersDeranges":true,"masqueBouge":true},"salon":{"aspiCherche":true,"robotSousMeuble":true,"robotDecoince":true,"mamanChanson":"joue","mamanThe":"ok","mamanDort":true},"chambre":{"terrarium":null,"fenetreRegardee":false,"litOuvert":false,"tiroirCherche":true,"tapis":null},"cuisine":{"porteouverte":false,"potmielpris":false,"blender":"casse","bouilloire":"chaude","potmiel":null,"tasse":"prise","sachetthepris":true},"papa":"cuisine","crayon":"miel","carnet":"rendu","tole":"soudee","inventaire":["aspirobot","tole","scie","carte","crayon"],"inventairePage":0,"scene":"chambre"};
 
                 // intro
                 if(jeu.model.debut) {

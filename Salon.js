@@ -26,9 +26,6 @@ const SALON_OBJETS = {
             "y": 115,
             "useCb": function(jeu) {
                 jeu.scene("chambre");
-                if(jeu.model.etape === "fabrication") {
-                    COMMON.fin(jeu);
-                }
             }
         }
     },
@@ -227,7 +224,7 @@ const SALON_OBJETS = {
         }
     },
     "aspirobot": function(jeu) {
-        if(jeu.model.salon.robotDecoince && !jeu.inventaireContient("aspirobot")) {
+        if(jeu.model.salon.robotDecoince && !jeu.inventaireContient("aspirobot") && jeu.model.etape !== "fabrication") {
             return {
                 "nom": "aspirobot",
                 "sprite": jeu.sprites.inventaire.aspirobot,

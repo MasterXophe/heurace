@@ -18,7 +18,8 @@ const MODEL = {
         terrarium: null, // null, tole, tolefourmi
         fenetreRegardee: false,
         litOuvert: false,
-        tiroirCherche: false
+        tiroirCherche: false,
+        tapis: null // null, aspirobot, carte, tole, scie
     },
     cuisine: {
         porteouverte: false,
