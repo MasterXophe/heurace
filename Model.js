@@ -1,5 +1,5 @@
 const MODEL = {
-    etape: "recherche", // recherche, collecte, fabrication
+    etape: "recherche", // recherche, collecte, fabrication, programmation, test
     debut: true,
     atelier: {
         moustikiller: null, // null, tole, pret, tire
@@ -19,7 +19,7 @@ const MODEL = {
         fenetreRegardee: false,
         litOuvert: false,
         tiroirCherche: false,
-        tapis: null // null, aspirobot, carte, tole, scie
+        tapis: null // null, aspirobot, carte, tole, scie, programmation
     },
     cuisine: {
         porteouverte: false,

@@ -72,6 +72,10 @@ const CHAMBRE_OBJETS = {
             "x": 0,
             "y": 88,
             "useCb": function(jeu) {
+                if(["fabrication","programmation","test"].includes(jeu.model.etape)) {
+                    jeu.texte({"texte": "Je suis en plein travail, je ne peux pas aller me promener !"});
+                    return
+                }
                 jeu.scene("salon");
             }
         }
@@ -288,7 +292,7 @@ const CHAMBRE_OBJETS = {
                         jeu.texte({"texte": "Je n'ai rien à rechercher, et je n'ai pas de temps à perdre avec des vidéos de chat pour le moment : je dois terminer mon robot !"});
                     }
                 }, {
-                    "texte": "Concevoir un plan...",
+                    "texte": "Concevoir un robot...",
                     "cb": function() {
                         switch(jeu.model.etape) {
                             case "recherche": {
@@ -318,6 +322,41 @@ const CHAMBRE_OBJETS = {
                                 jeu.texte({"texte": "J'ai le plan : il me faut maintenant l'aspirateur-robot, la plaque de tôle découpée, la scie circulaire et la carte électronique."});
                                 break;
                             }
+                            case "fabrication":
+                                jeu.model.etape = "programmation";
+                                jeu.texte({
+                                    "texte": "Ok, programmons le bazar ! Ça ne devrait pas être long.",
+                                    "cb": function(jeu) {
+                                        jeu.texte({
+                                            "texte": "Voilà, j'ai presque fini. Il ne me reste que ce petit truc à coder...",
+                                            "cb": function(jeu) {
+                                                jeu.texte({
+                                                    "texte": "Ah ! Et je dois aussi penser à ça...",
+                                                    "cb": function(jeu) {
+                                                        jeu.texte({
+                                                            "texte": "Je finis ce petit truc...",
+                                                            "cb": function(jeu) {
+                                                                jeu.texte({
+                                                                    "texte": "Tic. Tac. Tic. Tac.",
+                                                                    "qui": jeu.sprites.qui.horloge,
+                                                                    "cb": function(jeu) {
+                                                                        jeu.texte({
+                                                                            "texte": "Voilà, j'y suis ! Je le démarre !",
+                                                                            "cb": function(jeu) {
+                                                                                jeu.model.etape = "test";
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                                break;
                             default:
                                 break;
                         }
@@ -575,5 +614,16 @@ const CHAMBRE_OBJETS = {
                 }
             }
         }
-    }
+    },
+    "cable": function(jeu) {
+        if(jeu.model.etape !== "programmation") {
+            return null;
+        }
+        return {
+            "nom": "cable",
+            "sprite": jeu.sprites.chambre.cable,
+            "x": 431,
+            "y": 94
+        }
+    },
 }

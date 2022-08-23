@@ -296,6 +296,8 @@ const INVENTAIRE_OBJETS = {
                                     jeu.texte({"texte":"Je fixe le blindage sur le robot..."});
                                     jeu.inventaireRetire("tole");
                                     jeu.model.chambre.tapis = "tole";
+                                } else if(jeu.model.chambre.tapis != null) {
+                                    jeu.texte({"texte":"Je n'en suis pas encore à cette étape."});
                                 } else {
                                     jeu.texte({"texte":"C'est un bon endroit pour construire mon robot, mais je ne devrais pas commencer par ça."});
                                 }
@@ -359,11 +361,13 @@ const INVENTAIRE_OBJETS = {
                             jeu.texte({
                                 "texte":"Je fixe la scie sur le robot...",
                                 "cb": function(jeu) {
-                                    jeu.texte({"texte":"Fin !"});
+                                    jeu.texte({"texte":"Parfait, j'ai fini l'assemblage. Je dois maintenant le programmer."});
                                 }
                             });
                             jeu.inventaireRetire("scie");
                             jeu.model.chambre.tapis = "scie";
+                        } else if(jeu.model.chambre.tapis != null) {
+                            jeu.texte({"texte":"Hmmm. Je ne dois assembler les choses dans cet ordre."});
                         } else {
                             jeu.texte({"texte":"C'est un bon endroit pour construire mon robot, mais je ne devrais pas commencer par ça."});
                         }
