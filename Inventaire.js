@@ -526,6 +526,17 @@ const INVENTAIRE_OBJETS = {
                             jeu.model.tole = "miel";
                             return;
                         }
+                        if(objet === "terrarium" && jeu.model.etape === "test_attaque") {
+                            jeu.texte({
+                                "texte": "Je vais l'attirer vers les fourmis en lançant ce crayon.",
+                                "cb": function(jeu) {
+                                   jeu.inventaireRetire("crayon");
+                                   jeu.texte({"texte": "Ça a marché ! Je dois pouvoir atteindre mon ordinateur pour le couper avant qu'il ne me découpe. Enfin j'espère..."});
+                                   jeu.model.etape = "test_diversion";
+                                }
+                            });
+                            return;
+                        }
                         jeu.texte({"texte": "Ça ne fait rien."});
                     }
                 }

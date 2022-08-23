@@ -60,6 +60,9 @@ Jeu.prototype._mouseMoveCb = function(e) {
     this._jeuCanvas.style.cursor = (action.curseurCb != null ? action.curseurCb() : "pointer");
 }
 Jeu.prototype._mouseClickCb = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
     let mouseX, mouseY;
     mouseX = e.offsetX;
     mouseY = e.offsetY;
@@ -73,6 +76,7 @@ Jeu.prototype._mouseClickCb = function(e) {
     }
     action.cb(this, mouseX, mouseY);
     this._affiche();
+    return false;
 }
 /**
  * Affiche un dialogue

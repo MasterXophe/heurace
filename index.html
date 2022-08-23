@@ -72,7 +72,10 @@
                 "ordinateur": null,
                 "bazaravec": null,
                 "bazarsans": null,
-                "cable": null
+                "cable": null,
+                "robot_dh": null,
+                "robot_gh": null,
+                "robot_gb": null
             },
             "cuisine": {
                 "fond": null,
@@ -165,7 +168,8 @@
             CHAMBRE_OBJETS.lit,
             CHAMBRE_OBJETS.tiroirlit,
             CHAMBRE_OBJETS.ordinateur,
-            CHAMBRE_OBJETS.bazar
+            CHAMBRE_OBJETS.bazar,
+            CHAMBRE_OBJETS.cable
         ];
         const CUISINE = [
             CUISINE_OBJETS.cuisine,
@@ -232,7 +236,7 @@
 
                 // avance rapide
                 jeu.model =
-                    {"etape":"fabrication","debut":false,"atelier":{"moustikiller":null,"casiersDeranges":true,"masqueBouge":true},"salon":{"aspiCherche":true,"robotSousMeuble":true,"robotDecoince":true,"mamanChanson":"joue","mamanThe":"ok","mamanDort":true},"chambre":{"terrarium":null,"fenetreRegardee":false,"litOuvert":false,"tiroirCherche":true,"tapis":null},"cuisine":{"porteouverte":false,"potmielpris":false,"blender":"casse","bouilloire":"chaude","potmiel":null,"tasse":"prise","sachetthepris":true},"papa":"cuisine","crayon":"miel","carnet":"rendu","tole":"soudee","inventaire":["aspirobot","tole","scie","carte","crayon"],"inventairePage":0,"scene":"chambre"};
+                    {"etape":"fabrication","debut":false,"atelier":{"moustikiller":null,"casiersDeranges":true,"masqueBouge":true},"salon":{"aspiCherche":true,"robotSousMeuble":true,"robotDecoince":true,"mamanChanson":"joue","mamanThe":"ok","mamanDort":true},"chambre":{"terrarium":null,"fenetreRegardee":false,"litOuvert":false,"tiroirCherche":true,"tapis":"scie"},"cuisine":{"porteouverte":false,"potmielpris":false,"blender":"casse","bouilloire":"chaude","potmiel":null,"tasse":"prise","sachetthepris":true},"papa":"cuisine","crayon":"miel","carnet":"rendu","tole":"soudee","inventaire":["crayon"],"inventairePage":0,"scene":"chambre"};
 
                 // intro
                 if(jeu.model.debut) {

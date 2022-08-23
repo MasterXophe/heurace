@@ -108,7 +108,7 @@ const CHAMBRE_OBJETS = {
     },
     "tapis": function(jeu) {
         switch(jeu.model.chambre.tapis) {
-            case null:
+            case null: case "fini":
                 return {
                     "nom": "tapis",
                     "sprite": jeu.sprites.chambre.tapis,
@@ -178,6 +178,10 @@ const CHAMBRE_OBJETS = {
             "x": 566,
             "y": 103,
             "seeCb": function(jeu) {
+                if(jeu.model.etape === "test_attaque") {
+                    jeu.texte({"texte": "Fuir ? Mais le robot va découper la prochaine personne qui va rentrer dans ma chambre, je dois l'arrêter !"});
+                    return;
+                }
                 if(jeu.model.chambre.fenetreRegardee) {
                     jeu.texte({"texte": "Je ne vois rien d'intéressant dehors."});
                 } else {
@@ -343,7 +347,8 @@ const CHAMBRE_OBJETS = {
                                                                         jeu.texte({
                                                                             "texte": "Voilà, j'y suis ! Je le démarre !",
                                                                             "cb": function(jeu) {
-                                                                                jeu.model.etape = "test";
+                                                                                jeu.model.etape = "test_attaque";
+                                                                                jeu.texte({"texte": "Oh Oh ! Il a l'air un peu aggressif !"});
                                                                             }
                                                                         });
                                                                     }
@@ -622,8 +627,44 @@ const CHAMBRE_OBJETS = {
         return {
             "nom": "cable",
             "sprite": jeu.sprites.chambre.cable,
-            "x": 431,
-            "y": 94
+            "x": 295,
+            "y": 350
         }
     },
+    "robot": function(jeu) {
+        switch(jeu.model.etape) {
+            case "test_attaque":
+                return {
+                    "nom": "robot",
+                    "sprite": jeu.sprites.chambre.robot_dh,
+                    "x": 295,
+                    "y": 350,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Je l'ai programmé pour attaquer tout ce qui bouge... et je bouge ! Je peux le couper depuis mon ordinateur, mais je ne peux pas atteindre mon ordinateur !"});
+                    }
+                }
+            case "test_diversion":
+                return {
+                    "nom": "robot",
+                    "sprite": jeu.sprites.chambre.robot_gh,
+                    "x": 295,
+                    "y": 350,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Il est distrait par les fourmis, je dois en profiter pour le couper depuis mon ordinateur."});
+                    }
+                }
+            case "test_coupe":
+                return {
+                    "nom": "robot",
+                    "sprite": jeu.sprites.chambre.robot_gb,
+                    "x": 295,
+                    "y": 350,
+                    "seeCb": function(jeu) {
+                        jeu.texte({"texte": "Il est très aggressif... C'est parfait pour un combat de robot, mais je dois me souvenir de ne pas l'allumer avant d'être à distance !"});
+                    }
+                }
+            default:
+                return null;
+        }
+    }
 }
