@@ -1,8 +1,41 @@
 const GLOBAL_OBJETS = {
+    "heurace": function(jeu) {
+        if(jeu.model.scene === "chambre") {
+            return {
+                "nom": "heurace",
+                "sprite": jeu.sprites.heurace_dos,
+                "x": 532,
+                "y": 258
+            }
+        } else if(jeu.model.scene === "salon") {
+            return {
+                "nom": "heurace",
+                "sprite": jeu.sprites.heurace_dos,
+                "x": 532,
+                "y": 258
+            }
+        } else if(jeu.model.scene === "cuisine") {
+            return {
+                "nom": "heurace",
+                "sprite": jeu.sprites.heurace_dos,
+                "x": 532,
+                "y": 258
+            }
+        } else if(jeu.model.scene === "atelier") {
+            return {
+                "nom": "heurace",
+                "sprite": jeu.sprites.heurace_dos,
+                "x": 532,
+                "y": 258
+            }
+        }
+    },
     "papa": function(jeu) {
         const talkCb = function(jeu) {
             let choix = [];
+            jeu.hero(jeu.sprites.personnages.heurace_gauche, 250, 300);
             if(jeu.model.papa !== "cuisine") {
+                jeu.hero(jeu.sprites.personnages.heurace_droit, 130, 250);
                 choix.push({
                     "texte": "À propos de tes casiers de rangement...",
                     "cb": function(jeu) {
@@ -142,10 +175,11 @@ const GLOBAL_OBJETS = {
         if(jeu.model.papa == null && jeu.model.scene === "atelier") {
             return {
                 "nom": "papa",
-                "sprite": jeu.sprites.atelier.papa,
+                "sprite": jeu.sprites.personnages.papa,
                 "x": 532,
                 "y": 258,
                 "seeCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_droit, 400, 320);
                     jeu.texte({"texte": "Mon papa, il est inventeur."});
                 },
                 "talkCb": talkCb
@@ -154,10 +188,11 @@ const GLOBAL_OBJETS = {
         if(jeu.model.papa === "casiers" && jeu.model.scene === "atelier") {
             return {
                 "nom": "papa",
-                "sprite": jeu.sprites.atelier.papa,
+                "sprite": jeu.sprites.personnages.papa,
                 "x": 199,
                 "y": 171,
                 "seeCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_droit, 130, 250);
                     jeu.texte({"texte": "Mon papa, il est inventeur."});
                 },
                 "talkCb": talkCb
@@ -166,10 +201,11 @@ const GLOBAL_OBJETS = {
         if(jeu.model.papa === "cuisine" && jeu.model.scene === "cuisine") {
             return {
                 "nom": "papa",
-                "sprite": jeu.sprites.atelier.papa,
+                "sprite": jeu.sprites.personnages.papa,
                 "x": 165,
                 "y": 230,
                 "seeCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_gauche, 300, 120);
                     jeu.texte({"texte": "Mon papa, il est inventeur."});
                 },
                 "talkCb": talkCb

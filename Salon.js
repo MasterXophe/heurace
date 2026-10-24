@@ -15,6 +15,7 @@ const SALON_OBJETS = {
             "y": 102,
             "useCb": function(jeu) {
                 jeu.scene("atelier");
+                jeu.hero(jeu.sprites.personnages.heurace_face, 80, 270);
             }
         }
     },
@@ -26,6 +27,10 @@ const SALON_OBJETS = {
             "y": 115,
             "useCb": function(jeu) {
                 jeu.scene("chambre");
+                jeu.hero(jeu.sprites.personnages.heurace_face, 50, 270);
+                if(jeu.model.etape === "fabrication") {
+                    COMMON.fin(jeu);
+                }
             }
         }
     },
@@ -37,6 +42,7 @@ const SALON_OBJETS = {
             "y": 81,
             "useCb": function(jeu) {
                 jeu.scene("cuisine");
+                jeu.hero(jeu.sprites.personnages.heurace_gauche, 590, 320);
             }
         }
     },
@@ -47,6 +53,7 @@ const SALON_OBJETS = {
             "x": 69,
             "y": 314,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 80, 270);
                 jeu.texte({"texte": "C'est la base de l'aspirateur-robot, il y revient de temps en temps se recharger. Il faut que je le trouve, ça pourrait être une idée."});
                 jeu.model.salon.aspiCherche = true;
             }
@@ -59,6 +66,7 @@ const SALON_OBJETS = {
             "x": 144,
             "y": 236,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 180, 270);
                 jeu.texte({"texte": "C'est la chaîne Hi-Fi, on écoute la radio ou bien des CDs."});
             }
         }
@@ -70,9 +78,11 @@ const SALON_OBJETS = {
             "x": 72,
             "y": 86,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 80, 270);
                 jeu.texte({"texte": "Une toile d'araignée. L'aspirateur-robot ne va pas jusque là. J'ai proposé aux parents de l'améliorer pour qu'il puisse grimper mur, mais ils n'ont pas eu l'air emballés..."});
             },
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 80, 270);
                 jeu.texte({"texte": "Je ne peux pas l'atteindre."});
             }
         }
@@ -84,6 +94,7 @@ const SALON_OBJETS = {
             "x": 121,
             "y": 279,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_droit, 130, 270);
                 if(jeu.model.salon.robotSousMeuble && !jeu.model.salon.robotDecoince) {
                     jeu.texte({"texte": "Hey, l'aspirateur-robot est dessous. Je vais le décoincer."});
                     jeu.model.salon.robotDecoince = true;
@@ -102,6 +113,7 @@ const SALON_OBJETS = {
                 jeu.texte({"texte": "La collection de CDs de mes parents, il y en a tellement ! Tout ça tient dans une clé USB, mais c'est moins joli."});
             },
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_droit, 130, 270);
                 if(jeu.model.salon.mamanChanson === "trouve" && !jeu.inventaireContient("cd")) {
                     jeu.texte({"texte": "Voilà le CD avec la chanson préférée de maman, je le prends."});
                     jeu.inventaireAjoute("cd");
@@ -134,9 +146,11 @@ const SALON_OBJETS = {
             "x": 459,
             "y": 324,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_face, 460, 300);
                 jeu.texte({"texte": "Ma maman. Elle se repose, elle a beaucoup travaillé aujourd'hui."});
             },
             "talkCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_face, 460, 300);
                 if(jeu.model.salon.mamanDort === true) {
                     jeu.texte({"texte": "Elle dort, je ne veux pas la réveiller."});
                     return;
@@ -152,7 +166,6 @@ const SALON_OBJETS = {
                                         "qui": jeu.sprites.qui.maman,
                                         "texte": "Parce qu'il faut faire le ménage, mais que personne n'aime le faire."
                                     });
-                                    jeu.model.salon.robotSousMeuble = true;
                                 }
                             }, {
                                 "texte": "Je peux le prendre ?",
@@ -224,7 +237,7 @@ const SALON_OBJETS = {
         }
     },
     "aspirobot": function(jeu) {
-        if(jeu.model.salon.robotDecoince && !jeu.inventaireContient("aspirobot") && jeu.model.etape !== "fabrication") {
+        if(jeu.model.salon.robotDecoince && !jeu.inventaireContient("aspirobot")) {
             return {
                 "nom": "aspirobot",
                 "sprite": jeu.sprites.inventaire.aspirobot,
@@ -255,7 +268,7 @@ const SALON_OBJETS = {
                                 "qui": jeu.sprites.qui.maman,
                                 "texte": "Laisse cet aspirateur tranquille ! Il est très bien comme il est !",
                                 "cb": function(jeu) {
-                                    jeu.texte({"texte": "Maman ne va pas partir. Ma seule chance est qu'elle s'endorme, et pour ça il lui faut sa musique et son thé préféré... mais je ne les connais pas !"});
+                                    jeu.texte({"texte": "Maman ne va pas partir. Ma seule chance est qu'elle s'endorme, et pour ça il lui faut sa musique et son thé préférés... mais je ne les connais pas !"});
                                     if(jeu.model.salon.mamanDort !== true) {
                                         jeu.model.salon.mamanThe = "quoi";
                                         jeu.model.salon.mamanChanson = "quoi";

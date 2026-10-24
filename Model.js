@@ -1,5 +1,5 @@
 const MODEL = {
-    etape: "recherche", // recherche, collecte, fabrication, programmation, test_attaque, test_diversion, test_coupe
+    etape: "recherche", // recherche, collecte, fabrication
     debut: true,
     atelier: {
         moustikiller: null, // null, tole, pret, tire
@@ -8,7 +8,7 @@ const MODEL = {
     },
     salon: {
         aspiCherche: false,
-        robotSousMeuble: true,
+        robotSousMeuble: null,
         robotDecoince: false,
         mamanChanson: null, // null, quoi, groupe, chanson, titre, trouve, joue
         mamanThe: null, // null, quoi, recette, ok
@@ -18,8 +18,7 @@ const MODEL = {
         terrarium: null, // null, tole, tolefourmi
         fenetreRegardee: false,
         litOuvert: false,
-        tiroirCherche: false,
-        tapis: null // null, aspirobot, carte, tole, scie, programmation, fini
+        tiroirCherche: false
     },
     cuisine: {
         porteouverte: false,

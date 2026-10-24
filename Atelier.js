@@ -25,6 +25,7 @@ const ATELIER_OBJETS = {
             "x": 547,
             "y": 369,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_droit, 490, 300);
                 if(jeu.model.etape === "recherche") {
                     if(jeu.inventaireContient("idee_perceuse")) {
                         jeu.texte({"texte": "Une perceuse, avec la bonne mèche, ça peut faire du dégât."});
@@ -35,6 +36,7 @@ const ATELIER_OBJETS = {
                 }
             },
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_droit, 490, 300);
                 if(jeu.model.etape === "recherche") {
                     jeu.texte({"texte": "Je cherche juste des idées, je ne prends rien pour l'instant."});
                 } else {
@@ -50,7 +52,8 @@ const ATELIER_OBJETS = {
             "x": 393,
             "y": 108,
             "seeCb": function(jeu) {
-                jeu.texte({"texte": "Les consignes de sécurité qu'il faut respecter dans l'atelier."});
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 420, 250);
+                jeu.texte({"texte": "Toutes les consignes de sécurité que je ne respecte pas dans l'atelier."});
             }
         }
     },
@@ -61,6 +64,7 @@ const ATELIER_OBJETS = {
             "x": 394,
             "y": 269,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 420, 250);
                 jeu.texte({"texte": "Un vieux carton vide. Ce n'est pas assez solide pour servir de blindage."});
             }
         }
@@ -72,6 +76,7 @@ const ATELIER_OBJETS = {
             "x": 462,
             "y": 293,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_droit, 420, 250);
                 if(jeu.inventaireContient("idee_tole")) {
                     jeu.texte({"texte": "Des tôles en acier. Elles sont assez lourdes, et dures à découper.",});
                 } else {
@@ -80,6 +85,7 @@ const ATELIER_OBJETS = {
                 }
             },
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_droit, 420, 250);
                 if(jeu.model.etape === "recherche") {
                     jeu.texte({"texte": "Je cherche juste des idées, je ne prends rien pour l'instant."});
                 } else {
@@ -100,9 +106,11 @@ const ATELIER_OBJETS = {
             "x": 178,
             "y": 156,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 230, 250);
                 jeu.texte({"texte": "Mon père passe des heures à ranger les vis, les boulons, les écrous et autres trucs bien chacun dans sa petite case."});
             },
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 230, 250);
                 if(jeu.model.papa === "casiers") {
                     jeu.texte({"qui": jeu.sprites.qui.papa, "texte": "Pas touche à mes casiers !"});
                     return;
@@ -137,6 +145,7 @@ const ATELIER_OBJETS = {
                 "x": 322,
                 "y": 211,
                 "seeCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 280, 250);
                     jeu.texte({"texte": "C'est le masque qui sert avec le chalumeau pour la soudure."});
                 }
             }
@@ -147,9 +156,11 @@ const ATELIER_OBJETS = {
                 "x": 304,
                 "y": 219,
                 "seeCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 280, 250);
                     jeu.texte({"texte": "C'est un masque qui sert avec le chalumeau pour la soudure, mais je ne sais pas où est le chalumeau."});
                 },
                 "useCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 280, 250);
                     jeu.model.atelier.masqueBouge = true;
                 }
             }
@@ -163,6 +174,7 @@ const ATELIER_OBJETS = {
                 "x": 302,
                 "y": 228,
                 "seeCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 280, 250);
                     if(jeu.model.etape === "recherche" && !jeu.inventaireContient("idee_chalumeau")) {
                         jeu.texte({"texte": "Oh le beau chalumeau, comme il a l'air dangereux ! C'est une idée."});
                         jeu.inventaireRemplace("idee", "idee_chalumeau");
@@ -171,6 +183,7 @@ const ATELIER_OBJETS = {
                     }
                 },
                 "useCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 280, 250);
                     if(jeu.model.etape === "recherche") {
                         jeu.texte({"texte": "Je cherche juste des idées, je ne prends rien pour l'instant."});
                     } else {
@@ -207,6 +220,7 @@ const ATELIER_OBJETS = {
             "x": x,
             "y": y,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_droit, 490, 320);
                 jeu.texte({
                     "texte": "Le Moustikiller, la dernière invention de mon père. Il a couplé un détecteur de mouvement très sensible avec un laser très puissant. Son rôle est de réperer et de cramer les moustiques...",
                     "cb": function(jeu) {
@@ -227,6 +241,7 @@ const ATELIER_OBJETS = {
                 });
             },
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_droit, 490, 320);
                 jeu.texte({"texte": "Sérieusement, je préfère ne pas y toucher !"});
             }
         }
@@ -238,6 +253,7 @@ const ATELIER_OBJETS = {
             "x": 231,
             "y": 313,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 230, 250);
                 if(jeu.model.etape === "recherche" && !jeu.inventaireContient("idee_planches")) {
                     jeu.texte({"texte": "Avec du bois, je pourrais faire une protection pour mon robot. C'est une idée."});
                     jeu.inventaireRemplace("idee", "idee_planches");
@@ -246,6 +262,7 @@ const ATELIER_OBJETS = {
                 }
             },
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 230, 250);
                 if(jeu.model.etape === "recherche") {
                     jeu.texte({"texte": "Je cherche juste des idées, je ne prends rien pour l'instant."});
                 } else {
@@ -262,6 +279,7 @@ const ATELIER_OBJETS = {
                 "x": 112,
                 "y": 308,
                 "seeCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 160, 250);
                     if(jeu.model.etape === "recherche" && !jeu.inventaireContient("idee_scie")) {
                         jeu.texte({"texte": "Une scie circulaire. Ça découpe n'importe quoi, souvent même ce qu'on ne veut pas. C'est une idée."});
                         jeu.inventaireRemplace("idee", "idee_scie");
@@ -270,6 +288,7 @@ const ATELIER_OBJETS = {
                     }
                 },
                 "useCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 160, 250);
                     if(jeu.model.etape === "recherche") {
                         jeu.texte({"texte": "Je cherche juste des idées, je ne prends rien pour l'instant."});
                     } else {
@@ -293,6 +312,7 @@ const ATELIER_OBJETS = {
             "y": 78,
             "useCb": function(jeu) {
                 jeu.scene("salon");
+                jeu.hero(jeu.sprites.personnages.heurace_gauche, 500, 240);
             }
         }
     }

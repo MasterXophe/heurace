@@ -2,6 +2,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>Une aventure d'Heurace : le robot de combat</title>
+    <link rel="icon" type="image/png" href="/sprites/qui/heurace.png">
     <style>
         body {
             background-color: black;
@@ -20,6 +21,7 @@
     <script src="Salon.js" charset="utf-8"></script>
     <script src="Atelier.js" charset="utf-8"></script>
     <script src="Cuisine.js" charset="utf-8"></script>
+    <script src="Generique.js" charset="utf-8"></script>
     <script src="Inventaire.js" charset="utf-8"></script>
 </head>
 <body onload="onload();">
@@ -41,7 +43,6 @@
                 "moustikiller": null,
                 "moustikillerpret": null,
                 "moustikillertire": null,
-                "papa": null,
                 "perceuse": null,
                 "planches": null,
                 "porte": null,
@@ -61,10 +62,6 @@
                 "porte": null,
                 "cailloux": null,
                 "tapis": null,
-                "tapisaspirobot": null,
-                "tapiscarte": null,
-                "tapistole": null,
-                "tapisscie": null,
                 "poster": null,
                 "fenetre": null,
                 "lit": null,
@@ -72,10 +69,9 @@
                 "ordinateur": null,
                 "bazaravec": null,
                 "bazarsans": null,
-                "cable": null,
-                "robot_dh": null,
-                "robot_gh": null,
-                "robot_gb": null
+                "robot_debut": null,
+                "robot_tole": null,
+                "robot_scie": null
             },
             "cuisine": {
                 "fond": null,
@@ -146,13 +142,25 @@
                 "yeuxmaman": null,
                 "musique": null
             },
+            "debut": {
+                "fond": null
+            },
+            "fin": {
+                "fond": null
+            },
             "qui": {
                 "heurace": null,
                 "heuracemasque": null,
                 "maman": null,
                 "papa": null,
-                "moustikiller": null,
-                "horloge": null
+                "moustikiller": null
+            },
+            "personnages": {
+                "papa": null,
+                "heurace_face": null,
+                "heurace_dos": null,
+                "heurace_droit": null,
+                "heurace_gauche": null
             }
         };
         const CHAMBRE = [
@@ -169,7 +177,8 @@
             CHAMBRE_OBJETS.tiroirlit,
             CHAMBRE_OBJETS.ordinateur,
             CHAMBRE_OBJETS.bazar,
-            CHAMBRE_OBJETS.cable
+            CHAMBRE_OBJETS.livres,
+            CHAMBRE_OBJETS.robot
         ];
         const CUISINE = [
             CUISINE_OBJETS.cuisine,
@@ -215,7 +224,14 @@
             ATELIER_OBJETS.scie,
             ATELIER_OBJETS.porte,
             GLOBAL_OBJETS.papa,
-            ATELIER_OBJETS.tolefourmis        ];
+            ATELIER_OBJETS.tolefourmis
+        ];
+        const DEBUT = [
+            DEBUT_OBJETS.fond
+        ];
+        const FIN = [
+            FIN_OBJETS.fond
+        ];
         jeu = new Jeu(
             jeuCanvas,
             MODEL,
@@ -227,19 +243,23 @@
                 jeu.objets.atelier = ATELIER_OBJETS;
                 jeu.objets.cuisine = CUISINE_OBJETS;
                 jeu.objets.inventaire = INVENTAIRE_OBJETS;
+                jeu.objets.debut = DEBUT_OBJETS;
+                jeu.objets.fin = FIN_OBJETS;
                 jeu.addScene("chambre", CHAMBRE);
                 jeu.addScene("salon", SALON);
                 jeu.addScene("atelier", ATELIER);
                 jeu.addScene("cuisine", CUISINE);
+                jeu.addScene("debut", DEBUT);
+                jeu.addScene("fin", FIN);
                 jeu.setDefautQui(SPRITES.qui.heurace);
                 jeu.scene("chambre");
 
                 // avance rapide
-                jeu.model =
-                    {"etape":"fabrication","debut":false,"atelier":{"moustikiller":null,"casiersDeranges":true,"masqueBouge":true},"salon":{"aspiCherche":true,"robotSousMeuble":true,"robotDecoince":true,"mamanChanson":"joue","mamanThe":"ok","mamanDort":true},"chambre":{"terrarium":null,"fenetreRegardee":false,"litOuvert":false,"tiroirCherche":true,"tapis":"scie"},"cuisine":{"porteouverte":false,"potmielpris":false,"blender":"casse","bouilloire":"chaude","potmiel":null,"tasse":"prise","sachetthepris":true},"papa":"cuisine","crayon":"miel","carnet":"rendu","tole":"soudee","inventaire":["crayon"],"inventairePage":0,"scene":"chambre"};
+//                jeu.model = {"etape":"fabrication","debut":false,"atelier":{"moustikiller":null,"casiersDeranges":true,"masqueBouge":true},"salon":{"aspiCherche":true,"robotSousMeuble":true,"robotDecoince":true,"mamanChanson":"joue","mamanThe":"ok","mamanDort":true},"chambre":{"terrarium":null,"fenetreRegardee":true,"litOuvert":true,"tiroirCherche":true},"cuisine":{"porteouverte":false,"potmielpris":false,"blender":"casse","bouilloire":"chaude","potmiel":null,"tasse":"prise","sachetthepris":true},"papa":"cuisine","crayon":"miel","carnet":"rendu","tole":"soudee","inventaire":["aspirobot","tole","scie","carte","crayon"],"inventairePage":0,"scene":"salon","fin":{}};
 
                 // intro
                 if(jeu.model.debut) {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 330, 274);
                     jeu.texte({
                         "qui": jeu.sprites.qui.ordinateur,
                         "texte": "Nouveau mail : Grand concours de robots de combat !",

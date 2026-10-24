@@ -16,6 +16,7 @@ const CUISINE_OBJETS = {
             "seeCb": null,
             "useCb": function(jeu) {
                 jeu.scene("salon");
+                jeu.hero(jeu.sprites.personnages.heurace_droit, 30, 270);
             }
         }
     },
@@ -26,6 +27,7 @@ const CUISINE_OBJETS = {
             "x": 300,
             "y": 230,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 300, 290);
                 jeu.texte({"texte": "Le socle de la bouilloire. On pose la bouilloire dessus, on appuie sur le bouton, et l'eau bout. C'est... plutôt simple."});
             }
         }
@@ -41,6 +43,7 @@ const CUISINE_OBJETS = {
                 "x": 294,
                 "y": 221,
                 "seeCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 300, 290);
                     jeu.texte({"texte": "La bouilloire, pleine d'eau chaude."});
                 }
             }
@@ -52,9 +55,11 @@ const CUISINE_OBJETS = {
                 "x": 299,
                 "y": 232,
                 "seeCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 300, 290);
                     jeu.texte({"texte": "La bouilloire, que j'ai remplie d'eau."});
                 },
                 "useCb": function() {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 300, 290);
                     jeu.texte({
                         "texte": "Je l'allume, l'eau va bouillir.",
                         "cb": function(jeu) {
@@ -95,9 +100,11 @@ const CUISINE_OBJETS = {
             "x": 299,
             "y": 232,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 300, 290);
                 jeu.texte({"texte": "Une bouilloire. Pour faire boullir de l'eau, et rien que de l'eau, sinon je suis puni."});
             },
             "useCb": function() {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 300, 290);
                 if(jeu.model.etape === "collecte") {
                     jeu.texte({"texte": "Elle est vide, je la prends, je pourrai la remplir."});
                     jeu.inventaireAjoute("bouilloire");
@@ -116,6 +123,7 @@ const CUISINE_OBJETS = {
                     "x": 388,
                     "y": 162,
                     "seeCb": function(jeu) {
+                        jeu.hero(jeu.sprites.personnages.heurace_dos, 375, 290);
                         jeu.texte({"texte": "Un vieux carnet, peut-être de cuisine."});
                     }
                 }
@@ -126,6 +134,7 @@ const CUISINE_OBJETS = {
                     "x": 388,
                     "y": 162,
                     "seeCb": function(jeu) {
+                        jeu.hero(jeu.sprites.personnages.heurace_dos, 375, 290);
                         jeu.texte({"texte": "Hey, mais ce carnet, c'est le carnet de papa ! Il a du le ranger là en même temps que les livres de cuisine."});
                         jeu.model.carnet = "trouve";
                     }
@@ -137,9 +146,11 @@ const CUISINE_OBJETS = {
                     "x": 388,
                     "y": 162,
                     "seeCb": function(jeu) {
+                        jeu.hero(jeu.sprites.personnages.heurace_dos, 375, 290);
                         jeu.texte({"texte": "C'est le carnet de papa, je devrais lui ramener."});
                     },
                     "useCb": function(jeu) {
+                        jeu.hero(jeu.sprites.personnages.heurace_dos, 375, 290);
                         jeu.texte({
                             "texte": "C'est le carnet de papa ! Je le prends, il y a le thé favori de maman noté dedans.",
                             "cb": function(jeu) {
@@ -162,6 +173,7 @@ const CUISINE_OBJETS = {
                     "x": 120,
                     "y": 230,
                     "seeCb": function(jeu) {
+                        jeu.hero(jeu.sprites.personnages.heurace_dos, 130, 280);
                         jeu.texte({"texte": "Le blender dont maman se sert pour faire des jus ou des soupes. Papa a du le réparer une fois parce que je l'avais cassé, mais je ne sais plus comment."});
                         jeu.model.cuisine.blender = "comment";
                     }
@@ -173,6 +185,7 @@ const CUISINE_OBJETS = {
                     "x": 120,
                     "y": 230,
                     "seeCb": function(jeu) {
+                        jeu.hero(jeu.sprites.personnages.heurace_dos, 130, 280);
                         jeu.texte({"texte": "Le blender dont maman se sert pour faire des jus ou des soupes. Papa a du le réparer une fois parce que je l'avais cassé en essayant de mixer des cailloux."});
                     }
                 }
@@ -183,9 +196,11 @@ const CUISINE_OBJETS = {
                     "x": 120,
                     "y": 230,
                     "seeCb": function(jeu) {
+                        jeu.hero(jeu.sprites.personnages.heurace_dos, 130, 280);
                         jeu.texte({"texte": "J'ai mis ma collection de cailloux dans le blender. S'il est assez puissant, cela va faire du sable. S'il ne l'est pas, il va probablement se casser. Dans les deux cas, ce sera amusant !"});
                     },
                     "useCb": function(jeu) {
+                        jeu.hero(jeu.sprites.personnages.heurace_dos, 130, 280);
                         jeu.choix({
                             "choix": [{
                                 "texte": "Mettre en marche",
@@ -227,6 +242,7 @@ const CUISINE_OBJETS = {
                     "x": 120,
                     "y": 230,
                     "seeCb": function(jeu) {
+                        jeu.hero(jeu.sprites.personnages.heurace_dos, 130, 280);
                         jeu.texte({"texte": "Le blender est cassé, il va falloir que papa le répare à nouveau..."});
                     }
                 }
@@ -242,6 +258,7 @@ const CUISINE_OBJETS = {
             "x": 160,
             "y": 155,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 170, 280);
                 jeu.texte({"texte": "C'est le pot de miel dont je me suis servi pour attirer les fourmis de mon terrarium. Curieusement, plus personne ne veut en manger maintenant. Je devrais peut-être leur en donner un peu ?"});
             }
         }
@@ -253,6 +270,7 @@ const CUISINE_OBJETS = {
             "x": 400,
             "y": 230,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 470, 280);
                 jeu.texte({"texte": "C'est l'évier de la cuisine."});
             }
         }
@@ -267,9 +285,11 @@ const CUISINE_OBJETS = {
             "x": 230,
             "y": 220,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 240, 290);
                 jeu.texte({"texte": "La tasse préférée de maman."});
             },
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 240, 290);
                 if(jeu.model.salon.mamanThe === "recette") {
                     jeu.texte({"texte": "Je la prends, je dois lui préparer son thé préféré."});
                     jeu.model.cuisine.tasse = "prise";
@@ -287,6 +307,7 @@ const CUISINE_OBJETS = {
             "x": 5,
             "y": 220,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 50, 280);
                 if(jeu.model.salon.mamanThe === "recette") {
                     jeu.texte({"texte": "Le thé préféré de Maman est le Rooibos-cannelle-gingembre."});
                 } else {
@@ -294,6 +315,7 @@ const CUISINE_OBJETS = {
                 }
             },
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 50, 280);
                 switch(jeu.model.salon.mamanThe) {
                     case "recette":
                         if(!jeu.model.cuisine.sachetthepris) {
@@ -324,6 +346,7 @@ const CUISINE_OBJETS = {
             "x": 475,
             "y": 298,
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 470, 280);
                 jeu.model.cuisine.porteouverte = false;
             }
         }
@@ -338,6 +361,7 @@ const CUISINE_OBJETS = {
             "x": 475,
             "y": 299,
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 470, 280);
                 jeu.model.cuisine.porteouverte = true;
             }
         }
@@ -352,6 +376,7 @@ const CUISINE_OBJETS = {
             "x": 500,
             "y": 335,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 470, 280);
                 if(jeu.model.etape === "recherche") {
                     if(!jeu.inventaireContient("idee_passoire")) {
                         jeu.texte({"texte": "Cette passoire peut offrir une protection, elle a la bonne taille. C'est une idée."});
@@ -362,6 +387,7 @@ const CUISINE_OBJETS = {
                 }
             },
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 470, 280);
                 jeu.texte({"texte": "Je la prendrais si je veux me faire des pâtes."});
             }
         }

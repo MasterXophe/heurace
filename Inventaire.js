@@ -140,25 +140,6 @@ const INVENTAIRE_OBJETS = {
             "sprite": jeu.sprites.inventaire.carte,
             "seeCb": function(jeu) {
                 jeu.texte({"texte": "Une carte électronique programmable. Je vais la programmer pour piloter le robot de combat."});
-            },
-            "useWithCb": function(jeu, objet) {
-                switch(objet) {
-                    case "tapis":
-                        if(jeu.model.chambre.tapis === "aspirobot") {
-                            jeu.texte({"texte":"Je fixe la carte sur le robot pour mieux le contrôler..."});
-                            jeu.inventaireRetire("carte");
-                            jeu.model.chambre.tapis = "carte";
-                        } else {
-                            jeu.texte({"texte":"C'est un bon endroit pour construire mon robot, mais je ne devrais pas commencer par ça."});
-                        }
-                        break;
-                    case "aspirobot": case "tole": case "scie":
-                        jeu.texte({"texte":"Je dois poser les pièces quelque part pour assembler mon robot."});
-                        break;
-                    default:
-                        jeu.texte({"texte":"Je cherche le bon endroit pour assembler mon robot, et ce n'est pas ici."});
-                        break;
-                }
             }
         }
     },
@@ -190,6 +171,7 @@ const INVENTAIRE_OBJETS = {
                     "useWithCb": function(jeu, objet) {
                         if(objet === "terrarium") {
                             jeu.model.chambre.terrarium = "tole";
+                            jeu.hero(jeu.sprites.personnages.heurace_dos, 135, 268);
                             jeu.texte({
                                 "texte": "Je mets la tôle dans terrarium un moment...",
                                 "cb": function(jeu) {
@@ -223,10 +205,12 @@ const INVENTAIRE_OBJETS = {
                                 jeu.texte({"texte": "Je ne peux pas toucher au moustikiller tant que papa est dans l'atelier."});
                                 return;
                             }
+                            jeu.hero(jeu.sprites.personnages.heurace_droit, 490, 320);
                             jeu.texte({
                                 "texte": "Ooohhhh... terrible ! Je place la tôle devant le moustikiller...",
                                 "cb": function(jeu) {
                                     jeu.model.atelier.moustikiller = "tole";
+                                    jeu.hero(jeu.sprites.personnages.heurace_gauche, 590, 320);
                                     jeu.texte({
                                         "texte": "...je me place DERRIÈRE le moustikiller et je l'allume...",
                                         "cb": function(jeu) {
@@ -241,6 +225,7 @@ const INVENTAIRE_OBJETS = {
                                                         "texte": "BZZAAAPPP !!!",
                                                         "cb": function(jeu) {
                                                             jeu.model.atelier.moustikiller = null;
+                                                            jeu.hero(jeu.sprites.personnages.heurace_face, 300, 300);
                                                             jeu.texte({
                                                                 "texte": "Wow ! Le moustikiller a dézingué les pauvres fourmis en un éclair ! C'est moche, mais ça a découpé la tôle tout comme il faut ! J'éteins cet engin de mort et je récupère mes pièces.",
                                                                 "cb": function(jeu) {
@@ -270,11 +255,17 @@ const INVENTAIRE_OBJETS = {
                     "useWithCb": function(jeu, objet) {
                         switch(objet) {
                             case "chalumeau":
-                                jeu.texte({"texte": "C'est parti ! Je soude les tôles entre elles.", "qui": jeu.sprites.qui.heuracemasque});
-                                jeu.model.tole = "soudee";
-                                jeu.inventaireRetire("tole");
-                                jeu.inventaireRemplace("objectif_tolesoudee", "tole")
-                                COMMON.isCollecteTerminee(jeu);
+                                jeu.hero(jeu.sprites.personnages.heurace_dos, 280, 250);
+                                jeu.texte({
+                                    "texte": "C'est parti ! Je soude les tôles entre elles.",
+                                    "qui": jeu.sprites.qui.heuracemasque,
+                                    "cb": function(jeu) {
+                                        jeu.model.tole = "soudee";
+                                        jeu.inventaireRetire("tole");
+                                        jeu.inventaireRemplace("objectif_tolesoudee", "tole")
+                                        COMMON.isCollecteTerminee(jeu);
+                                    }
+                                });
                                 break;
                             default:
                                 jeu.texte({"texte": "Ça ne fait rien, ce n'est pas avec ça que je vais pouvoir les souder."});
@@ -288,30 +279,6 @@ const INVENTAIRE_OBJETS = {
                     "sprite": jeu.sprites.inventaire.tolesoudee,
                     "seeCb": function(jeu) {
                         jeu.texte({"texte": "Le blindage en tôle du robot de combat."});
-                    },
-                    "useWithCb": function(jeu, objet) {
-                        switch(objet) {
-                            case "tapis":
-                                if(jeu.model.chambre.tapis === "carte") {
-                                    jeu.texte({"texte":"Je fixe le blindage sur le robot..."});
-                                    jeu.inventaireRetire("tole");
-                                    jeu.model.chambre.tapis = "tole";
-                                } else if(jeu.model.chambre.tapis != null) {
-                                    jeu.texte({"texte":"Je n'en suis pas encore à cette étape."});
-                                } else {
-                                    jeu.texte({"texte":"C'est un bon endroit pour construire mon robot, mais je ne devrais pas commencer par ça."});
-                                }
-                                break;
-                            case "scie": case "aspirobot": case "carte":
-                                jeu.texte({"texte":"Je dois poser les pièces quelque part pour assembler mon robot."});
-                                break;
-                            case "lit":
-                                jeu.texte({"texte":"Ça ne va pas, c'est trop mou."});
-                                break;
-                            default:
-                                jeu.texte({"texte":"Ça ne fait rien."});
-                                break;
-                        }
                     }
                 }
         }
@@ -321,29 +288,7 @@ const INVENTAIRE_OBJETS = {
             "nom": "aspirobot",
             "sprite": jeu.sprites.inventaire.aspirobot,
             "seeCb": function(jeu) {
-                if(jeu.model.etape !== "fabrication") {
-                    jeu.texte({"texte": "L'aspirateur-robot. Je vais m'en servir comme chassis pour mon robot de combat. Il se déplace et a des capteurs de proximité, c'est parfait !"});
-                } else {
-                    jeu.texte({"texte": "L'aspirateur-robot. Je dois le poser quelque part pour commencer à fabriquer mon robot de combat."});
-                }
-            },
-            "useWithCb": function(jeu, objet) {
-                switch(objet) {
-                    case "tapis":
-                        jeu.texte({"texte":"Le meilleur endroit pour bosser ! Au boulot !"});
-                        jeu.model.chambre.tapis = "aspirobot";
-                        jeu.inventaireRetire("aspirobot");
-                        break;
-                    case "baseaspirobot":
-                        jeu.texte({"texte":"Non, pas besoin de le recharger, il faut que je le pose au bon endroit pour assembler mon robot."});
-                        break;
-                    case "tole": case "carte": case "scie":
-                        jeu.texte({"texte":"Je dois poser les pièces quelque part pour assembler mon robot."});
-                        break;
-                    default:
-                        jeu.texte({"texte":"Je cherche le bon endroit pour assembler mon robot, et ce n'est pas ici."});
-                        break;
-                }
+                jeu.texte({"texte": "L'aspirateur-robot. Je vais m'en servir comme chassis pour mon robot de combat. Il se déplace et a des capteurs de proximité, c'est parfait !"});
             }
         }
     },
@@ -353,32 +298,6 @@ const INVENTAIRE_OBJETS = {
             "sprite": jeu.sprites.inventaire.scie,
             "seeCb": function(jeu) {
                 jeu.texte({"texte": "La scie circulaire. C'est un outil très dangereux qui sera l'arme du robot de combat."});
-            },
-            "useWithCb": function(jeu, objet) {
-                switch(objet) {
-                    case "tapis":
-                        if(jeu.model.chambre.tapis === "tole") {
-                            jeu.texte({
-                                "texte":"Je fixe la scie sur le robot...",
-                                "cb": function(jeu) {
-                                    jeu.texte({"texte":"Parfait, j'ai fini l'assemblage. Je dois maintenant le programmer."});
-                                }
-                            });
-                            jeu.inventaireRetire("scie");
-                            jeu.model.chambre.tapis = "scie";
-                        } else if(jeu.model.chambre.tapis != null) {
-                            jeu.texte({"texte":"Hmmm. Je ne dois assembler les choses dans cet ordre."});
-                        } else {
-                            jeu.texte({"texte":"C'est un bon endroit pour construire mon robot, mais je ne devrais pas commencer par ça."});
-                        }
-                        break;
-                    case "aspirobot": case "tole": case "carte":
-                        jeu.texte({"texte":"Je dois poser les pièces quelque part pour assembler mon robot."});
-                        break;
-                    default:
-                        jeu.texte({"texte":"Je cherche le bon endroit pour assembler mon robot, et ce n'est pas ici."});
-                        break;
-                }
             }
         }
     },
@@ -391,6 +310,7 @@ const INVENTAIRE_OBJETS = {
             },
             "useWithCb": function(jeu, objet) {
                 if(objet === "chaine") {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 180, 270);
                     jeu.texte({
                         "texte": "Je vais mettre la chanson préférée de maman : Morgen Mergen par Mørgen band, de l'album Margen Murgen !",
                         "cb": function(jeu) {
@@ -453,6 +373,7 @@ const INVENTAIRE_OBJETS = {
             },
             "useWithCb": jeu.model.cuisine.blender === "explication" ? function(jeu, objet) {
                 if(objet === "blender") {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 130, 280);
                     jeu.texte({"texte": "Je mets les cailloux dans le blender."});
                     jeu.model.cuisine.blender = "cailloux"
                     jeu.inventaireRetire("cailloux");
@@ -471,6 +392,7 @@ const INVENTAIRE_OBJETS = {
             },
             "useWithCb": function(jeu, objet) {
                 if(objet === "terrarium") {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 135, 268);
                     jeu.texte({
                         "texte": "Je mets au fourmi un filet de miel en zigzag.",
                         "cb": function(jeu) {
@@ -526,17 +448,6 @@ const INVENTAIRE_OBJETS = {
                             jeu.model.tole = "miel";
                             return;
                         }
-                        if(objet === "terrarium" && jeu.model.etape === "test_attaque") {
-                            jeu.texte({
-                                "texte": "Je vais l'attirer vers les fourmis en lançant ce crayon.",
-                                "cb": function(jeu) {
-                                   jeu.inventaireRetire("crayon");
-                                   jeu.texte({"texte": "Ça a marché ! Je dois pouvoir atteindre mon ordinateur pour le couper avant qu'il ne me découpe. Enfin j'espère..."});
-                                   jeu.model.etape = "test_diversion";
-                                }
-                            });
-                            return;
-                        }
                         jeu.texte({"texte": "Ça ne fait rien."});
                     }
                 }
@@ -551,10 +462,12 @@ const INVENTAIRE_OBJETS = {
             },
             "useWithCb": function(jeu, objet) {
                 if(objet === "bouilloiresocle") {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 300, 290);
                     jeu.texte({"texte": "Je devrais la remplir avant de la remettre."});
                     return;
                 }
                 if(objet === "evier") {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 470, 280);
                     jeu.texte({"texte": "Je l'ai remplie, mais pas trop."});
                     jeu.inventaireRemplace("bouilloire", "bouilloirepleine");
                     return;
@@ -580,6 +493,7 @@ const INVENTAIRE_OBJETS = {
                     return;
                 }
                 if(objet === "bouilloiresocle") {
+                    jeu.hero(jeu.sprites.personnages.heurace_dos, 300, 290);
                     jeu.inventaireRetire("bouilloirepleine");
                     jeu.model.cuisine.bouilloire = "pleine";
                     return;
@@ -607,6 +521,7 @@ const INVENTAIRE_OBJETS = {
             "useWithCb": function(jeu, objet) {
                 switch(objet) {
                     case "maman":
+                        jeu.hero(jeu.sprites.personnages.heurace_face, 460, 300);
                         jeu.texte({
                             "texte": "Tiens, Maman, je t'ai préparé ton thé préféré !",
                             "cb": function(jeu) {

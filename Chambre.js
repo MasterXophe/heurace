@@ -14,11 +14,13 @@ const CHAMBRE_OBJETS = {
             "x": 259,
             "y": 274,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 279, 274);
                 jeu.texte({"texte": "Mes crayons. Il y a des noirs, des bleus, un rouge, un vert et un vide que je garde si je veux le remplir de liquide bizarre et dessiner avec."});
             }
         }
         if(jeu.model.etape === "collecte" && jeu.model.crayon == null) {
             objet.useCb = function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 279, 274);
                 jeu.texte({"texte": "Je prends le crayon vide, on ne sait jamais, j'aurais peut-être envie de le remplir avec un liquide quelconque et dessiner avec."});
                 jeu.inventaireAjoute("crayon");
                 jeu.model.crayon = "pris";
@@ -49,6 +51,7 @@ const CHAMBRE_OBJETS = {
                     "x": 115,
                     "y": 268,
                     "seeCb": function(jeu) {
+                        jeu.hero(jeu.sprites.personnages.heurace_dos, 135, 268);
                         jeu.texte({"texte": "Mon terrarium, qui abrite une colonie de fourmis."});
                     }
                 }
@@ -61,6 +64,7 @@ const CHAMBRE_OBJETS = {
             "x": 81,
             "y": 313,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 101, 313);
                 jeu.texte({"texte": "Mes livres. Ce ne sont que des livres de sciences."});
             }
         }
@@ -72,11 +76,8 @@ const CHAMBRE_OBJETS = {
             "x": 0,
             "y": 88,
             "useCb": function(jeu) {
-                if(["fabrication","programmation","test"].includes(jeu.model.etape)) {
-                    jeu.texte({"texte": "Je suis en plein travail, je ne peux pas aller me promener !"});
-                    return
-                }
                 jeu.scene("salon");
+                jeu.hero(jeu.sprites.personnages.heurace_face, 370, 250);
             }
         }
     },
@@ -90,9 +91,11 @@ const CHAMBRE_OBJETS = {
             "x": 89,
             "y": 158,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 80, 190);
                 jeu.texte({"texte": "Ma collection de cailloux."});
             },
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 80, 190);
                 if(jeu.model.etape === "recherche") {
                     jeu.texte({"texte": "Pour l'instant, je cherche juste des idées."});
                     return;
@@ -107,57 +110,15 @@ const CHAMBRE_OBJETS = {
         }
     },
     "tapis": function(jeu) {
-        switch(jeu.model.chambre.tapis) {
-            case null: case "fini":
-                return {
-                    "nom": "tapis",
-                    "sprite": jeu.sprites.chambre.tapis,
-                    "x": 158,
-                    "y": 363,
-                    "seeCb": function(jeu) {
-                        jeu.texte({"texte": "Tiens, un tapis !?! Je ne l'avais jamais remarqué..."});
-                    }
-                }
-            case "aspirobot":
-                return {
-                    "nom": "tapis",
-                    "sprite": jeu.sprites.chambre.tapisaspirobot,
-                    "x": 158,
-                    "y": 363,
-                    "seeCb": function(jeu) {
-                        jeu.texte({"texte": "Je dois maintenant ajouter l'élément suivant."});
-                    }
-                }
-            case "carte":
-                return {
-                    "nom": "tapis",
-                    "sprite": jeu.sprites.chambre.tapiscarte,
-                    "x": 158,
-                    "y": 363,
-                    "seeCb": function(jeu) {
-                        jeu.texte({"texte": "Je dois maintenant ajouter l'élément suivant."});
-                    }
-                }
-            case "tole":
-                return {
-                    "nom": "tapis",
-                    "sprite": jeu.sprites.chambre.tapistole,
-                    "x": 158,
-                    "y": 363,
-                    "seeCb": function(jeu) {
-                        jeu.texte({"texte": "Je dois maintenant ajouter l'élément suivant."});
-                    }
-                }
-            case "scie":
-                return {
-                    "nom": "tapis",
-                    "sprite": jeu.sprites.chambre.tapisscie,
-                    "x": 158,
-                    "y": 363,
-                    "seeCb": function(jeu) {
-                        jeu.texte({"texte": "Je dois maintenant le programmer."});
-                    }
-                }
+        return {
+            "nom": "tapis",
+            "sprite": jeu.sprites.chambre.tapis,
+            "x": 158,
+            "y": 363,
+            "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_face, 250, 300);
+                jeu.texte({"texte": "Tiens, un tapis !?! Je ne l'avais jamais remarqué..."});
+            }
         }
     },
     "poster": function(jeu) {
@@ -167,6 +128,7 @@ const CHAMBRE_OBJETS = {
             "x": 431,
             "y": 94,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 490, 200);
                 jeu.texte({"texte": "C'est un poster d'explosion atomique. Les explosions atomiques, c'est ce que je préfère. J'économise pour acheter du plutonium et en faire exploser une dans le jardin. Mais chut ! c'est une surprise pour mes parents."});
             }
         }
@@ -178,10 +140,7 @@ const CHAMBRE_OBJETS = {
             "x": 566,
             "y": 103,
             "seeCb": function(jeu) {
-                if(jeu.model.etape === "test_attaque") {
-                    jeu.texte({"texte": "Fuir ? Mais le robot va découper la prochaine personne qui va rentrer dans ma chambre, je dois l'arrêter !"});
-                    return;
-                }
+                jeu.hero(jeu.sprites.personnages.heurace_droit, 550, 240);
                 if(jeu.model.chambre.fenetreRegardee) {
                     jeu.texte({"texte": "Je ne vois rien d'intéressant dehors."});
                 } else {
@@ -190,6 +149,7 @@ const CHAMBRE_OBJETS = {
                 }
             },
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_droit, 550, 240);
                 jeu.texte({"texte": "Je préfère ne pas l'ouvrir, qui sait ce qu'il y a dehors ?"});
             }
         }
@@ -201,9 +161,11 @@ const CHAMBRE_OBJETS = {
             "x": 490,
             "y": 293,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_droit, 440, 290);
                 jeu.texte({"texte": "Mon lit. Il y a un grand tiroir dessous où je peux ranger mes inventions."});
             },
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_droit, 440, 290);
                 jeu.model.chambre.litOuvert = !jeu.model.chambre.litOuvert;
             }
 
@@ -217,6 +179,7 @@ const CHAMBRE_OBJETS = {
                 "x": 474,
                 "y": 309,
                 "seeCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_droit, 440, 290);
                     if(jeu.model.chambre.tiroirCherche) {
                         if(jeu.inventaireContient("idee_voiture")) {
                             jeu.texte({"texte": "J'ai bien cherché, il n'y a plus rien d'intéressant."});
@@ -230,6 +193,7 @@ const CHAMBRE_OBJETS = {
                     }
                 },
                 "useCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_droit, 440, 290);
                     jeu.model.chambre.litOuvert = false;
                 }
             }
@@ -296,7 +260,7 @@ const CHAMBRE_OBJETS = {
                         jeu.texte({"texte": "Je n'ai rien à rechercher, et je n'ai pas de temps à perdre avec des vidéos de chat pour le moment : je dois terminer mon robot !"});
                     }
                 }, {
-                    "texte": "Concevoir un robot...",
+                    "texte": "Concevoir un plan...",
                     "cb": function() {
                         switch(jeu.model.etape) {
                             case "recherche": {
@@ -326,42 +290,6 @@ const CHAMBRE_OBJETS = {
                                 jeu.texte({"texte": "J'ai le plan : il me faut maintenant l'aspirateur-robot, la plaque de tôle découpée, la scie circulaire et la carte électronique."});
                                 break;
                             }
-                            case "fabrication":
-                                jeu.model.etape = "programmation";
-                                jeu.texte({
-                                    "texte": "Ok, programmons le bazar ! Ça ne devrait pas être long.",
-                                    "cb": function(jeu) {
-                                        jeu.texte({
-                                            "texte": "Voilà, j'ai presque fini. Il ne me reste que ce petit truc à coder...",
-                                            "cb": function(jeu) {
-                                                jeu.texte({
-                                                    "texte": "Ah ! Et je dois aussi penser à ça...",
-                                                    "cb": function(jeu) {
-                                                        jeu.texte({
-                                                            "texte": "Je finis ce petit truc...",
-                                                            "cb": function(jeu) {
-                                                                jeu.texte({
-                                                                    "texte": "Tic. Tac. Tic. Tac.",
-                                                                    "qui": jeu.sprites.qui.horloge,
-                                                                    "cb": function(jeu) {
-                                                                        jeu.texte({
-                                                                            "texte": "Voilà, j'y suis ! Je le démarre !",
-                                                                            "cb": function(jeu) {
-                                                                                jeu.model.etape = "test_attaque";
-                                                                                jeu.texte({"texte": "Oh Oh ! Il a l'air un peu aggressif !"});
-                                                                            }
-                                                                        });
-                                                                    }
-                                                                });
-                                                            }
-                                                        });
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-                                });
-                                break;
                             default:
                                 break;
                         }
@@ -525,7 +453,7 @@ const CHAMBRE_OBJETS = {
                     jeu.inventaireRetire("idee_moustikiller");
                     jeu.inventaireRetire("idee_carte");
                     jeu.inventaireAjoute("objectif_aspirobot");
-                    jeu.inventaireAjoute("objectif_toledecoupee");
+                    jeu.inventaireAjoute("objectif_tolesoudee");
                     jeu.inventaireAjoute("objectif_scie");
                     jeu.inventaireAjoute("objectif_carte");
                     return;
@@ -567,9 +495,11 @@ const CHAMBRE_OBJETS = {
             "x": 308,
             "y": 229,
             "seeCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 330, 274);
                 jeu.texte({"texte": "Mon ordinateur.\nJe passe la moitié de mon temps à travailler dessus... et l'autre moitié à me divertir dessus."});
             },
             "useCb": function(jeu) {
+                jeu.hero(jeu.sprites.personnages.heurace_dos, 330, 274);
                 _utiliserOrdinateur(jeu);
             }
         }
@@ -582,6 +512,7 @@ const CHAMBRE_OBJETS = {
                 "x": 146,
                 "y": 153,
                 "seeCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_gauche, 260, 160);
                     jeu.texte({"texte": "Une caisse avec du bazar. Mais du bazar rangé."});
                 }
             }
@@ -592,6 +523,7 @@ const CHAMBRE_OBJETS = {
                 "x": 146,
                 "y": 153,
                 "seeCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_gauche, 260, 160);
                     if(jeu.model.etape === "recherche") {
                         if(jeu.inventaireContient("idee_carte")) {
                             jeu.texte({"texte": "Une caisse avec du bazar, mais rien d'autre d'intéressant."});
@@ -604,6 +536,7 @@ const CHAMBRE_OBJETS = {
                     }
                 },
                 "useCb": function(jeu) {
+                    jeu.hero(jeu.sprites.personnages.heurace_gauche, 260, 160);
                     if(jeu.model.etape === "recherche") {
                         jeu.texte({"texte": "Je ne vais rien prendre pour l'instant, j'attends de savoir ce qu'il me faut."});
                     } else {
@@ -620,51 +553,21 @@ const CHAMBRE_OBJETS = {
             }
         }
     },
-    "cable": function(jeu) {
-        if(jeu.model.etape !== "programmation") {
-            return null;
+    "robot": function(jeu) {
+        let sprite = null;
+        switch(jeu.model.etape) {
+            case "fabrication_debut": sprite = jeu.sprites.chambre.robot_debut; break;
+            case "fabrication_tole": sprite = jeu.sprites.chambre.robot_tole; break;
+            case "fabrication_scie": sprite = jeu.sprites.chambre.robot_scie; break;
+            case "fabrication_prog": sprite = jeu.sprites.chambre.robot_scie; break;
+            case "fabrication_fin": sprite = jeu.sprites.chambre.robot_scie; break;
+            default: return;
         }
         return {
-            "nom": "cable",
-            "sprite": jeu.sprites.chambre.cable,
-            "x": 295,
-            "y": 350
-        }
-    },
-    "robot": function(jeu) {
-        switch(jeu.model.etape) {
-            case "test_attaque":
-                return {
-                    "nom": "robot",
-                    "sprite": jeu.sprites.chambre.robot_dh,
-                    "x": 295,
-                    "y": 350,
-                    "seeCb": function(jeu) {
-                        jeu.texte({"texte": "Je l'ai programmé pour attaquer tout ce qui bouge... et je bouge ! Je peux le couper depuis mon ordinateur, mais je ne peux pas atteindre mon ordinateur !"});
-                    }
-                }
-            case "test_diversion":
-                return {
-                    "nom": "robot",
-                    "sprite": jeu.sprites.chambre.robot_gh,
-                    "x": 295,
-                    "y": 350,
-                    "seeCb": function(jeu) {
-                        jeu.texte({"texte": "Il est distrait par les fourmis, je dois en profiter pour le couper depuis mon ordinateur."});
-                    }
-                }
-            case "test_coupe":
-                return {
-                    "nom": "robot",
-                    "sprite": jeu.sprites.chambre.robot_gb,
-                    "x": 295,
-                    "y": 350,
-                    "seeCb": function(jeu) {
-                        jeu.texte({"texte": "Il est très aggressif... C'est parfait pour un combat de robot, mais je dois me souvenir de ne pas l'allumer avant d'être à distance !"});
-                    }
-                }
-            default:
-                return null;
+            "nom": "chambre",
+            "sprite": sprite,
+            "x": 250,
+            "y": 380,
         }
     }
 }
